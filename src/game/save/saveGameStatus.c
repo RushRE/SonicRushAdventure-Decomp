@@ -5,6 +5,8 @@
 #include <game/graphics/renderCore.h>
 #include <seaMap/seaMapManager.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // TEMP
 // --------------------
@@ -1445,3 +1447,5 @@ BOOL SaveGame__CheckStageAllowDifficulties(u32 stageID)
     // always false, stages only allow one difficulty
     return FALSE;
 }
+
+#endif

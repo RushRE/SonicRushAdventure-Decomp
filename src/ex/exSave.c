@@ -11,6 +11,7 @@
 
 void EndExBossStage(ExFinishMode mode)
 {
+#ifndef RUSH_CONTEST
     switch (mode)
     {
         case EXFINISHMODE_BOSS_DEFEATED:
@@ -42,4 +43,5 @@ void EndExBossStage(ExFinishMode mode)
     }
 
     NextSysEvent();
+#endif
 }

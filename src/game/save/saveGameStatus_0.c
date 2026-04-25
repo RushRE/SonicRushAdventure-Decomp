@@ -1,5 +1,7 @@
 #include <game/save/saveGame.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -21,3 +23,5 @@ size_t SaveGame__GetPlayerNameLength(SaveBlockSystem *work)
 }
 
 #include <nitro/codereset.h>
+
+#endif

@@ -22,6 +22,8 @@
 // Objects
 #include <sail/objects/sailCloud.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // TEMP
 // --------------------
@@ -563,3 +565,5 @@ void SailUnknown2153770__Main(void)
     manager->flags &= ~SAILMANAGER_FLAG_DISABLE_BTN_PRESS;
     manager->flags &= ~SAILMANAGER_FLAG_10000000;
 }
+
+#endif

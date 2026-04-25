@@ -48,7 +48,11 @@ void InitGameState(void)
 
     InitReplaySystem();
 
+#ifdef RUSH_CONTEST
+    CreateSysEvent(SYSEVENT_VS_UNKNOWN, TRUE, TASK_PRIORITY_UPDATE_LIST_START + 0x100, 0xF0);
+#else
     CreateSysEvent(SYSEVENT_SAVE_INIT, TRUE, TASK_PRIORITY_UPDATE_LIST_START + 0x100, 0xF0);
+#endif
 }
 
 void ExitGameState(void)
@@ -194,6 +198,13 @@ void ExitStageClearSysEvent(void)
 {
     GameState *state = GetGameState();
 
+#ifdef RUSH_CONTEST
+    EventID eventID = GetSysEventManager()->requestedEventID;
+    if (eventID != SYSEVENT_VS_LOBBY_MENU)
+    {
+        FlushGameSystem(GAMEDATA_LOADPROC_COMMON);
+    }
+#else
     if (gmCheckGameMode(GAMEMODE_VS_BATTLE) && (state->gameFlag & GAME_FLAG_10) != 0)
     {
         EventID eventID = GetSysEventManager()->requestedEventID;
@@ -210,4 +221,5 @@ void ExitStageClearSysEvent(void)
     {
         FlushGameSystem(GAMEDATA_LOADPROC_COMMON);
     }
+#endif
 }

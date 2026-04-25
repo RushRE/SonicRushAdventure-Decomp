@@ -6,6 +6,8 @@
 #include <sail/sailInitEvent.h>
 #include <hub/dockCommon.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -538,3 +540,5 @@ u16 MissionHelpers__GetNpcNameAnimForMission(u16 id)
 {
     return sNpcNameAnimForMission[id];
 }
+
+#endif

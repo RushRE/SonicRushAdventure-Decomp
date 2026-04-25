@@ -17,6 +17,7 @@ extern void InitGameState(void);
 
 void NitroMain(void)
 {
+#ifndef RUSH_CONTEST
     InitSystems();
     InitGameState();
 
@@ -29,4 +30,5 @@ void NitroMain(void)
         UnknownSystemHandler();
         UpdateDrawLoop();
     }
+#endif
 }

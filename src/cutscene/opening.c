@@ -13,6 +13,8 @@
 #include <resources/narc/dmop_lz7.h>
 #include <resources/narc/dmop_pldm_lz7.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -1874,3 +1876,5 @@ void OpeningBlazeNameSprite_Main_ExitSprite(void)
     if (work->backgroundPosition.y < -464)
         work->parent->flags |= OPENING_FLAG_CHARACTER_CUTIN_DONE;
 }
+
+#endif

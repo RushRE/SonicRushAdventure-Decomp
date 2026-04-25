@@ -8,6 +8,8 @@
 #include <menu/credits.h>
 #include <seaMap/seaMapManager.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // TYPES
 // --------------------
@@ -2408,3 +2410,5 @@ BOOL SaveGame__CanStageClearIncrementProgress(s32 stageID)
             return FALSE;
     }
 }
+
+#endif

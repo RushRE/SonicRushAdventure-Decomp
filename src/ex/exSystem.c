@@ -89,6 +89,7 @@ void LoseExSystemLife(void)
 
 NONMATCH_FUNC void InitExSystemStatus(void)
 {
+#ifndef RUSH_CONTEST
     // https://decomp.me/scratch/BA0pP -> 68.79%
 #ifdef NON_MATCHING
     exSysTask__sVars.sStatus.finishMode    = EXFINISHMODE_RUNNING;
@@ -134,6 +135,7 @@ NONMATCH_FUNC void InitExSystemStatus(void)
 
 // clang-format on
 #endif
+#endif
 }
 
 ExSysTaskStatus *GetExSystemStatus(void)
@@ -148,9 +150,10 @@ BOOL CheckExStageFinished(void)
 
 void ExSystem_Main_Init(void)
 {
+#ifndef RUSH_CONTEST
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
-    exSysTask__sVars.sLives         = saveGame.stage.status.lives;
+    exSysTask__sVars.sLives              = saveGame.stage.status.lives;
     exSysTask__sVars.sExSysTaskSingleton = GetCurrentTask();
 
     LoadExSystemAssets(work);
@@ -192,6 +195,7 @@ void ExSystem_Main_Init(void)
     CreateExDrawFadeTask(RENDERCORE_BRIGHTNESS_BLACK, RENDERCORE_BRIGHTNESS_DEFAULT, 32, 0, EXDRAWFADETASK_FLAG_ON_ENGINE_B);
 
     SetCurrentExTaskMainEvent(ExSystem_Main_WaitForStageStarted);
+#endif
 }
 
 void ExSystem_OnCheckStageFinished(void)
@@ -212,8 +216,8 @@ void ExSystem_Destructor(void)
     ReleaseAudioSystem();
     NNS_G3dGeUseFastDma(FALSE);
 
-    exSysTask__sVars.sExSysTaskSingleton = NULL;
-    exSysTask__sVars.sExSysTaskWorkSingleton     = NULL;
+    exSysTask__sVars.sExSysTaskSingleton     = NULL;
+    exSysTask__sVars.sExSysTaskWorkSingleton = NULL;
 }
 
 void ExSystem_Main_WaitForStageStarted(void)
@@ -340,7 +344,7 @@ void ExSystem_Main_ExitFadeOut(void)
     if (work->timer-- <= 0)
     {
         exSysTask__sVars.sStageFinished = TRUE;
-        work->timer                      = 5;
+        work->timer                     = 5;
 
         SetCurrentExTaskMainEvent(ExSystem_Main_DoStageExit);
         ExSystem_Main_DoStageExit();
@@ -371,7 +375,7 @@ void ExSystem_Main_StageCleared(void)
     if (work->timer-- <= 0)
     {
         exSysTask__sVars.sStageFinished = TRUE;
-        work->timer                      = 5;
+        work->timer                     = 5;
 
         SetCurrentExTaskMainEvent(ExSystem_Main_DoStageExit);
         ExSystem_Main_DoStageExit();
@@ -434,7 +438,7 @@ void ExSystem_Main_StageRestartDelay(void)
         DestroyExHUD();
         DestroyExGameSystem();
         exSysTask__sVars.sStageFinished = FALSE;
-        work->timer                      = 15;
+        work->timer                     = 15;
 
         SetCurrentExTaskMainEvent(ExSystem_Main_DoStageRestart);
     }

@@ -32,6 +32,7 @@
 #include <menu/vsMenu.h>
 #include <menu/stageClear.h>
 #include <menu/vsStageClear.h>
+#include <contest/contestManager.h>
 
 // --------------------
 // TEMP

@@ -14,6 +14,8 @@
 #include <resources/narc/cldm_ex_lz7.h>
 #include <resources/narc/pldm_67_00_lz7.h>
 
+#ifndef RUSH_CONTEST
+
 #include <nitro/code16.h>
 
 // --------------------
@@ -929,3 +931,5 @@ void StageClearEx_Main_DrawManager(void)
 }
 
 #include <nitro/codereset.h>
+
+#endif

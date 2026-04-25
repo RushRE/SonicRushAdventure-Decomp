@@ -62,9 +62,10 @@ void CreateNetworkErrorMenu(BOOL isDownloadPlayEnd)
 {
     Task *task;
     NetworkErrorMenu *work;
-    s32 i;
-
+    
 #ifndef RUSH_CONTEST
+    s32 i;
+    
     if (!gameState.displayDWCErrorCode || gameState.displayDWCErrorCode == TRUE && GetMatchManagerStatus() != MATCHMANAGER_STATUS_SERVER_UPDATED)
     {
         RenderCore_SetNextFoldMode(FOLD_TOGGLE_SLEEP);

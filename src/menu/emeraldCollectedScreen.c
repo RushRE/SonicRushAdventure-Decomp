@@ -20,6 +20,8 @@
 #include <resources/narc/emdm_lz7.h>
 #include <resources/narc/act_com_b_lz7.h>
 
+#ifndef RUSH_CONTEST
+
 #include <nitro/code16.h>
 
 // --------------------
@@ -1772,3 +1774,5 @@ void EmeraldCollectedScreen_Main_DrawManager(void)
 }
 
 #include <nitro/codereset.h>
+
+#endif

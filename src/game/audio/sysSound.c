@@ -37,6 +37,8 @@ static struct SysSoundManager *sSysSoundManager;
 
 static const u16 sSeqArcForSysGroup[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_DL_PLAY]    = SND_SYS_SEQARC_ARC_DL_PLAY,    // Download Play
+                                   
+#ifndef RUSH_CONTEST
     [SYSSOUND_GROUP_TITLE_1]    = SND_SYS_SEQARC_ARC_TITLE,      // Title (1)
     [SYSSOUND_GROUP_TITLE_2]    = SND_SYS_SEQARC_ARC_TITLE,      // Title (2)
     [SYSSOUND_GROUP_VILLAGE1_0] = SND_SYS_SEQARC_ARC_VILLAGE,    // Village 1-1 (Before completing tutorial)
@@ -64,10 +66,13 @@ static const u16 sSeqArcForSysGroup[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_MYSTERY]    = SND_SYS_SEQARC_ARC_MYSTERY,    // Mystery
     [SYSSOUND_GROUP_STAFF]      = SND_SYS_SEQARC_ARC_STAFF,      // Credits
     [SYSSOUND_GROUP_EMERALD]    = SND_SYS_SEQARC_ARC_EMERALD     // Emerald Collected
+#endif
 };
 
-static const u16 sSndGroupForSysGroup[SYSSOUND_GROUP_COUNT] = {
+static const u16 sSndGroupForSysGroup[SYSSOUND_GROUP_COUNT] = {                       
     [SYSSOUND_GROUP_DL_PLAY]    = SND_SYS_GROUP_DL_PLAY,    // Download Play
+
+#ifndef RUSH_CONTEST
     [SYSSOUND_GROUP_TITLE_1]    = SND_SYS_GROUP_TITLE,      // Title (1)
     [SYSSOUND_GROUP_TITLE_2]    = SND_SYS_GROUP_TITLE,      // Title (2)
     [SYSSOUND_GROUP_VILLAGE1_0] = SND_SYS_GROUP_VILLAGE1_1, // Village 1-1 (Before completing tutorial)
@@ -95,6 +100,7 @@ static const u16 sSndGroupForSysGroup[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_MYSTERY]    = SND_SYS_GROUP_MYSTERY,    // Mystery
     [SYSSOUND_GROUP_STAFF]      = SND_SYS_GROUP_STAFF,      // Credits
     [SYSSOUND_GROUP_EMERALD]    = SND_SYS_GROUP_EMERALD     // Emerald Collected
+#endif
 };
 
 static const struct MenuNavSfx sMenuNavSfx[SYSSOUND_GROUP_COUNT] = {
@@ -102,6 +108,7 @@ static const struct MenuNavSfx sMenuNavSfx[SYSSOUND_GROUP_COUNT] = {
                                    [SYSSOUND_MENUNAV_CANCEL] = SND_SYS_SEQARC_ARC_DL_PLAY_SEQ_SE_D_CANCELL,
                                    [SYSSOUND_MENUNAV_CURSOR] = SND_SYS_SEQARC_ARC_DL_PLAY_SEQ_SE_D_CURSOL } }, // Download Play
 
+#ifndef RUSH_CONTEST
     [SYSSOUND_GROUP_TITLE_1] = { { [SYSSOUND_MENUNAV_DECIDE] = SND_SYS_SEQARC_ARC_TITLE_SEQ_SE_T_DECIDE,
                                    [SYSSOUND_MENUNAV_CANCEL] = SYSSOUND_ID_NONE,
                                    [SYSSOUND_MENUNAV_CURSOR] = SYSSOUND_ID_NONE } }, // Title (1)
@@ -209,6 +216,7 @@ static const struct MenuNavSfx sMenuNavSfx[SYSSOUND_GROUP_COUNT] = {
     [SYSSOUND_GROUP_EMERALD] = { { [SYSSOUND_MENUNAV_DECIDE] = SYSSOUND_ID_NONE,
                                    [SYSSOUND_MENUNAV_CANCEL] = SYSSOUND_ID_NONE,
                                    [SYSSOUND_MENUNAV_CURSOR] = SYSSOUND_ID_NONE } }, // Emerald Collected
+#endif
 };
 
 // --------------------
@@ -236,7 +244,12 @@ void LoadSysSound(SysSoundGroupID id)
     sSysSoundManager->seqNo       = SYSSOUND_ID_NONE;
     sSysSoundManager->curStreamNo = SYSSOUND_ID_NONE;
 
+#ifdef RUSH_CONTEST
+    InitAudioSystemForStage(NULL); // TODO: this should load the binary file "snd/sys/sound_data.sdat" (included in the source code for contest roms)
+#else
     LoadAudioSndArc("snd/sys/sound_data.sdat");
+#endif
+
     NNS_SndArcStrmInit(10, gAudioManagerSndHeap);
     NNS_SndStrmHandleInit(&sSysSoundManager->strmHandle);
     NNS_SndArcLoadGroup(sSndGroupForSysGroup[id], gAudioManagerSndHeap);
@@ -244,6 +257,7 @@ void LoadSysSound(SysSoundGroupID id)
 
 void LoadSysSoundVillage(void)
 {
+#ifndef RUSH_CONTEST
     s32 id;
     if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_26)
     {
@@ -267,6 +281,7 @@ void LoadSysSoundVillage(void)
     }
 
     LoadSysSound(id);
+#endif
 }
 
 void ReleaseSysSound(void)
@@ -325,6 +340,7 @@ void PlaySysTrack(s32 seqNo, BOOL alwaysPlay)
 
 void PlaySysVillageTrack(BOOL alwaysPlay)
 {
+#ifndef RUSH_CONTEST
     if (sSysSoundManager == NULL)
         return;
 
@@ -356,6 +372,7 @@ void PlaySysVillageTrack(BOOL alwaysPlay)
     }
 
     PlaySysTrack(seqNo, alwaysPlay);
+#endif
 }
 
 void StopSysTrack(void)

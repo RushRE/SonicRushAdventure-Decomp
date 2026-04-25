@@ -32,6 +32,8 @@
 #include <resources/bb/tkdm_name.h>
 #include <resources/bb/tkdm_down.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -821,3 +823,5 @@ s32 HubControl::GetNextShipUpgrade()
 
     return selection;
 }
+
+#endif

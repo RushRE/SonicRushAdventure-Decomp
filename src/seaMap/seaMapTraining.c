@@ -14,6 +14,8 @@
 #include <resources/bb/ch.h>
 #include <resources/bb/ch/ch_training.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // ENUMS
 // --------------------
@@ -440,3 +442,5 @@ void SeaMapTraining_State_FadeOut(SeaMapTraining *work)
     if (done)
         work->destroyQueued = TRUE;
 }
+
+#endif

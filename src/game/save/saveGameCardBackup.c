@@ -5,6 +5,8 @@
 #include <game/graphics/renderCore.h>
 #include <seaMap/seaMapManager.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -2463,3 +2465,5 @@ FUNC_END:
 #endif
 
 #include <nitro/codereset.h>
+
+#endif

@@ -11,6 +11,8 @@
 #include <sail/sailInitEvent.h>
 #include <hub/dockCommon.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -212,3 +214,5 @@ void SeaMapCourseChangeMenu_State_FadeOut(SeaMapCourseChangeMenu *work)
     if (done)
         work->destroyQueued = TRUE;
 }
+
+#endif

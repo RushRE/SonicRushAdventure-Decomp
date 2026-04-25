@@ -18,6 +18,8 @@
 #include <resources/narc/tkdm_lz7.h>
 #include <resources/bb/tkdm_cutin.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -1654,3 +1656,5 @@ void DoorPuzzle_Main_FadeOut(void)
         ClearDoorPuzzleTasks();
     }
 }
+
+#endif

@@ -14,6 +14,8 @@
 #include <resources/narc/dmti_lz7.h>
 #include <resources/narc/dmop_pldm_lz7.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -873,3 +875,5 @@ void TitleScreenPressStart_Main_Idle(void)
     if (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM)
         AnimatorSprite__DrawFrame(&work->aniButton);
 }
+
+#endif

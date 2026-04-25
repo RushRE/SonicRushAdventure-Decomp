@@ -12,6 +12,8 @@
 // resources
 #include <resources/bb/gm_demoplay.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -267,3 +269,5 @@ void DemoPlayer_Draw(DemoPlayer *work)
             AnimatorSpriteDS__DrawFrame(&work->aniPressStart);
     }
 }
+
+#endif

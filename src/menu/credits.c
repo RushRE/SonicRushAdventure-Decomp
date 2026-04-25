@@ -16,6 +16,8 @@
 #include <resources/narc/dmsr_lz7.h>
 #include <resources/narc/tkdm_lz7.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // ENUMS
 // --------------------
@@ -1933,3 +1935,5 @@ void SetCreditsNotificationWindowNextButtonState(CreditsNotification *work, s32 
     AnimatorSprite__ProcessAnimationFast(&work->aniContinueButton);
     AnimatorSprite__DrawFrame(&work->aniContinueButton);
 }
+
+#endif

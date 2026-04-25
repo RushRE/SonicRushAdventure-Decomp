@@ -6,6 +6,8 @@
 #include <seaMap/seaMapManager.h>
 #include <game/text/charUtils.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -87,3 +89,5 @@ void SaveGame__LoadCallback_Unknown(SaveGame *save)
 }
 
 #include <nitro/codereset.h>
+
+#endif

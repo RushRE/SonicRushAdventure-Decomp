@@ -9,6 +9,7 @@ buildname     := rush2
 shortname     := sra
 TITLE_NAME    := SONICRUSHADV
 GAME_CODE     := A3Y
+
 else
 	ifeq ($(GAME_VERSION),RUSH_CONTEST)
 buildname     := rush2.contest
@@ -49,6 +50,9 @@ endif
 
 BUILD_DIR         := $(ROOT_DIR)build/$(buildname)
 ELFNAME           := arm9
+ifeq ($(GAME_VERSION),RUSH_CONTEST)
+ELFNAME           := arm9.contest
+endif
 ROM_PADDING		  := TRUE
 
 GF_DEFINES  := -D$(GAME_VERSION) -DRUSH_$(GAME_REVISION) -DRUSH_$(GAME_REGION)

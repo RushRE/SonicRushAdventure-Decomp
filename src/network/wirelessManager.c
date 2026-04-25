@@ -98,7 +98,7 @@ static void WirelessManager__Main1(void);
 static void WirelessManager__Main3(void);
 static void WirelessManager__Destructor(Task *task);
 static BOOL WirelessManager__JudgeAcceptFunc(WMStartParentCallback *);
-static void WirelessManager__Func_206877C(WMBssDesc *bssDesc, void* a2);
+static void WirelessManager__Func_206877C(WMBssDesc *bssDesc, void *a2);
 static void WirelessManager__Func_20688DC(WMBssDesc *bssDesc, void *a2);
 static void WirelessManager__SendDataCB_2068944(BOOL result);
 static void WirelessManager__ReceiverCB_2068948(u16 aid, u16 *data, u16 size);
@@ -151,7 +151,7 @@ void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMo
 {
     sTaskSingleton           = NULL;
     sTaskUnknown2068430      = NULL;
-    sUnknown                  = 0;
+    sUnknown                 = 0;
     sTaskUnknown2068430Param = NULL;
     sManagerFlags            = WIRELESSMANAGER_FLAGS_NONE;
 

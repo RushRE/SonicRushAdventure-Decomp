@@ -36,6 +36,8 @@
 #include <resources/bb/tkdm_name.h>
 #include <resources/bb/tkdm_down.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -2401,3 +2403,5 @@ void HubControl::ChangeEvent(s32 eventID, s32 selection)
 
     NextSysEvent();
 }
+
+#endif

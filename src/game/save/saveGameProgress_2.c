@@ -8,6 +8,8 @@
 #include <menu/credits.h>
 #include <seaMap/seaMapManager.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // ENUMS
 // --------------------
@@ -418,3 +420,5 @@ ShipLevel SaveGame__GetShipUpgradeStatus_(u16 id, u32 flags)
 
     return SHIP_LEVEL_1;
 }
+
+#endif

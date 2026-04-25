@@ -8,6 +8,8 @@
 #include <game/save/saveGame.h>
 #include <hub/dockCommon.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -172,3 +174,5 @@ void SeaMapChartCourseMenu_State_FadeOut(SeaMapChartCourseMenu *work)
     if (done)
         work->destroyQueued = TRUE;
 }
+
+#endif

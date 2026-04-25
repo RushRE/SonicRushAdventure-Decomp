@@ -8,6 +8,8 @@
 #include <seaMap/objects/seaMapIslandDrawIcon.h>
 #include <menu/menuHelpers.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -557,3 +559,5 @@ void SeaMapMenu_State_FadeOut(SeaMapMenu *work)
     if (doneMain && doneOther)
         work->isClosed = TRUE;
 }
+
+#endif

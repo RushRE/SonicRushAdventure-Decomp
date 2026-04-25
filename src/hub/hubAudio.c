@@ -2,6 +2,8 @@
 #include <game/audio/audioSystem.h>
 #include <game/audio/sysSound.h>
 
+#ifndef RUSH_CONTEST
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -86,3 +88,5 @@ void PlayHubSfx(HubSfxIDs id)
 
     PlaySysSfx(sfxList[id]);
 }
+
+#endif

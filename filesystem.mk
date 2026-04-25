@@ -444,14 +444,18 @@ filesystem_extract:
 filesystem_pack: $(SOURCE_FILES)
 	$(ARCHIVEPACK) resources
 ifeq ($(COMPARE),1)
+ifneq ($(GAME_VERSION),RUSH_CONTEST)
 	$(SHA1SUM) --quiet -c $(WORK_DIR)/$(buildname)/filesystem.sha1
+endif
 endif
 
 filesystem: $(SOURCE_FILES)
 	$(ROMEXTRACT) --rom baserom.nds --fileTable FileTable.txt
 	$(ARCHIVEPACK) resources
 ifeq ($(COMPARE),1)
+ifneq ($(GAME_VERSION),RUSH_CONTEST)
 	$(SHA1SUM) --quiet -c $(WORK_DIR)/$(buildname)/filesystem.sha1
+endif
 endif
 
 clean-fs: clean-filesystem
