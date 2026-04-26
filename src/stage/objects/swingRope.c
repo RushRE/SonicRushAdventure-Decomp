@@ -44,7 +44,7 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->word416 = timer;
     work->word418 = 91 * timer;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_tar.bac", GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_tar.bac", GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetObjectSpriteRef(OBJDATAWORK_162));
     StageTask__SetAnimation(&work->gameWork.objWork, 0);

@@ -59,7 +59,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_SCALE;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_winch.bac", GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage, 32);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_winch.bac", GetObjectDataWork(OBJDATAWORK_179), gGameArchiveStage, 32);
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 51);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -67,7 +67,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
     StageTask__SetAnimation(&work->gameWork.objWork, WINCH_ANI_WHEEL);
 
     AnimatorSpriteDS *aniHook = &work->aniHook;
-    ObjAction2dBACLoad(aniHook, "/act/ac_gmk_winch.bac", 12, GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage);
+    ObjAction2dBACLoad(aniHook, "/act/ac_gmk_winch.bac", 12, GetObjectDataWork(OBJDATAWORK_179), gGameArchiveStage);
     aniHook->work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     u16 palette                = ObjDrawAllocSpritePalette(aniHook->work.fileData, 1, 51);
     aniHook->work.cParam.palette      = palette;
@@ -77,7 +77,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
     StageTask__SetOAMPriority(&aniHook->work, SPRITE_PRIORITY_2);
 
     AnimatorSpriteDS *aniLine = &work->aniLine;
-    ObjAction2dBACLoad(aniLine, "/act/ac_gmk_winch.bac", 1, GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage);
+    ObjAction2dBACLoad(aniLine, "/act/ac_gmk_winch.bac", 1, GetObjectDataWork(OBJDATAWORK_179), gGameArchiveStage);
     aniLine->work.cParam.palette      = palette;
     aniLine->cParam[0].palette = aniLine->cParam[1].palette = aniLine->work.cParam.palette;
     aniLine->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -153,7 +153,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 	str r1, [r5, #0x20]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r1, #0x20
 	ldr r2, [r0, #0]
 	mov r0, r5
@@ -182,7 +182,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 	mov r0, #0xb3
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r6
 	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkWinchB
@@ -215,7 +215,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 	add r6, r0, #0x400
 	mov r0, #0xb3
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r3, r0
 	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkWinchB

@@ -76,8 +76,9 @@ extern s32 sWirelessManagerSendBuffer[128];
 extern s32 sWirelessManagerUnknownBuffer[144];
 
 NOT_DECOMPILED void *wfsi_task;
-NOT_DECOMPILED void *WFS_allocFunc;
-NOT_DECOMPILED void *WFS_freeFunc;
+
+extern void *(*gMBPAllocFunc)(size_t size);
+extern void (*gMBPFreeFunc)(void *ptr);
 
 // --------------------
 // FUNCTION DECLS
@@ -147,7 +148,7 @@ static void WirelessManager__State_2069B90(WirelessManager *work);
 // FUNCTIONS
 // --------------------
 
-void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMode wfsAllocMode)
+void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMode mbpAllocMode)
 {
     sTaskSingleton           = NULL;
     sTaskUnknown2068430      = NULL;
@@ -213,61 +214,61 @@ void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMo
             break;
     }
 
-    switch (wfsAllocMode)
+    switch (mbpAllocMode)
     {
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_HEAD:
-            WFS_allocFunc = _AllocHeadHEAP_SYSTEM;
+            gMBPAllocFunc = _AllocHeadHEAP_SYSTEM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_TAIL:
-            WFS_allocFunc = _AllocTailHEAP_SYSTEM;
+            gMBPAllocFunc = _AllocTailHEAP_SYSTEM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_USER_HEAD:
-            WFS_allocFunc = _AllocHeadHEAP_USER;
+            gMBPAllocFunc = _AllocHeadHEAP_USER;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_USER_TAIL:
-            WFS_allocFunc = _AllocTailHEAP_USER;
+            gMBPAllocFunc = _AllocTailHEAP_USER;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_ITCM_HEAD:
-            WFS_allocFunc = _AllocHeadHEAP_ITCM;
+            gMBPAllocFunc = _AllocHeadHEAP_ITCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_ITCM_TAIL:
-            WFS_allocFunc = _AllocTailHEAP_ITCM;
+            gMBPAllocFunc = _AllocTailHEAP_ITCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_DTCM_HEAD:
-            WFS_allocFunc = _AllocHeadHEAP_DTCM;
+            gMBPAllocFunc = _AllocHeadHEAP_DTCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_DTCM_TAIL:
-            WFS_allocFunc = _AllocTailHEAP_DTCM;
+            gMBPAllocFunc = _AllocTailHEAP_DTCM;
             break;
     }
 
-    switch (wfsAllocMode)
+    switch (mbpAllocMode)
     {
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_TAIL:
-            WFS_freeFunc = _FreeHEAP_SYSTEM;
+            gMBPFreeFunc = _FreeHEAP_SYSTEM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_USER_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_USER_TAIL:
-            WFS_freeFunc = _FreeHEAP_USER;
+            gMBPFreeFunc = _FreeHEAP_USER;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_ITCM_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_ITCM_TAIL:
-            WFS_freeFunc = _FreeHEAP_ITCM;
+            gMBPFreeFunc = _FreeHEAP_ITCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_DTCM_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_DTCM_TAIL:
-            WFS_freeFunc = _FreeHEAP_DTCM;
+            gMBPFreeFunc = _FreeHEAP_DTCM;
             break;
     }
 }
@@ -545,7 +546,7 @@ void WirelessManager__Func_2067A48(WirelessManager_Unknown2068160 *unknown)
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
     unknown->channel = work->channel;
-    unknown->bitmap  = WirelessManager__Func_2068214();
+    unknown->bitmap  = WirelessManager__GetChildCount();
     unknown->tgid    = (work->tgid + 1) | 0x8000;
 }
 
@@ -554,7 +555,7 @@ void WirelessManager__Func_2067A88(WirelessManager_Unknown2067A88 *unknown)
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
     unknown->channel = work->entries[work->field_192A].bssDesc.channel;
-    unknown->bitmap  = WirelessManager__Func_2068214();
+    unknown->bitmap  = WirelessManager__GetChildCount();
     MI_CpuCopy8(work->entries[work->field_192A].bssDesc.bssid, unknown->bssID, sizeof(unknown->bssID));
 }
 
@@ -757,7 +758,7 @@ void WirelessManager__Func_2067F00(WirelessManager_Unknown2068160 *unknown)
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
     unknown->channel = work->channel;
-    unknown->bitmap  = WirelessManager__Func_2068214();
+    unknown->bitmap  = WirelessManager__GetChildCount();
     unknown->tgid    = (work->tgid + 1) | 0x8000;
 }
 
@@ -766,7 +767,7 @@ void WirelessManager__Func_2067F40(WirelessManager_Unknown2067A88 *unknown)
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
     unknown->channel = work->entries[work->field_192A].bssDesc.channel;
-    unknown->bitmap  = WirelessManager__Func_2068214();
+    unknown->bitmap  = WirelessManager__GetChildCount();
     MI_CpuCopy8(work->entries[work->field_192A].bssDesc.bssid, unknown->bssID, sizeof(unknown->bssID));
 }
 
@@ -874,11 +875,11 @@ void WirelessManager__Func_2068160(WirelessManager_Unknown2068160 *unknown)
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
     unknown->channel = work->channel;
-    unknown->bitmap  = WirelessManager__Func_2068214();
+    unknown->bitmap  = WirelessManager__GetChildCount();
     unknown->tgid    = (work->tgid + 1) | 0x8000;
 }
 
-MBPChildInfo *WirelessManager__Func_20681A0(s32 id)
+MBPChildInfo *WirelessManager__GetChildInfo(s32 id)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
@@ -893,21 +894,21 @@ void WirelessManager__Func_20681D0(void)
         work->field_17 = 1;
 }
 
-u32 WirelessManager__Func_20681F8(void)
+u32 WirelessManager__GetChildBitmap(void)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
     return work->childBitmap;
 }
 
-u32 WirelessManager__Func_2068214(void)
+u32 WirelessManager__GetChildCount(void)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    return WirelessManager__Func_2068284(work->childBitmap);
+    return WirelessManager__GetBitmapUserCount(work->childBitmap);
 }
 
-u32 WirelessManager__Func_2068234(void)
+u32 WirelessManager__GetField4(void)
 {
     if (sTaskSingleton == NULL)
         return 0;
@@ -927,7 +928,7 @@ s32 WirelessManager__GetStatus(void)
     return work->status;
 }
 
-u16 WirelessManager__Func_2068284(u16 bitmap)
+u16 WirelessManager__GetBitmapUserCount(u16 bitmap)
 {
     u16 i = 0;
     while (bitmap != 0)
@@ -1367,7 +1368,7 @@ void WirelessManager__State_2068ADC(WirelessManager *work)
     WirelessManager_SendPacket *sendPacket = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
     sendPacket->childBitmap                = WH_GetConnectBitmap();
 
-    if (WirelessManager__Func_2068214() > 1)
+    if (WirelessManager__GetChildCount() > 1)
     {
         work->status = 2;
         if (work->field_17)
@@ -1451,11 +1452,11 @@ void WirelessManager__State_2068C74(WirelessManager *work)
             break;
 
         case 2:
-            bitmap = WFS_GetBusyBitmap();
+            bitmap = WFS_GetCurrentBitmap();
             break;
     }
 
-    if (WirelessManager__Func_2068284(work->childBitmap) == WirelessManager__Func_2068284(bitmap))
+    if (WirelessManager__GetBitmapUserCount(work->childBitmap) == WirelessManager__GetBitmapUserCount(bitmap))
     {
         WirelessManager_SendPacket *sendPacket;
         switch (work->field_4)
@@ -1546,17 +1547,17 @@ void WirelessManager__State_2068E78(WirelessManager *work)
             break;
 
         case 2:
-            bitmap = WFS_GetBusyBitmap();
+            bitmap = WFS_GetCurrentBitmap();
             break;
     }
 
     if ((work->field_1C & 1) != 0)
     {
-        if (WirelessManager__Func_2068284(bitmap) >= 2 && work->timer >= (SECONDS_TO_FRAMES(8.0) - 1))
+        if (WirelessManager__GetBitmapUserCount(bitmap) >= 2 && work->timer >= (SECONDS_TO_FRAMES(8.0) - 1))
             flag = TRUE;
     }
 
-    if (WirelessManager__Func_2068284(work->childBitmap) == WirelessManager__Func_2068284(bitmap))
+    if (WirelessManager__GetBitmapUserCount(work->childBitmap) == WirelessManager__GetBitmapUserCount(bitmap))
         flag = TRUE;
 
     if (flag)

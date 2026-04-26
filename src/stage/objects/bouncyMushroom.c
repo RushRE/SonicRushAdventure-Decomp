@@ -189,7 +189,7 @@ BouncyMushroom *CreateBouncyMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 
             break;
     }
 
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, sBounceMushCollisionList[mushroomType], GetObjectDataWork(mushroomType + OBJDATAWORK_173), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, sBounceMushCollisionList[mushroomType], GetObjectDataWork(mushroomType + OBJDATAWORK_173), gGameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.width  = sCollisionSizeTable[mushroomType].x;
     work->gameWork.collisionObject.work.height = sCollisionSizeTable[mushroomType].y;
@@ -197,7 +197,7 @@ BouncyMushroom *CreateBouncyMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 
     work->gameWork.collisionObject.work.ofst_y = sCollisionOffsetTable[mushroomType].y;
     work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_IGNORE_PARENT_ANGLE;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flipmush.bac", GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flipmush.bac", GetObjectDataWork(OBJDATAWORK_166), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 48, GetObjectSpriteRef(OBJDATAWORK_167));
     StageTask__SetAnimation(&work->gameWork.objWork, BOUNCYMUSHROOM_ANI_MUSHROOM);

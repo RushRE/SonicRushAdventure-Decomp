@@ -37,7 +37,7 @@ TripleGrindRailSpring *TripleGrindRailSpring__Create(MapObject *mapObject, fx32 
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_grd3l_spring.bac", GetObjectDataWork(OBJDATAWORK_176), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_grd3l_spring.bac", GetObjectDataWork(OBJDATAWORK_176), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 86);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -79,8 +79,8 @@ NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx3
     work->gameWork.objWork.viewOutOffsetBoundsBottom = 0x200;
     work->flags |= TRIPLEGRINDRAIL_FLAG_EXIT_ABOUT_TO_START;
 
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line, 0, NULL, gameArchiveStage);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line_0, NULL, gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line, 0, NULL, gGameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniTripleGrindRail, aModGmkGrd3line_0, NULL, gGameArchiveStage);
     AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_TEX_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_TEX_ANIM], 0, NULL);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -90,7 +90,7 @@ NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx3
     work->gameWork.objWork.offset.x = TRIPLEGRINDRAIL_X_OFFSET;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_DRAW;
 
-    void *leaf3dLoad                    = ObjDataLoad(NULL, aActAcEffGrd3lL_0, gameArchiveStage);
+    void *leaf3dLoad                    = ObjDataLoad(NULL, aActAcEffGrd3lL_0, gGameArchiveStage);
     AnimatorSprite3D *currentDecoration = &work->aniDecorations[0];
     for (i1 = 0; i1 < TRIPLEGRINDRAIL_PARTICLE_COUNT; currentDecoration++, i1++)
     {
@@ -114,7 +114,7 @@ NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx3
         work->mushroomList[i1].y = TRIPLEGRINDRAIL_Y_UNUSED_PARTICLE;
     }
 
-    void *ring3dLoad          = ObjDataLoad(NULL, aActAcItmRing3d, gameArchiveStage);
+    void *ring3dLoad          = ObjDataLoad(NULL, aActAcItmRing3d, gGameArchiveStage);
     AnimatorSprite3D *aniRing = &work->aniRing;
     VRAMPixelKey tkeyRing     = VRAMSystem__AllocTexture(0x80, FALSE);
     VRAMPaletteKey pkeyRing   = VRAMSystem__AllocPalette(0x10, FALSE);
@@ -207,13 +207,13 @@ NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx3
 	add r1, r7, #0x364
 	orr r0, r0, #1
 	str r0, [r7, #0xe04]
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	str r3, [sp]
 	ldr r4, [r0, #0]
 	mov r0, r7
 	str r4, [sp, #4]
 	bl ObjAction3dNNModelLoad
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	ldr r2, =aModGmkGrd3line_0
 	ldr r4, [r0, #0]
 	mov r0, r7
@@ -243,7 +243,7 @@ NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx3
 	ldr r1, =aActAcEffGrd3lL_0
 	str r2, [r7, #0x50]
 	ldr r3, [r7, #0x20]
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	orr r3, r3, #0x20
 	str r3, [r7, #0x20]
 	ldr r2, [r2, #0]
@@ -314,7 +314,7 @@ _021638C0:
 _021638D0:
 	cmp r8, #8
 	blt _021638C0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	ldr r1, =aActAcItmRing3d
 	ldr r2, [r0, #0]
 	mov r0, #0

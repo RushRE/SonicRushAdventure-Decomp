@@ -382,7 +382,7 @@ EffectExplosion *CreateEffectExplosion(StageTask *parent, fx32 velX, fx32 velY, 
     if (type >= EXPLOSION_COUNT)
         type = EXPLOSION_ENEMY;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -427,7 +427,7 @@ EffectExplosionHazard *CreateEffectExplosionHazard(StageTask *parent, fx32 velX,
     if (type >= EXPLOSION_COUNT)
         type = EXPLOSION_ENEMY;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -485,7 +485,7 @@ EffectFound *CreateEffectFound(StageTask *parent, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_found.bac", &EffectTask__sVars.effectFoundFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_found.bac", &EffectTask__sVars.effectFoundFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 56);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -519,7 +519,7 @@ EffectVitality *CreateEffectVitality(StageTask *parent, fx32 velX, fx32 velY, u8
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_vitality.bac", &EffectTask__sVars.effectVitalityFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_vitality.bac", &EffectTask__sVars.effectVitalityFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 81);
     StageTask__SetAnimation(&work->objWork, (health - 1));
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -566,7 +566,7 @@ EffectEnemyDebris *CreateEffectEnemyDebris(StageTask *parent, fx32 offsetX, fx32
         spriteType = mtMathRandRepeat(4);
     }
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gameArchiveCommon, 2);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gGameArchiveCommon, 2);
     s32 anim = spriteType + 3;
     ObjActionAllocSpritePalette(&work->objWork, anim, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -683,7 +683,7 @@ EffectWaterExplosion *CreateEffectWaterExplosion(StageTask *parent, fx32 velX, f
     if (type >= WATEREXPLOSION_COUNT)
         type = WATEREXPLOSION_BOMB;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_bomb_water.bac", GetObjectFileWork(OBJDATAWORK_4), gameArchiveCommon, gfxSizes[type]);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_bomb_water.bac", GetObjectFileWork(OBJDATAWORK_4), gGameArchiveCommon, gfxSizes[type]);
     ObjActionAllocSpritePalette(&work->objWork, 0, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -732,7 +732,7 @@ EffectGroundExplosion *CreateEffectGroundExplosion(StageTask *parent, fx32 velX,
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_bomb_ground.bac", GetObjectFileWork(OBJDATAWORK_151), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_bomb_ground.bac", GetObjectFileWork(OBJDATAWORK_151), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -774,7 +774,7 @@ EffectBattleBurst *CreateEffectBattleBurst(fx32 x, fx32 y)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_battle.bac", &EffectTask__sVars.effectBattleBurstFile, gameArchiveCommon, 8);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_battle.bac", &EffectTask__sVars.effectBattleBurstFile, gGameArchiveCommon, 8);
     ObjActionAllocSpritePalette(&work->objWork, 4, 31);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -803,7 +803,7 @@ EffectSteamBlasterSmoke *CreateEffectSteamBlasterSmoke(StageTask *parent)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, STEAMBLASTER_ANI_SMOKE, 36);
     StageTask__SetAnimation(&work->objWork, STEAMBLASTER_ANI_SMOKE);
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -844,7 +844,7 @@ EffectSteamBlasterSteam *CreateEffectSteamBlasterSteam(StageTask *parent, fx32 o
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, STEAMBLASTER_ANI_STEAM_START, 34);
     StageTask__SetAnimation(&work->objWork, STEAMBLASTER_ANI_STEAM_START);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -912,7 +912,7 @@ EffectWaterSplash *CreateEffectWaterSplash(StageTask *parent, fx32 offsetX, fx32
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -939,7 +939,7 @@ EffectWaterWake *CreateEffectWaterWake(StageTask *parent, fx32 offsetX, fx32 pos
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -995,7 +995,7 @@ EffectWaterGush *EffectWaterGush__Create(StageTask *parent, fx32 velX, fx32 velY
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -1033,7 +1033,7 @@ EffectWaterBubble *EffectWaterBubble__Create(fx32 x, fx32 y, s32 anim, u16 durat
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_awa.bac", GetObjectFileWork(OBJDATAWORK_122), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_awa.bac", GetObjectFileWork(OBJDATAWORK_122), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_TINY_BUBBLE, 22);
     ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, anim), GetObjectFileWork(2 * anim + OBJDATAWORK_123));
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -1092,7 +1092,7 @@ EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 vel
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_coral.bac", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_coral.bac", GetObjectFileWork(OBJDATAWORK_193), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, type + 20, 67);
 
     u16 anim = type + 20;
@@ -1131,7 +1131,7 @@ EffectBridgeDebris *EffectBridgeDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 v
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_saku.bac", GetObjectFileWork(OBJDATAWORK_168), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_saku.bac", GetObjectFileWork(OBJDATAWORK_168), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, type + 3, 89);
 
     u16 anim = type + 3;
@@ -1170,7 +1170,7 @@ EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 vel
     if (!work)
         return 0;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, sIceSparklesSprite[type], GetObjectDataWork(type + OBJDATAWORK_154), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, sIceSparklesSprite[type], GetObjectDataWork(type + OBJDATAWORK_154), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, _0210EA44[type]);
     StageTask__SetAnimation(&work->objWork, 0);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -1195,7 +1195,7 @@ EffectStartDash *EffectStartDash__Create(StageTask *parent)
     if (work == NULL)
         return NULL;
 
-    LoadEffectTask3DAsset(&work->effWork, "/effe_startdash", NULL, gameArchiveCommon, B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, NULL, FALSE);
+    LoadEffectTask3DAsset(&work->effWork, "/effe_startdash", NULL, gGameArchiveCommon, B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, NULL, FALSE);
     work->effWork.objWork.parentObj = parent;
 
     work->effWork.objWork.position = parent->position;
@@ -1217,7 +1217,7 @@ EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x, fx32 y, fx32 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_break_obj.bac", GetObjectFileWork(OBJDATAWORK_54), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_break_obj.bac", GetObjectFileWork(OBJDATAWORK_54), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, type, 6);
 
     u16 anim = type + 1;
@@ -1250,7 +1250,7 @@ EffectGoalJewel *EffectGoalJewel__Create(u16 type, fx32 x, fx32 y, fx32 velX, fx
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->aniEffect, "/ac_eff_goal_jewel.bac", GetObjectDataWork(OBJDATAWORK_128), gameArchiveCommon, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->aniEffect, "/ac_eff_goal_jewel.bac", GetObjectDataWork(OBJDATAWORK_128), gGameArchiveCommon, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->objWork, sGoalJewelSpriteSize[type], GetObjectSpriteRef(2 * type + OBJDATAWORK_129));
     ObjActionAllocSpritePalette(&work->objWork, type, 23);
     StageTask__SetAnimation(&work->objWork, type);
@@ -1284,7 +1284,7 @@ EffectBouncyMushroomPuff *EffectBouncyMushroomPuff__Create(fx32 x, fx32 y, fx32 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_flipmush.bac", GetObjectFileWork(OBJDATAWORK_166), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_flipmush.bac", GetObjectFileWork(OBJDATAWORK_166), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, BOUNCYMUSHROOM_ANI_PUFF, 15);
     ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, BOUNCYMUSHROOM_ANI_PUFF), GetObjectSpriteRef(OBJDATAWORK_171));
     StageTask__SetAnimation(&work->objWork, BOUNCYMUSHROOM_ANI_PUFF);
@@ -1312,7 +1312,7 @@ EffectFlowerPipePetal *EffectFlowerPipePetal__Create(fx32 x, fx32 y, fx32 velX, 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, 8);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gGameArchiveStage, 8);
     ObjActionAllocSpritePalette(&work->objWork, 3, 10);
     StageTask__SetAnimation(&work->objWork, type + 3);
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -1367,7 +1367,7 @@ EffectFlowerPipeSeed *EffectFlowerPipeSeed__Create(fx32 x, fx32 y, fx32 velX, fx
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, 1);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gGameArchiveStage, 1);
     ObjActionAllocSpritePalette(&work->objWork, 5, 10);
     StageTask__SetAnimation(&work->objWork, type + 5);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -1433,7 +1433,7 @@ EffectSteam *EffectSteamDust__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 ve
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_steam_dust.bac", GetObjectFileWork(OBJDATAWORK_160), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_steam_dust.bac", GetObjectFileWork(OBJDATAWORK_160), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, 0, 32);
 
     ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type), GetObjectSpriteRef(2 * type + OBJDATAWORK_161));
@@ -1464,7 +1464,7 @@ EffectSteam *EffectSteamEffect__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_steam_efct.bac", GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_steam_efct.bac", GetObjectDataWork(OBJDATAWORK_179), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, 0, 34);
     ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type), GetObjectSpriteRef(EFFECTSTEAM_TYPE_COUNT * type + OBJDATAWORK_180));
     StageTask__SetAnimation(&work->objWork, type);
@@ -1514,7 +1514,7 @@ EffectSteamFan *EffectCreateSteamFan(StageTask *parent, s32 radius, u16 angle, s
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_steam_fan.bac", GetObjectDataWork(OBJDATAWORK_165), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_steam_fan.bac", GetObjectDataWork(OBJDATAWORK_165), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, 0, 34);
     ObjObjectActionAllocSprite(&work->objWork, 24, GetObjectSpriteRef(OBJDATAWORK_168));
     StageTask__SetAnimation(&work->objWork, 1);
@@ -1566,7 +1566,7 @@ EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir)
     if (work == NULL)
         return NULL;
 
-    LoadEffectTask3DAsset(&work->effWork, "/mod/gmk_piston_ef", GetObjectDataWork(OBJDATAWORK_191), gameArchiveStage, B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM,
+    LoadEffectTask3DAsset(&work->effWork, "/mod/gmk_piston_ef", GetObjectDataWork(OBJDATAWORK_191), gGameArchiveStage, B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM,
                           EffectTask_State_TrackParent, 0);
 
     // ~3.63
@@ -1591,7 +1591,7 @@ EffectIceBlockDebris *EffectIceBlockDebris__Create(u8 type, fx32 x, fx32 y, fx32
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_ice_block.bac", GetObjectFileWork(OBJDATAWORK_175), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_ice_block.bac", GetObjectFileWork(OBJDATAWORK_175), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, 0, 35);
 
     u16 anim = type + 1;
@@ -1634,7 +1634,7 @@ void EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, 
     {
         aniSparkle2 = aniSparkle++;
 
-        void *archive = gameArchiveStage;
+        void *archive = gGameArchiveStage;
         ObjAction2dBACLoad(aniSparkle2, "/act/ac_gmk_truck.bac", OBJ_DATA_GFX_NONE, GetObjectDataWork(OBJDATAWORK_180), archive);
         aniSparkle2->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 

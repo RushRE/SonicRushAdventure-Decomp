@@ -41,7 +41,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     TaskInitWork8(work);
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_needle.bac", GetObjectFileWork(OBJDATAWORK_28), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_needle.bac", GetObjectFileWork(OBJDATAWORK_28), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, SPIKES_ANI_VERTICAL_VISIBLE, 3);
 
     OBS_ACTION2D_BAC_WORK *aniWork = work->gameWork.objWork.obj_2d;
@@ -177,7 +177,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 	mov r0, #0x1c
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r1, #0
 	ldr r2, [r0, #0]
 	mov r0, r8

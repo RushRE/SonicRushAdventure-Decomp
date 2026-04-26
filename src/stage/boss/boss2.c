@@ -551,7 +551,7 @@ Boss2Stage *CreateBoss2Stage(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     AnimatorMDL *aniStage00 = &work->aniStage[0];
     AnimatorMDL__Init(aniStage00, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(aniStage00, bossAssetFiles[6].fileData, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniStage00, gBossAssetFileList[6].fileData, 0, FALSE, FALSE);
     aniStage00->work.translation.x = FLOAT_TO_FX32(0.0);
     aniStage00->work.translation.y = -y;
     aniStage00->work.translation.z = FLOAT_TO_FX32(0.0);
@@ -561,7 +561,7 @@ Boss2Stage *CreateBoss2Stage(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     AnimatorMDL *aniStage01 = &work->aniStage[1];
     AnimatorMDL__Init(aniStage01, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(aniStage01, bossAssetFiles[7].fileData, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniStage01, gBossAssetFileList[7].fileData, 0, FALSE, FALSE);
     aniStage01->work.translation = aniStage00->work.translation;
     aniStage01->work.scale       = aniStage00->work.scale;
 
@@ -589,7 +589,7 @@ Boss2Stage *CreateBoss2Stage(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     Boss2Ball_Action_Idle(work->balls[0]);
     Boss2Ball_Action_EnableSpikes(&work->balls[0]->spikeWorker);
 
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BSEF2_WAVE_NSBMD));
     NNS_FndUnmountArchive(&arc);
 
@@ -632,7 +632,7 @@ Boss2 *CreateBoss2(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     AnimatorMDL *aniBody = &work->aniBody;
     AnimatorMDL__Init(aniBody, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(aniBody, bossAssetFiles[0].fileData, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniBody, gBossAssetFileList[0].fileData, 0, FALSE, FALSE);
     aniBody->work.scale.x        = FLOAT_TO_FX32(3.3);
     aniBody->work.scale.y        = FLOAT_TO_FX32(3.3);
     aniBody->work.scale.z        = FLOAT_TO_FX32(3.3);
@@ -644,12 +644,12 @@ Boss2 *CreateBoss2(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     BossHelpers__Model__Init(aniBody->renderObj.resMdl, "body_b", MTXSTACK_BOSS2_BODY_BOTTOM, Boss2_BodyBottomCallback, work);
     BossHelpers__Model__Init(aniBody->renderObj.resMdl, "weak", MTXSTACK_BOSS2_WEAK, NULL, NULL);
 
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     for (s32 i = 0; i < (s32)ARRAY_COUNT(work->aniPalette); i++)
     {
         InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_EYE_BPA), 0, ANIMATORBPA_FLAG_NONE, 5,
-                            VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss2__paletteNames[i])));
+                            VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(gBossAssetFileList[0].fileData), Boss2__paletteNames[i])));
     }
     BossHelpers__SetPaletteAnimations(work->aniPalette, (s32)ARRAY_COUNT(work->aniPalette), BOSS2_PALANI_IDLE, FALSE);
     NNS_FndUnmountArchive(&arc);
@@ -681,7 +681,7 @@ Boss2Arm *CreateBoss2Arm(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     AnimatorMDL *aniArm = &work->animator;
     AnimatorMDL__Init(aniArm, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(aniArm, bossAssetFiles[1].fileData, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniArm, gBossAssetFileList[1].fileData, 0, FALSE, FALSE);
     aniArm->work.translation.x  = FLOAT_TO_FX32(0.0);
     aniArm->work.translation.y  = FLOAT_TO_FX32(0.0);
     aniArm->work.translation.z  = FLOAT_TO_FX32(0.0);
@@ -716,7 +716,7 @@ Boss2Drop *CreateBoss2Drop(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     AnimatorMDL *aniDrop = &work->aniDrop;
     AnimatorMDL__Init(aniDrop, ANIMATORMDL_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->aniDrop, bossAssetFiles[2].fileData, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->aniDrop, gBossAssetFileList[2].fileData, 0, FALSE, FALSE);
     aniDrop->work.translation.x = FLOAT_TO_FX32(0.0);
     aniDrop->work.translation.y = FLOAT_TO_FX32(0.0);
     aniDrop->work.translation.z = FLOAT_TO_FX32(0.0);
@@ -780,7 +780,7 @@ NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s
 
     AnimatorMDL *aniBall = &work->aniBall;
     AnimatorMDL__Init(aniBall, ANIMATORMDL_FLAG_NONE);
-    AnimatorMDL__SetResource(aniBall, bossAssetFiles[3].fileData, type, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniBall, gBossAssetFileList[3].fileData, type, FALSE, FALSE);
     aniBall->work.translation.x = FLOAT_TO_FX32(0.0);
     aniBall->work.translation.y = FLOAT_TO_FX32(0.0);
     aniBall->work.translation.z = FLOAT_TO_FX32(0.0);
@@ -799,7 +799,7 @@ NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s
 
     AnimatorMDL *aniSpike = &work->spikeWorker.aniSpike;
     AnimatorMDL__Init(aniSpike, ANIMATORMDL_FLAG_NONE);
-    AnimatorMDL__SetResource(aniSpike, bossAssetFiles[4].fileData, type, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniSpike, gBossAssetFileList[4].fileData, type, FALSE, FALSE);
     aniSpike->work.translation.x = FLOAT_TO_FX32(0.0);
     aniSpike->work.translation.y = FLOAT_TO_FX32(0.0);
     aniSpike->work.translation.z = FLOAT_TO_FX32(0.0);
@@ -815,7 +815,7 @@ NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s
 
     AnimatorMDL *aniBallD = &work->aniBallD;
     AnimatorMDL__Init(aniBallD, ANIMATORMDL_FLAG_NONE);
-    AnimatorMDL__SetResource(aniBallD, bossAssetFiles[3].fileData, 3, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniBallD, gBossAssetFileList[3].fileData, 3, FALSE, FALSE);
     aniBallD->work.translation.x = FLOAT_TO_FX32(0.0);
     aniBallD->work.translation.y = FLOAT_TO_FX32(0.0);
     aniBallD->work.translation.z = FLOAT_TO_FX32(0.0);
@@ -825,7 +825,7 @@ NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s
 
     AnimatorMDL *aniBallM = &work->aniBallM;
     AnimatorMDL__Init(aniBallM, ANIMATORMDL_FLAG_NONE);
-    AnimatorMDL__SetResource(aniBallM, bossAssetFiles[3].fileData, 4, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniBallM, gBossAssetFileList[3].fileData, 4, FALSE, FALSE);
     work->aniBallM.work.matrixOpIDs[0] = MATRIX_OP_NONE;
     work->aniBallM.work.translation.x  = FLOAT_TO_FX32(0.0);
     work->aniBallM.work.translation.y  = FLOAT_TO_FX32(0.0);
@@ -834,9 +834,9 @@ NONMATCH_FUNC Boss2Ball *CreateBoss2Ball(MapObject *mapObject, fx32 x, fx32 y, s
     work->aniBallM.work.scale.y        = FLOAT_TO_FX32(329.9805);
     work->aniBallM.work.scale.z        = ballScale[type];
 
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
     InitPaletteAnimator(&work->aniPalette[0], NNS_FndGetArchiveFileByIndex(&arc, type + ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_BALL_A_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 5,
-                        VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(bossAssetFiles[3].fileData), Boss2Ball__paletteNames[type])));
+                        VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(gBossAssetFileList[3].fileData), Boss2Ball__paletteNames[type])));
     BossHelpers__SetPaletteAnimations(work->aniPalette, ARRAY_COUNT(work->aniPalette), BOSS2BALL_PALANI_INACTIVE, FALSE);
     NNS_FndUnmountArchive(&arc);
 
@@ -957,7 +957,7 @@ _0215B838:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r3, #0
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r1, #0x18]
 	add r0, r4, #0x400
@@ -995,7 +995,7 @@ _0215B838:
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r3, #0
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r1, #0x20]
 	add r0, r6, #0x394
@@ -1018,7 +1018,7 @@ _0215B838:
 	add r0, r5, #0x400
 	bl AnimatorMDL__Init
 	mov r3, r4
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r1, #0x18]
 	add r0, r5, #0x400
@@ -1037,7 +1037,7 @@ _0215B838:
 	str r4, [r5, #0x420]
 	bl AnimatorMDL__Init
 	mov r3, #0
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r1, #0x18]
 	add r0, r6, #0x840
@@ -1051,7 +1051,7 @@ _0215B838:
 	ldr r0, =0x00149FB0
 	str r4, [r6, #0x858]
 	str r0, [r6, #0x85c]
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	str r4, [r6, #0x860]
 	ldr r2, [r0, #0]
 	ldr r1, =0x0217A7FC // =aExec
@@ -1060,7 +1060,7 @@ _0215B838:
 	add r0, sp, #0x3c
 	add r1, r8, #9
 	bl NNS_FndGetArchiveFileByIndex
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	mov r4, r0
 	ldr r0, [r1, #0x18]
 	bl NNS_G3dGetTex
@@ -1122,7 +1122,7 @@ Boss2Bomb *CreateBoss2Bomb(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     AnimatorMDL *aniBomb = &work->aniBomb;
     AnimatorMDL__Init(aniBomb, ANIMATORMDL_FLAG_NONE);
-    AnimatorMDL__SetResource(aniBomb, bossAssetFiles[5].fileData, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(aniBomb, gBossAssetFileList[5].fileData, 0, FALSE, FALSE);
     aniBomb->work.scale.x = FLOAT_TO_FX32(3.3);
     aniBomb->work.scale.y = FLOAT_TO_FX32(3.3);
     aniBomb->work.scale.z = FLOAT_TO_FX32(3.3);
@@ -1150,7 +1150,7 @@ Boss2Wave *CreateBoss2Wave(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     AnimatorMDL *aniWave = &work->aniWave;
     AnimatorMDL__Init(aniWave, ANIMATORMDL_FLAG_NONE);
@@ -1185,7 +1185,7 @@ void LoadBossAssets(Boss2Assets *assets)
 
     assets->background = MapFarSys__GetAsset();
 
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
     assets->jointAnims = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_NSBCA);
     assets->visAnims   = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BOSS2_NSBVA);
     NNS_FndUnmountArchive(&arc);
@@ -1454,7 +1454,7 @@ void Boss2Stage_Destructor(Task *task)
         AnimatorMDL__Release(&work->aniStage[i]);
     }
 
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
     NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z2BOSS_ACT_LZ7_FILE_BSEF2_WAVE_NSBMD));
     NNS_FndUnmountArchive(&arc);
 

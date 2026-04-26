@@ -147,7 +147,7 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/ac_itm_box.bac", GetObjectDataWork(OBJDATAWORK_70), gameArchiveCommon, gfxSize[boxType]);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/ac_itm_box.bac", GetObjectDataWork(OBJDATAWORK_70), gGameArchiveCommon, gfxSize[boxType]);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, animIDs[boxType], 115);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_24);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -159,7 +159,7 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     }
 
     AnimatorSpriteDS *ani = &work->aniContents;
-    ObjAction2dBACLoad(ani, "/ac_itm_box.bac", 2, GetObjectDataWork(OBJDATAWORK_70), gameArchiveCommon);
+    ObjAction2dBACLoad(ani, "/ac_itm_box.bac", 2, GetObjectDataWork(OBJDATAWORK_70), gGameArchiveCommon);
     ani->work.cParam.palette =
         ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, ITEMBOX_ANI_TYPE_START + mapObjectParam_Type, sRewardDrawFlagTable[mapObjectParam_Type]);
     ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
@@ -315,7 +315,7 @@ void CreateItemBoxReward(s32 type)
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
         work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_SCALE | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_SCREEN_RELATIVE;
 
-        ObjObjectAction2dBACLoad(&work->objWork, &work->aniReward, "/ac_itm_box.bac", GetObjectFileWork(OBJDATAWORK_70), gameArchiveCommon, 2);
+        ObjObjectAction2dBACLoad(&work->objWork, &work->aniReward, "/ac_itm_box.bac", GetObjectFileWork(OBJDATAWORK_70), gGameArchiveCommon, 2);
 
         id = ITEMBOX_ANI_TYPE_START + type;
         ObjActionAllocSpritePalette(&work->objWork, id, sRewardDrawFlagTable[type]);

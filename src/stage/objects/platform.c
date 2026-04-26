@@ -76,12 +76,12 @@ Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     switch (mapObjectCopy->id)
     {
         case MAPOBJECT_191:
-            ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_land.bac", GetObjectDataWork(OBJDATAWORK_74), gameArchiveStage,
+            ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_land.bac", GetObjectDataWork(OBJDATAWORK_74), gGameArchiveStage,
                                      OBJ_DATA_GFX_NONE);
             break;
 
         default:
-            ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_land.bac", GetObjectDataWork(OBJDATAWORK_73), gameArchiveStage,
+            ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_land.bac", GetObjectDataWork(OBJDATAWORK_73), gGameArchiveStage,
                                      OBJ_DATA_GFX_NONE);
             break;
     }

@@ -241,7 +241,7 @@ EffectBrakeDust *CreateEffectBrakeDust(Player *parent, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_kemuri_brake.bac", &EffectTask__sVars.effectBrakeDustFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_kemuri_brake.bac", &EffectTask__sVars.effectBrakeDustFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 30);
     StageTask__SetAnimation(&work->objWork, 0);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -313,7 +313,7 @@ EffectBrakeDust3D *CreateEffectBrakeDust3D(Player *parent, fx32 velX, fx32 velY)
         return NULL;
 
     ObjObjectAction3dBACLoad(&work->objWork, &work->animator, "/ac_eff_kemuri_brake3d.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &EffectTask__sVars.effectBrakeDust3DFile,
-                             gameArchiveCommon);
+                             gGameArchiveCommon);
     work->objWork.obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     // enable forward & backward rendering
     work->objWork.obj_2dIn3d->ani.polygonAttr.noCullFront = TRUE;
@@ -506,7 +506,7 @@ EffectSpindashDust *CreateEffectSpindashDust(Player *parent, fx32 velX, fx32 vel
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_kemuri_spin.bac", &EffectTask__sVars.effectSpindashDustFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_kemuri_spin.bac", &EffectTask__sVars.effectSpindashDustFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
 
     ObjActionAllocSpritePalette(&work->objWork, 0, 30);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -574,7 +574,7 @@ EffectSpindashDust3D *CreateEffectSpindashDust3D(Player *parent, fx32 velX, fx32
         return NULL;
 
     ObjObjectAction3dBACLoad(&work->objWork, &work->animator, "/ac_eff_kemuri_spin_3d.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &EffectTask__sVars.effectSpindashDust3DFile,
-                             gameArchiveCommon);
+                             gGameArchiveCommon);
     work->objWork.obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     work->objWork.obj_2dIn3d->ani.work.matrixOpIDs[1] = MATRIX_OP_NONE;
     // disable forward & backward culling
@@ -755,7 +755,7 @@ EffectFlameDust *CreateEffectFlameDust(Player *player, fx32 velX, fx32 velY, Eff
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_boost.bac", &EffectTask__sVars.effectBoostFile, gameArchiveCommon, 8);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_boost.bac", &EffectTask__sVars.effectBoostFile, gGameArchiveCommon, 8);
     ObjActionAllocSpritePalette(&work->objWork, 8, 30);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
@@ -970,7 +970,7 @@ EffectFlameJet *CreateEffectFlameJet(Player *player, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_b_jet.bac", &EffectTask__sVars.effectFlameJetFile, gameArchiveCommon, 8);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_b_jet.bac", &EffectTask__sVars.effectFlameJetFile, gGameArchiveCommon, 8);
     ObjActionAllocSpritePalette(&work->objWork, 0, 30);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
@@ -1064,7 +1064,7 @@ EffectFlameJet3D *CreateEffectFlameJet3D(Player *player, fx32 velX, fx32 velY)
         return NULL;
 
     ObjObjectAction3dBACLoad(&work->objWork, &work->animator, "/ac_eff_b_jet3d.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &EffectTask__sVars.effectFlameJet3DFile,
-                             gameArchiveCommon);
+                             gGameArchiveCommon);
     work->objWork.obj_2dIn3d->ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     work->animator.ani.work.matrixOpIDs[0]            = MATRIX_OP_SET_CAMERA_ROT_33;
     work->animator.ani.work.matrixOpIDs[1]            = MATRIX_OP_FLUSH_P_CAMERA3D;
@@ -1142,7 +1142,7 @@ EffectHummingTop *CreateEffectHummingTop(Player *player, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_boost.bac", &EffectTask__sVars.effectBoostFile, gameArchiveCommon, 16);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_boost.bac", &EffectTask__sVars.effectBoostFile, gGameArchiveCommon, 16);
     ObjActionAllocSpritePalette(&work->objWork, 9, 31);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
@@ -1265,7 +1265,7 @@ EffectBoost *CreateEffectBoost(Player *parent, fx32 velX, fx32 velY, s32 charact
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_boost.bac", &EffectTask__sVars.effectBoostFile, gameArchiveCommon, gfxSizes[characterID][type]);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_boost.bac", &EffectTask__sVars.effectBoostFile, gGameArchiveCommon, gfxSizes[characterID][type]);
 
     s32 animID;
     if (characterID != CHARACTER_SONIC)
@@ -2194,7 +2194,7 @@ EffectShield *CreateEffectRegularShield(Player *parent)
     OBS_DATA_WORK *fileWork = GetObjectFileWork(OBJDATAWORK_149);
     for (i = 0; i < 6; i++)
     {
-        ObjObjectAction3dModelSimpleLoad(&work->objWork, &work->esWork[i], "/eff_barrier.nsbmd", 0, RegularShield__shpList[i], RegularShield__matList[i], fileWork, gameArchiveCommon);
+        ObjObjectAction3dModelSimpleLoad(&work->objWork, &work->esWork[i], "/eff_barrier.nsbmd", 0, RegularShield__shpList[i], RegularShield__matList[i], fileWork, gGameArchiveCommon);
     }
 
     work->esWork[3].flags |= 0x40;
@@ -2394,7 +2394,7 @@ EffectShield *CreateEffectMagnetShield(Player *parent)
     OBS_DATA_WORK *fileWork = GetObjectFileWork(OBJDATAWORK_150);
     for (i = 0; i < 9; i++)
     {
-        ObjObjectAction3dModelSimpleLoad(&work->objWork, &work->esWork[i], "/eff_magnet.nsbmd", 0, MagnetShield__shpList[i], MagnetShield__matList[i], fileWork, gameArchiveCommon);
+        ObjObjectAction3dModelSimpleLoad(&work->objWork, &work->esWork[i], "/eff_magnet.nsbmd", 0, MagnetShield__shpList[i], MagnetShield__matList[i], fileWork, gGameArchiveCommon);
     }
 
     work->esWork[6].flags |= 0x40;
@@ -2636,7 +2636,7 @@ EffectGrind *CreateEffectGrindSpark(Player *parent, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_graind.bac", &EffectTask__sVars.effectGrindFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_graind.bac", &EffectTask__sVars.effectGrindFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 30);
     StageTask__SetAnimation(&work->objWork, 0);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -2690,7 +2690,7 @@ EffectGrind *CreateEffectWaterGrindSpark(Player *parent, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterGrindFile, gameArchiveStage, 16);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterGrindFile, gGameArchiveStage, 16);
     ObjActionAllocSpritePalette(&work->objWork, 2, 33);
     StageTask__SetAnimation(&work->objWork, 2);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -2743,7 +2743,7 @@ EffectTrickSparkle *CreateEffectTrickSparkle(Player *parent, fx32 offsetX, fx32 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_trick.bac", &EffectTask__sVars.effectTrickSparkleFile, gameArchiveCommon, 8);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_trick.bac", &EffectTask__sVars.effectTrickSparkleFile, gGameArchiveCommon, 8);
     ObjActionAllocSpritePalette(&work->objWork, 12, 30);
     StageTask__SetAnimation(&work->objWork, 12);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -2823,7 +2823,7 @@ void CreateEffectInvincibleSparkle(fx32 x, fx32 y, u16 timer)
     if (work == NULL)
         return;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_trick.bac", &EffectTask__sVars.effectTrickSparkleFile, gameArchiveCommon, 0);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_trick.bac", &EffectTask__sVars.effectTrickSparkleFile, gGameArchiveCommon, 0);
     ObjObjectActionAllocSprite(&work->objWork, 12, GetObjectFileWork(OBJDATAWORK_120));
 
     work->animator.ani.cParam[0].palette = 1;
@@ -2895,7 +2895,7 @@ EffectSnowSmoke *CreateEffectSnowSmoke(Player *parent, fx32 offsetX, fx32 offset
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_yukikemuri.bac", &EffectTask__sVars.effectSnowSmokeFile, gameArchiveCommon, gfxSizeForAnim[animID]);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_yukikemuri.bac", &EffectTask__sVars.effectSnowSmokeFile, gGameArchiveCommon, gfxSizeForAnim[animID]);
     ObjActionAllocSpritePalette(&work->objWork, 0, 55);
     StageTask__SetAnimation(&work->objWork, animID);
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
@@ -2945,7 +2945,7 @@ EffectDrownAlert *CreateEffectDrownAlert(Player *parent, fx32 offsetX, fx32 offs
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/act/ac_fix_awa_count.bac", &EffectTask__sVars.effectDrownAlertFile, gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/act/ac_fix_awa_count.bac", &EffectTask__sVars.effectDrownAlertFile, gGameArchiveStage, OBJ_DATA_GFX_AUTO);
 
     work->objWork.obj_2d->ani.cParam[1].palette = 2;
     work->objWork.obj_2d->ani.cParam[0].palette = work->objWork.obj_2d->ani.cParam[1].palette;
@@ -3007,7 +3007,7 @@ EffectPlayerIcon *CreateEffectPlayerIcon(Player *parent)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_fix_cont.bac", GetObjectFileWork(OBJDATAWORK_1), gameArchiveCommon, 0);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_fix_cont.bac", GetObjectFileWork(OBJDATAWORK_1), gGameArchiveCommon, 0);
 
     work->objWork.obj_2d->ani.vramPixels[1] = VRAMSystem__AllocSpriteVram(TRUE, 8);
     work->objWork.obj_2d->ani.flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;
@@ -3060,7 +3060,7 @@ EffectBattleAttack *CreateEffectBattleAttack(Player *parent, EffectBattleAttackT
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_battle.bac", &EffectTask__sVars.effectBattleAttackFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_battle.bac", &EffectTask__sVars.effectBattleAttackFile, gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, type, flagsForType[type]);
     StageTask__SetAnimation(&work->objWork, type);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_13);

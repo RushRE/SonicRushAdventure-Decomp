@@ -45,7 +45,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     aniDiveStand = &work->aniDiveStand[0];
-    work->sprDiveStand3D = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_168), "/act/ac_gmk_dive_stand3d.bac", gameArchiveStage);
+    work->sprDiveStand3D = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_168), "/act/ac_gmk_dive_stand3d.bac", gGameArchiveStage);
 
     VRAMPaletteKey paletteKey = ObjActionAllocPalette(GetObjectGraphicsRef(OBJDATAWORK_172), Sprite__GetPaletteSizeFromAnim(work->sprDiveStand3D, 0));
     for (i = 0; i < 1; )
@@ -59,7 +59,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     }
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_VRAM_A;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dive_stand3d.bac", GetObjectDataWork(OBJDATAWORK_168), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dive_stand3d.bac", GetObjectDataWork(OBJDATAWORK_168), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 1, GetObjectSpriteRef(OBJDATAWORK_173));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 1, 60);
@@ -180,7 +180,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
 	str r0, [r6, #0x1c]
 	mov r0, #0xa8
 	bl GetObjectFileWork
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	ldr r1, =aActAcGmkDiveSt
 	ldr r2, [r2, #0]
 	bl ObjDataLoad
@@ -232,7 +232,7 @@ _02169C60:
 	orr r1, r1, #0x400000
 	str r1, [r6, #0x18]
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
 	ldr r2, =aActAcGmkDiveSt

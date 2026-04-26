@@ -107,7 +107,7 @@ EnemyGlider *CreateGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             break;
     }
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_glider.bac", GetObjectFileWork(OBJDATAWORK_14), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_glider.bac", GetObjectFileWork(OBJDATAWORK_14), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, GLIDER_ANI_GLIDE, 59);

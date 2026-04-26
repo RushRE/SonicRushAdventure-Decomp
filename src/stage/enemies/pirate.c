@@ -441,7 +441,7 @@ EnemyPirate *CreatePirate(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->type = pirateType;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[pirateType], GetObjectDataWork(sDataWorkTable[pirateType]), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[pirateType], GetObjectDataWork(sDataWorkTable[pirateType]), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -494,7 +494,7 @@ EnemyBazookaPirateShot *CreateBazookaPirateShot(MapObject *mapObject, fx32 x, fx
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -7, -7, 7, 7);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BAZOOKA], GetObjectDataWork(OBJDATAWORK_16), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BAZOOKA], GetObjectDataWork(OBJDATAWORK_16), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -526,7 +526,7 @@ EnemyBallChainPirateBall *CreateBallChainPirateBall(MapObject *mapObject, fx32 x
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -13, -13, 13, 13);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -559,7 +559,7 @@ EnemyBombPirateBomb *CreateBombPirateBomb(MapObject *mapObject, fx32 x, fx32 y, 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -6, -6, 6, 6);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BOMB], GetObjectDataWork(OBJDATAWORK_18), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_BOMB], GetObjectDataWork(OBJDATAWORK_18), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -591,7 +591,7 @@ EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -3, -3, 3, 3);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_SKELETON], GetObjectDataWork(OBJDATAWORK_19), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_SKELETON], GetObjectDataWork(OBJDATAWORK_19), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -623,7 +623,7 @@ EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -8, -8, 8, 8);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_HOVERBOMBER], GetObjectDataWork(OBJDATAWORK_20), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_HOVERBOMBER], GetObjectDataWork(OBJDATAWORK_20), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -655,7 +655,7 @@ EnemyHoverGunnerPirateShot *CreateHoverGunnerPirateShot(MapObject *mapObject, fx
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IS_FALLING;
 
     StageTask__SetHitbox(&work->gameWork.objWork, -4, -4, 4, 4);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_HOVERGUNNER], GetObjectDataWork(OBJDATAWORK_21), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[PIRATE_TYPE_HOVERGUNNER], GetObjectDataWork(OBJDATAWORK_21), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -722,7 +722,7 @@ GameObjectTask *EnemyPirate_InitBallChain(EnemyBallChainPirateBall *work)
                                    | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     GameObject__InitFromObject(chainWork, work->gameWork.mapObject, 0, 0);
-    ObjObjectAction2dBACLoad(&chainWork->objWork, &chainWork->animator, sSpriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&chainWork->objWork, &chainWork->animator, sSpriteList[PIRATE_TYPE_BALLCHAIN], GetObjectDataWork(OBJDATAWORK_17), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&chainWork->objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&chainWork->objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&chainWork->objWork, BALLCHAINPIRATE_ANI_MOVE, 77);

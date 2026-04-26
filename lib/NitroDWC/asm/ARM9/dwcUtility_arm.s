@@ -29873,7 +29873,7 @@ _0217242C:
 	ldr r1, [r1, #0]
 	add r1, r1, #0x1b000
 	ldr r1, [r1, #0x144]
-	bl MB_UnregisterFile
+	bl MB_RegisterFile
 	cmp r0, #0
 	movne r4, #1
 _02172498:

@@ -62,14 +62,14 @@ FloatingFountain *CreateFloatingFountain(MapObject *mapObject, fx32 x, fx32 y, f
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_float_fountain.bac", GetObjectDataWork(OBJDATAWORK_165), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_float_fountain.bac", GetObjectDataWork(OBJDATAWORK_165), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 93);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
     AnimatorSpriteDS *aniFountain = &work->aniFountain;
-    ObjAction2dBACLoad(&work->aniFountain, "/act/ac_gmk_float_fountain.bac", 8, GetObjectDataWork(OBJDATAWORK_165), gameArchiveStage);
+    ObjAction2dBACLoad(&work->aniFountain, "/act/ac_gmk_float_fountain.bac", 8, GetObjectDataWork(OBJDATAWORK_165), gGameArchiveStage);
     aniFountain->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniFountain->cParam[0].palette = aniFountain->cParam[1].palette = aniFountain->work.cParam.palette;
     aniFountain->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;

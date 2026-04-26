@@ -178,7 +178,7 @@ BossF__Create: // 0x02167D9C
 	bl StageTask__AllocateWorker
 	mov r8, r0
 	mov r1, #0
-	ldr r0, _0216820C // =bossAssetFiles
+	ldr r0, _0216820C // =gBossAssetFileList
 	ldr r2, _02168210 // =aBossfBodyNsbmd_0
 	stmia sp, {r0, r1}
 	mov r0, r7
@@ -189,7 +189,7 @@ BossF__Create: // 0x02167D9C
 	mov r2, #4
 	strb r2, [r0, #0xa]
 	ldr r2, [r7, #0x12c]
-	ldr r0, _02168214 // =gameArchiveStage
+	ldr r0, _02168214 // =gGameArchiveStage
 	strb r1, [r2, #0xb]
 	ldr r2, [r0, #0]
 	mov r0, r7
@@ -386,13 +386,13 @@ BossF__Create: // 0x02167D9C
 	orr r2, r2, #0x1000
 	str r2, [r4, #0x18]
 	str r1, [r4, #0x24]
-	ldr r2, _02168214 // =gameArchiveStage
+	ldr r2, _02168214 // =gGameArchiveStage
 	ldr r1, _0216826C // =aExc_3
 	ldr r2, [r2, #0]
 	add r0, sp, #0x14
 	bl NNS_FndMountArchive
 	ldr r5, _02168270 // =_02179824
-	ldr r11, _0216820C // =bossAssetFiles
+	ldr r11, _0216820C // =gBossAssetFileList
 	mov r9, #0
 	add r10, r8, #0x2c
 	mov r4, #5
@@ -434,9 +434,9 @@ _0216817C:
 _02168200: .word 0x000014FF
 _02168204: .word StageTask_Main
 _02168208: .word BossF__Func_216B020
-_0216820C: .word bossAssetFiles
+_0216820C: .word gBossAssetFileList
 _02168210: .word aBossfBodyNsbmd_0
-_02168214: .word gameArchiveStage
+_02168214: .word gGameArchiveStage
 _02168218: .word aBossfBodyNsbca_0
 _0216821C: .word 0x000034CC
 _02168220: .word BossF__In
@@ -496,14 +496,14 @@ BossFArm__Create: // 0x02168274
 	mov r1, #0
 	cmp r0, #0
 	bne _02168338
-	ldr r0, _02168638 // =bossAssetFiles+0x00000008
+	ldr r0, _02168638 // =gBossAssetFileList+0x00000008
 	ldr r2, _0216863C // =aBossfArmLNsbmd_0
 	str r0, [sp]
 	mov r0, r6
 	mov r3, r1
 	str r1, [sp, #4]
 	bl ObjAction3dNNModelLoad
-	ldr r0, _02168640 // =gameArchiveStage
+	ldr r0, _02168640 // =gGameArchiveStage
 	mov r1, #0
 	ldr r9, [r0, #0]
 	ldr r2, _02168644 // =aBossfArmLNsbca_0
@@ -514,14 +514,14 @@ BossFArm__Create: // 0x02168274
 	mov r0, #0x16
 	b _02168378
 _02168338:
-	ldr r0, _02168648 // =bossAssetFiles+0x00000010
+	ldr r0, _02168648 // =gBossAssetFileList+0x00000010
 	ldr r2, _0216864C // =aBossfArmRNsbmd_0
 	str r0, [sp]
 	mov r0, r6
 	mov r3, r1
 	str r1, [sp, #4]
 	bl ObjAction3dNNModelLoad
-	ldr r0, _02168640 // =gameArchiveStage
+	ldr r0, _02168640 // =gGameArchiveStage
 	mov r1, #0
 	ldr r9, [r0, #0]
 	ldr r2, _02168650 // =aBossfArmRNsbca_0
@@ -657,7 +657,7 @@ _02168480:
 	str r1, [r5, #0x18]
 	str r0, [r5, #0x20]
 	ldr r0, [r5, #0x18]
-	ldr r1, _02168640 // =gameArchiveStage
+	ldr r1, _02168640 // =gGameArchiveStage
 	bic r0, r0, #4
 	str r0, [r5, #0x18]
 	ldrsb r0, [r8, #6]
@@ -670,7 +670,7 @@ _02168480:
 	bl NNS_FndMountArchive
 	mov r9, #0
 	add r5, r7, #0xc
-	ldr r11, _02168684 // =bossAssetFiles
+	ldr r11, _02168684 // =gBossAssetFileList
 	b _021685F0
 _021685A4:
 	add r0, sp, #0xc
@@ -712,11 +712,11 @@ _021685F0:
 	.align 2, 0
 _02168630: .word StageTask_Main
 _02168634: .word GameObject__Destructor
-_02168638: .word bossAssetFiles+0x00000008
+_02168638: .word gBossAssetFileList+0x00000008
 _0216863C: .word aBossfArmLNsbmd_0
-_02168640: .word gameArchiveStage
+_02168640: .word gGameArchiveStage
 _02168644: .word aBossfArmLNsbca_0
-_02168648: .word bossAssetFiles+0x00000010
+_02168648: .word gBossAssetFileList+0x00000010
 _0216864C: .word aBossfArmRNsbmd_0
 _02168650: .word aBossfArmRNsbca_0
 _02168654: .word 0x000034CC
@@ -731,7 +731,7 @@ _02168674: .word 0x0000FFFF
 _02168678: .word 0x00000201
 _0216867C: .word BossFArm__OnHit_21706B4
 _02168680: .word aExc_3
-_02168684: .word bossAssetFiles
+_02168684: .word gBossAssetFileList
 _02168688: .word _02179844
 	arm_func_end BossFArm__Create
 
@@ -766,7 +766,7 @@ BossFBodyCannon__Create: // 0x0216868C
 	bl StageTask__AllocateWorker
 	mov r1, #0
 	str r0, [sp, #0xc]
-	ldr r2, _0216887C // =gameArchiveStage
+	ldr r2, _0216887C // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r2, #0]
 	ldr r2, _02168880 // =aBossfEtcNsbmd_0
@@ -783,7 +783,7 @@ BossFBodyCannon__Create: // 0x0216868C
 	ldrsb r0, [r6, #6]
 	cmp r0, #0
 	bne _02168758
-	ldr r1, _0216887C // =gameArchiveStage
+	ldr r1, _0216887C // =gGameArchiveStage
 	ldr r0, _02168880 // =aBossfEtcNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
@@ -812,11 +812,11 @@ _02168758:
 	ldrsb r0, [r6, #6]
 	cmp r0, #0
 	bne _02168858
-	ldr r1, _0216887C // =gameArchiveStage
+	ldr r1, _0216887C // =gGameArchiveStage
 	ldr r0, _02168880 // =aBossfEtcNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
-	ldr r1, _0216887C // =gameArchiveStage
+	ldr r1, _0216887C // =gGameArchiveStage
 	mov r9, r0
 	ldr r2, [r1, #0]
 	ldr r1, _02168888 // =aExc_3
@@ -865,7 +865,7 @@ _02168858:
 	.align 2, 0
 _02168874: .word StageTask_Main
 _02168878: .word BossF__Func_21710A4
-_0216887C: .word gameArchiveStage
+_0216887C: .word gGameArchiveStage
 _02168880: .word aBossfEtcNsbmd_0
 _02168884: .word BossFArm__In_Default
 _02168888: .word aExc_3
@@ -906,7 +906,7 @@ BossFShipCannon__Create: // 0x02168890
 	cmp r0, #0
 	beq _02168934
 	mov r1, #0
-	ldr r0, _02168C04 // =gameArchiveStage
+	ldr r0, _02168C04 // =gGameArchiveStage
 	str r1, [sp]
 	ldr ip, [r0]
 	ldr r2, _02168C08 // =aBossfEtcNsbmd_0
@@ -916,7 +916,7 @@ BossFShipCannon__Create: // 0x02168890
 	bl ObjAction3dNNModelLoad
 	b _02168970
 _02168934:
-	ldr r0, _02168C04 // =gameArchiveStage
+	ldr r0, _02168C04 // =gGameArchiveStage
 	ldr r1, _02168C08 // =aBossfEtcNsbmd_0
 	ldr r2, [r0, #0]
 	add r0, r6, #0x60
@@ -1102,7 +1102,7 @@ _02168BCC:
 	.align 2, 0
 _02168BFC: .word StageTask_Main
 _02168C00: .word BossF__Func_2172618
-_02168C04: .word gameArchiveStage
+_02168C04: .word gGameArchiveStage
 _02168C08: .word aBossfEtcNsbmd_0
 _02168C0C: .word 0x000034CC
 _02168C10: .word BossFShipCannon__In_Default
@@ -1147,7 +1147,7 @@ BossFMissileGreen__Create: // 0x02168C3C
 	bl MI_CpuFill8
 	mov r1, #0
 	str r1, [sp]
-	ldr r2, _02168DA4 // =gameArchiveStage
+	ldr r2, _02168DA4 // =gGameArchiveStage
 	mov r0, r5
 	ldr r3, [r2, #0]
 	ldr r2, _02168DA8 // =aBossfEtcNsbmd_0
@@ -1211,7 +1211,7 @@ BossFMissileGreen__Create: // 0x02168C3C
 	.align 2, 0
 _02168D9C: .word StageTask_Main
 _02168DA0: .word GameObject__Destructor
-_02168DA4: .word gameArchiveStage
+_02168DA4: .word gGameArchiveStage
 _02168DA8: .word aBossfEtcNsbmd_0
 _02168DAC: .word 0x000034CC
 _02168DB0: .word 0x00000102
@@ -1247,7 +1247,7 @@ BossFMissileRed__Create: // 0x02168DB8
 	bl MI_CpuFill8
 	mov r1, #0
 	str r1, [sp]
-	ldr r2, _02168F20 // =gameArchiveStage
+	ldr r2, _02168F20 // =gGameArchiveStage
 	mov r0, r5
 	ldr r3, [r2, #0]
 	ldr r2, _02168F24 // =aBossfEtcNsbmd_0
@@ -1311,7 +1311,7 @@ BossFMissileRed__Create: // 0x02168DB8
 	.align 2, 0
 _02168F18: .word StageTask_Main
 _02168F1C: .word GameObject__Destructor
-_02168F20: .word gameArchiveStage
+_02168F20: .word gGameArchiveStage
 _02168F24: .word aBossfEtcNsbmd_0
 _02168F28: .word 0x000034CC
 _02168F2C: .word 0x00000102
@@ -1339,34 +1339,34 @@ _02168F64: .word BossFStage__Singleton
 	arm_func_start BossFStage__InitBarrierAssets
 BossFStage__InitBarrierAssets: // 0x02168F68
 	stmdb sp!, {r3, lr}
-	ldr r1, _02168FD4 // =gameArchiveStage
+	ldr r1, _02168FD4 // =gGameArchiveStage
 	ldr r0, _02168FD8 // =aBsefHitBNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
-	ldr r1, _02168FD4 // =gameArchiveStage
+	ldr r1, _02168FD4 // =gGameArchiveStage
 	ldr r0, _02168FDC // =aBsef8ZJetNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
-	ldr r1, _02168FD4 // =gameArchiveStage
+	ldr r1, _02168FD4 // =gGameArchiveStage
 	ldr r0, _02168FE0 // =aBsef8Float1Nsb_3
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
-	ldr r1, _02168FD4 // =gameArchiveStage
+	ldr r1, _02168FD4 // =gGameArchiveStage
 	ldr r0, _02168FE4 // =aBsef8WaveNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
-	ldr r1, _02168FD4 // =gameArchiveStage
+	ldr r1, _02168FD4 // =gGameArchiveStage
 	ldr r0, _02168FE8 // =aBsef8BariaNsbm_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02168FD4: .word gameArchiveStage
+_02168FD4: .word gGameArchiveStage
 _02168FD8: .word aBsefHitBNsbmd_0
 _02168FDC: .word aBsef8ZJetNsbmd_0
 _02168FE0: .word aBsef8Float1Nsb_3
@@ -1377,27 +1377,27 @@ _02168FE8: .word aBsef8BariaNsbm_0
 	arm_func_start BossF__Func_2168FEC
 BossF__Func_2168FEC: // 0x02168FEC
 	stmdb sp!, {r3, lr}
-	ldr r1, _0216905C // =gameArchiveStage
+	ldr r1, _0216905C // =gGameArchiveStage
 	ldr r0, _02169060 // =aBsefHitBNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultRelease
-	ldr r1, _0216905C // =gameArchiveStage
+	ldr r1, _0216905C // =gGameArchiveStage
 	ldr r0, _02169064 // =aBsef8ZJetNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultRelease
-	ldr r1, _0216905C // =gameArchiveStage
+	ldr r1, _0216905C // =gGameArchiveStage
 	ldr r0, _02169068 // =aBsef8Float1Nsb_3
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultRelease
-	ldr r1, _0216905C // =gameArchiveStage
+	ldr r1, _0216905C // =gGameArchiveStage
 	ldr r0, _0216906C // =aBsef8WaveNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultRelease
-	ldr r1, _0216905C // =gameArchiveStage
+	ldr r1, _0216905C // =gGameArchiveStage
 	ldr r0, _02169070 // =aBsef8BariaNsbm_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
@@ -1405,7 +1405,7 @@ BossF__Func_2168FEC: // 0x02168FEC
 	bl BossF__Func_21690C8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216905C: .word gameArchiveStage
+_0216905C: .word gGameArchiveStage
 _02169060: .word aBsefHitBNsbmd_0
 _02169064: .word aBsef8ZJetNsbmd_0
 _02169068: .word aBsef8Float1Nsb_3
@@ -1416,24 +1416,24 @@ _02169070: .word aBsef8BariaNsbm_0
 	arm_func_start BossF__Func_2169074
 BossF__Func_2169074: // 0x02169074
 	stmdb sp!, {r3, lr}
-	ldr r1, _021690B8 // =gameArchiveStage
+	ldr r1, _021690B8 // =gGameArchiveStage
 	ldr r0, _021690BC // =aBsef8BFlash1Ns_1
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
-	ldr r1, _021690B8 // =gameArchiveStage
+	ldr r1, _021690B8 // =gGameArchiveStage
 	ldr r0, _021690C0 // =aBsef8BFlash2Ns_1
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
-	ldr r1, _021690B8 // =gameArchiveStage
+	ldr r1, _021690B8 // =gGameArchiveStage
 	ldr r0, _021690C4 // =aBsef8BeamNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021690B8: .word gameArchiveStage
+_021690B8: .word gGameArchiveStage
 _021690BC: .word aBsef8BFlash1Ns_1
 _021690C0: .word aBsef8BFlash2Ns_1
 _021690C4: .word aBsef8BeamNsbmd_0
@@ -1442,24 +1442,24 @@ _021690C4: .word aBsef8BeamNsbmd_0
 	arm_func_start BossF__Func_21690C8
 BossF__Func_21690C8: // 0x021690C8
 	stmdb sp!, {r3, lr}
-	ldr r1, _0216910C // =gameArchiveStage
+	ldr r1, _0216910C // =gGameArchiveStage
 	ldr r0, _02169110 // =aBsef8BFlash1Ns_1
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultRelease
-	ldr r1, _0216910C // =gameArchiveStage
+	ldr r1, _0216910C // =gGameArchiveStage
 	ldr r0, _02169114 // =aBsef8BFlash2Ns_1
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultRelease
-	ldr r1, _0216910C // =gameArchiveStage
+	ldr r1, _0216910C // =gGameArchiveStage
 	ldr r0, _02169118 // =aBsef8BeamNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultRelease
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216910C: .word gameArchiveStage
+_0216910C: .word gGameArchiveStage
 _02169110: .word aBsef8BFlash1Ns_1
 _02169114: .word aBsef8BFlash2Ns_1
 _02169118: .word aBsef8BeamNsbmd_0
@@ -3393,7 +3393,7 @@ BossFStage__CreateStageWorker: // 0x0216ABCC
 	bl SetTaskDestructorEvent
 	mov r1, #0
 	str r1, [sp]
-	ldr r2, _0216ACBC // =gameArchiveStage
+	ldr r2, _0216ACBC // =gGameArchiveStage
 	mov r0, r4
 	ldr r3, [r2, #0]
 	ldr r2, _0216ACC0 // =aBossfStageNsbm_0
@@ -3407,7 +3407,7 @@ BossFStage__CreateStageWorker: // 0x0216ABCC
 	ldr r1, [r4, #0x12c]
 	ldr r0, _0216ACC0 // =aBossfStageNsbm_0
 	strb r2, [r1, #0xb]
-	ldr r1, _0216ACBC // =gameArchiveStage
+	ldr r1, _0216ACBC // =gGameArchiveStage
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
 	bl NNS_G3dResDefaultSetup
@@ -3438,7 +3438,7 @@ BossFStage__CreateStageWorker: // 0x0216ABCC
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216ACB8: .word BossF__Func_216ACCC
-_0216ACBC: .word gameArchiveStage
+_0216ACBC: .word gGameArchiveStage
 _0216ACC0: .word aBossfStageNsbm_0
 _0216ACC4: .word 0x000034CC
 _0216ACC8: .word BossFStageWorker__State_216ACFC
@@ -3447,7 +3447,7 @@ _0216ACC8: .word BossFStageWorker__State_216ACFC
 	arm_func_start BossF__Func_216ACCC
 BossF__Func_216ACCC: // 0x0216ACCC
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216ACF4 // =gameArchiveStage
+	ldr r1, _0216ACF4 // =gGameArchiveStage
 	mov r4, r0
 	ldr r1, [r1, #0]
 	ldr r0, _0216ACF8 // =aBossfStageNsbm_0
@@ -3457,7 +3457,7 @@ BossF__Func_216ACCC: // 0x0216ACCC
 	bl StageTask_Destructor
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216ACF4: .word gameArchiveStage
+_0216ACF4: .word gGameArchiveStage
 _0216ACF8: .word aBossfStageNsbm_0
 	arm_func_end BossF__Func_216ACCC
 
@@ -3488,7 +3488,7 @@ BossFStage__CreateShipLight: // 0x0216AD0C
 	mov r1, #0
 	bl SetTaskPauseLevel
 	mov r1, #0
-	ldr r2, _0216AED0 // =gameArchiveStage
+	ldr r2, _0216AED0 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r2, #0]
 	ldr r2, _0216AED4 // =aBossfEtcNsbmd_0
@@ -3593,7 +3593,7 @@ _0216AE78:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216AED0: .word gameArchiveStage
+_0216AED0: .word gGameArchiveStage
 _0216AED4: .word aBossfEtcNsbmd_0
 _0216AED8: .word 0x0076A000
 _0216AEDC: .word 0x000034CC
@@ -7775,7 +7775,7 @@ BossF__Func_216E9A8: // 0x0216E9A8
 	mov r1, #0
 	str r3, [sp]
 	str r1, [sp, #4]
-	ldr r2, _0216EB48 // =gameArchiveStage
+	ldr r2, _0216EB48 // =gGameArchiveStage
 	mov r0, r4
 	ldr r6, [r2, #0]
 	ldr r2, _0216EB4C // =aBsefBombBac_1
@@ -7863,7 +7863,7 @@ BossF__Func_216E9A8: // 0x0216E9A8
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216EB44: .word 0x0000FFFF
-_0216EB48: .word gameArchiveStage
+_0216EB48: .word gGameArchiveStage
 _0216EB4C: .word aBsefBombBac_1
 _0216EB50: .word 0x00000102
 _0216EB54: .word 0x00000201
@@ -10514,7 +10514,7 @@ _021710C4:
 	mov r5, r0, lsr #0x10
 	cmp r5, #2
 	blo _021710C4
-	ldr r1, _02171100 // =gameArchiveStage
+	ldr r1, _02171100 // =gGameArchiveStage
 	ldr r0, _02171104 // =aBossfEtcNsbmd_0
 	ldr r1, [r1, #0]
 	bl ObjDataSearchArchive
@@ -10524,7 +10524,7 @@ _021710F4:
 	bl GameObject__Destructor
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02171100: .word gameArchiveStage
+_02171100: .word gGameArchiveStage
 _02171104: .word aBossfEtcNsbmd_0
 	arm_func_end BossF__Func_21710A4
 
@@ -11666,7 +11666,7 @@ BossF__Func_2172108: // _02172108
 	mov r1, #0
 	str r3, [sp]
 	str r1, [sp, #4]
-	ldr r2, _021722C4 // =gameArchiveStage
+	ldr r2, _021722C4 // =gGameArchiveStage
 	mov r0, r4
 	ldr ip, [r2]
 	ldr r2, _021722C8 // =aBsefBombBac_1
@@ -11757,7 +11757,7 @@ BossF__Func_2172108: // _02172108
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _021722C0: .word 0x0000FFFF
-_021722C4: .word gameArchiveStage
+_021722C4: .word gGameArchiveStage
 _021722C8: .word aBsefBombBac_1
 _021722CC: .word BossF__Func_21722D8
 _021722D0: .word 0x00000102
@@ -13677,7 +13677,7 @@ BossFShipCannon__CreateUnknown_2173D98: // _02173D98
 	cmp r0, #0
 	beq _02173E10
 	mov r1, #0
-	ldr r0, _02173ED8 // =gameArchiveStage
+	ldr r0, _02173ED8 // =gGameArchiveStage
 	str r1, [sp]
 	ldr ip, [r0]
 	ldr r2, _02173EDC // =aBossfEtcNsbmd_0
@@ -13687,7 +13687,7 @@ BossFShipCannon__CreateUnknown_2173D98: // _02173D98
 	bl ObjAction3dNNModelLoad
 	b _02173E58
 _02173E10:
-	ldr r0, _02173ED8 // =gameArchiveStage
+	ldr r0, _02173ED8 // =gGameArchiveStage
 	ldr r1, _02173EDC // =aBossfEtcNsbmd_0
 	ldr r2, [r0, #0]
 	add r0, r6, #8
@@ -13739,7 +13739,7 @@ _02173E58:
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02173ED8: .word gameArchiveStage
+_02173ED8: .word gGameArchiveStage
 _02173EDC: .word aBossfEtcNsbmd_0
 _02173EE0: .word BossF__Func_2173EE8
 _02173EE4: .word 0x000034CC
@@ -14002,7 +14002,7 @@ BossFStage__CreateBarrier: // _02174218
 	bl StageTask__AllocateWorker
 	mov r1, #0
 	str r1, [sp]
-	ldr r2, _021742D8 // =gameArchiveStage
+	ldr r2, _021742D8 // =gGameArchiveStage
 	mov r0, r4
 	ldr r3, [r2, #0]
 	ldr r2, _021742DC // =aBsef8BariaNsbm_0
@@ -14035,7 +14035,7 @@ BossFStage__CreateBarrier: // _02174218
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021742D8: .word gameArchiveStage
+_021742D8: .word gGameArchiveStage
 _021742DC: .word aBsef8BariaNsbm_0
 _021742E0: .word BossF__Func_21742E8
 _021742E4: .word 0x000034CC
@@ -15659,7 +15659,7 @@ BossF__Func_2175988: // _02175988
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _02175AA4 // =gameArchiveStage
+	ldr r0, _02175AA4 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r0, #0]
 	ldr r2, _02175AA8 // =aBsef8WaveNsbmd_0
@@ -15667,7 +15667,7 @@ BossF__Func_2175988: // _02175988
 	mov r0, r4
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _02175AA4 // =gameArchiveStage
+	ldr r1, _02175AA4 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -15722,7 +15722,7 @@ _02175A48:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02175AA4: .word gameArchiveStage
+_02175AA4: .word gGameArchiveStage
 _02175AA8: .word aBsef8WaveNsbmd_0
 _02175AAC: .word aBsef8WaveNsbca_0
 _02175AB0: .word BossF__Func_2175AB4
@@ -15911,7 +15911,7 @@ BossF__Func_2175D1C: // _02175D1C
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _02175E64 // =gameArchiveStage
+	ldr r0, _02175E64 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r2, [r0, #0]
 	mov r0, r4
@@ -15919,7 +15919,7 @@ BossF__Func_2175D1C: // _02175D1C
 	ldr r2, _02175E68 // =aBsef8WaveNsbmd_0
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _02175E64 // =gameArchiveStage
+	ldr r1, _02175E64 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -15984,7 +15984,7 @@ _02175E00:
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02175E64: .word gameArchiveStage
+_02175E64: .word gGameArchiveStage
 _02175E68: .word aBsef8WaveNsbmd_0
 _02175E6C: .word aBsef8WaveNsbca_0
 _02175E70: .word 0x00006998
@@ -16032,7 +16032,7 @@ BossF__Func_2175ED4: // _02175ED4
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _02175FE4 // =gameArchiveStage
+	ldr r0, _02175FE4 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r0, #0]
 	ldr r2, _02175FE8 // =aBsef8WaveNsbmd_0
@@ -16040,7 +16040,7 @@ BossF__Func_2175ED4: // _02175ED4
 	str r3, [sp, #4]
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _02175FE4 // =gameArchiveStage
+	ldr r1, _02175FE4 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -16091,7 +16091,7 @@ BossF__Func_2175ED4: // _02175ED4
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02175FE4: .word gameArchiveStage
+_02175FE4: .word gGameArchiveStage
 _02175FE8: .word aBsef8WaveNsbmd_0
 _02175FEC: .word aBsef8WaveNsbca_0
 _02175FF0: .word 0x000034CC
@@ -16535,7 +16535,7 @@ BossF__Func_2176638: // _02176638
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _021766F0 // =gameArchiveStage
+	ldr r0, _021766F0 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r0, #0]
 	ldr r2, _021766F4 // =aBsef8ZJetNsbmd_0
@@ -16572,7 +16572,7 @@ BossF__Func_2176638: // _02176638
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021766F0: .word gameArchiveStage
+_021766F0: .word gGameArchiveStage
 _021766F4: .word aBsef8ZJetNsbmd_0
 _021766F8: .word 0x000034CC
 _021766FC: .word BossF__Func_2176700
@@ -16663,7 +16663,7 @@ BossF__Func_2176800: // _02176800
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _02176940 // =gameArchiveStage
+	ldr r0, _02176940 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r0, #0]
 	ldr r2, _02176944 // =aBsef8Float1Nsb_3
@@ -16671,7 +16671,7 @@ BossF__Func_2176800: // _02176800
 	str r3, [sp, #4]
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _02176940 // =gameArchiveStage
+	ldr r1, _02176940 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -16679,7 +16679,7 @@ BossF__Func_2176800: // _02176800
 	ldr r2, _02176948 // =aBsef8Float1Nsb_4
 	mov r3, r1
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _02176940 // =gameArchiveStage
+	ldr r1, _02176940 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -16687,7 +16687,7 @@ BossF__Func_2176800: // _02176800
 	ldr r2, _0217694C // =aBsef8Float1Nsb_5
 	mov r3, r1
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _02176940 // =gameArchiveStage
+	ldr r1, _02176940 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -16734,7 +16734,7 @@ BossF__Func_2176800: // _02176800
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02176940: .word gameArchiveStage
+_02176940: .word gGameArchiveStage
 _02176944: .word aBsef8Float1Nsb_3
 _02176948: .word aBsef8Float1Nsb_4
 _0217694C: .word aBsef8Float1Nsb_5
@@ -16830,7 +16830,7 @@ BossF__Func_2176A3C: // _02176A3C
 	ldr r3, _02176B44 // =0x0000FFFF
 	mov r1, #0
 	str r3, [sp]
-	ldr r0, _02176B48 // =gameArchiveStage
+	ldr r0, _02176B48 // =gGameArchiveStage
 	str r1, [sp, #4]
 	ldr r0, [r0, #0]
 	ldr r2, _02176B4C // =aBsef8TargetBac_0
@@ -16886,7 +16886,7 @@ BossF__Func_2176A3C: // _02176A3C
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02176B44: .word 0x0000FFFF
-_02176B48: .word gameArchiveStage
+_02176B48: .word gGameArchiveStage
 _02176B4C: .word aBsef8TargetBac_0
 _02176B50: .word BossF__Func_2176B60
 _02176B54: .word _mt_math_rand
@@ -17131,7 +17131,7 @@ BossF__Func_2176E90: // _02176E90
 	ldr r3, _02176F7C // =0x0000FFFF
 	mov r1, #0
 	str r3, [sp]
-	ldr r0, _02176F80 // =gameArchiveStage
+	ldr r0, _02176F80 // =gGameArchiveStage
 	str r1, [sp, #4]
 	ldr r0, [r0, #0]
 	ldr r2, _02176F84 // =aBsef8TargetBac_0
@@ -17180,7 +17180,7 @@ BossF__Func_2176E90: // _02176E90
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02176F7C: .word 0x0000FFFF
-_02176F80: .word gameArchiveStage
+_02176F80: .word gGameArchiveStage
 _02176F84: .word aBsef8TargetBac_0
 _02176F88: .word BossF__Func_2176F8C
 	arm_func_end BossF__Func_2176E90
@@ -17298,7 +17298,7 @@ BossF__Func_21770F0: // _021770F0
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _02177248 // =gameArchiveStage
+	ldr r0, _02177248 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r0, #0]
 	ldr r2, _0217724C // =aBsef8InNsbmd_0
@@ -17306,7 +17306,7 @@ BossF__Func_21770F0: // _021770F0
 	str r3, [sp, #4]
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _02177248 // =gameArchiveStage
+	ldr r1, _02177248 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -17314,7 +17314,7 @@ BossF__Func_21770F0: // _021770F0
 	ldr r2, _02177250 // =aBsef8InNsbca_0
 	mov r3, r1
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _02177248 // =gameArchiveStage
+	ldr r1, _02177248 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -17375,7 +17375,7 @@ BossF__Func_21770F0: // _021770F0
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02177248: .word gameArchiveStage
+_02177248: .word gGameArchiveStage
 _0217724C: .word aBsef8InNsbmd_0
 _02177250: .word aBsef8InNsbca_0
 _02177254: .word aBsef8InNsbma_0
@@ -17417,7 +17417,7 @@ BossF__Func_21772A8: // _021772A8
 	mov r1, #5
 	mov r4, r0
 	bl StageTask__SetType
-	ldr r0, _0217738C // =gameArchiveStage
+	ldr r0, _0217738C // =gGameArchiveStage
 	mov r1, #0
 	ldr r0, [r0, #0]
 	ldr r3, _02177390 // =0x0000FFFF
@@ -17466,7 +17466,7 @@ BossF__Func_21772A8: // _021772A8
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0217738C: .word gameArchiveStage
+_0217738C: .word gGameArchiveStage
 _02177390: .word 0x0000FFFF
 _02177394: .word aAcFixKeyBac_0
 _02177398: .word BossF__Func_217739C
@@ -17526,7 +17526,7 @@ BossF__Func_21773FC: // _021773FC
 	mov r1, #0
 	str r3, [sp]
 	str r1, [sp, #4]
-	ldr r2, _021775C0 // =gameArchiveStage
+	ldr r2, _021775C0 // =gGameArchiveStage
 	mov r0, r5
 	ldr r8, [r2, #0]
 	ldr r2, _021775C4 // =aBsefBombBac_1
@@ -17618,7 +17618,7 @@ BossF__Func_21773FC: // _021773FC
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021775BC: .word 0x0000FFFF
-_021775C0: .word gameArchiveStage
+_021775C0: .word gGameArchiveStage
 _021775C4: .word aBsefBombBac_1
 _021775C8: .word BossF__Func_21722D8
 _021775CC: .word BossF__Func_21775D0
@@ -17738,7 +17738,7 @@ BossF__Func_2177740: // _02177740
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _0217782C // =gameArchiveStage
+	ldr r0, _0217782C // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r0, #0]
 	ldr r2, _02177830 // =aBsef8BFlash1Ns_1
@@ -17746,7 +17746,7 @@ BossF__Func_2177740: // _02177740
 	str r3, [sp, #4]
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _0217782C // =gameArchiveStage
+	ldr r1, _0217782C // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -17788,7 +17788,7 @@ BossF__Func_2177740: // _02177740
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0217782C: .word gameArchiveStage
+_0217782C: .word gGameArchiveStage
 _02177830: .word aBsef8BFlash1Ns_1
 _02177834: .word aBsef8BFlash1Ns_2
 _02177838: .word 0x000034CC
@@ -17826,7 +17826,7 @@ BossF__Func_2177868: // _02177868
 	bl StageTask__AllocateWorker
 	mov r1, #0
 	mov r5, r0
-	ldr r2, _02177A70 // =gameArchiveStage
+	ldr r2, _02177A70 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r2, #0]
 	ldr r2, _02177A74 // =aBsef8BeamNsbmd_0
@@ -17834,7 +17834,7 @@ BossF__Func_2177868: // _02177868
 	mov r0, r6
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _02177A70 // =gameArchiveStage
+	ldr r1, _02177A70 // =gGameArchiveStage
 	mov r0, r6
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -17842,7 +17842,7 @@ BossF__Func_2177868: // _02177868
 	ldr r2, _02177A78 // =aBsef8BeamNsbca_0
 	mov r3, r1
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _02177A70 // =gameArchiveStage
+	ldr r1, _02177A70 // =gGameArchiveStage
 	mov r0, r6
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -17850,7 +17850,7 @@ BossF__Func_2177868: // _02177868
 	ldr r2, _02177A7C // =aBsef8BeamNsbta_0
 	mov r3, r1
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _02177A70 // =gameArchiveStage
+	ldr r1, _02177A70 // =gGameArchiveStage
 	mov r0, r6
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -17942,7 +17942,7 @@ BossF__Func_2177868: // _02177868
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02177A70: .word gameArchiveStage
+_02177A70: .word gGameArchiveStage
 _02177A74: .word aBsef8BeamNsbmd_0
 _02177A78: .word aBsef8BeamNsbca_0
 _02177A7C: .word aBsef8BeamNsbta_0
@@ -18037,7 +18037,7 @@ BossF__Func_2177B94: // _02177B94
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _02177CB0 // =gameArchiveStage
+	ldr r0, _02177CB0 // =gGameArchiveStage
 	str r1, [sp]
 	ldr r2, [r0, #0]
 	mov r0, r4
@@ -18045,7 +18045,7 @@ BossF__Func_2177B94: // _02177B94
 	ldr r2, _02177CB4 // =aBsef8BFlash2Ns_1
 	mov r3, r1
 	bl ObjAction3dNNModelLoad
-	ldr r1, _02177CB0 // =gameArchiveStage
+	ldr r1, _02177CB0 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	mov r1, #0
@@ -18098,7 +18098,7 @@ BossF__Func_2177B94: // _02177B94
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02177CB0: .word gameArchiveStage
+_02177CB0: .word gGameArchiveStage
 _02177CB4: .word aBsef8BFlash2Ns_1
 _02177CB8: .word aBsef8BFlash2Ns_2
 _02177CBC: .word 0x000034CC
@@ -18196,7 +18196,7 @@ BossF__Func_2177DD8: // _02177DD8
 	ldr r3, _02177EDC // =0x0000FFFF
 	mov r1, #0
 	str r3, [sp]
-	ldr r2, _02177EE0 // =gameArchiveStage
+	ldr r2, _02177EE0 // =gGameArchiveStage
 	str r1, [sp, #4]
 	ldr ip, [r2]
 	ldr r2, _02177EE4 // =aBsef8WhiteBac_0
@@ -18250,7 +18250,7 @@ BossF__Func_2177DD8: // _02177DD8
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _02177EDC: .word 0x0000FFFF
-_02177EE0: .word gameArchiveStage
+_02177EE0: .word gGameArchiveStage
 _02177EE4: .word aBsef8WhiteBac_0
 _02177EE8: .word BossF__Func_2177EEC
 	arm_func_end BossF__Func_2177DD8
@@ -18286,7 +18286,7 @@ BossF__Func_2177F28: // _02177F28
 	mov r4, r0
 	bl StageTask__SetType
 	mov r1, #0
-	ldr r0, _0217800C // =gameArchiveStage
+	ldr r0, _0217800C // =gGameArchiveStage
 	str r1, [sp]
 	ldr r3, [r0, #0]
 	ldr r2, _02178010 // =aBsef8BDmgNsbmd_0
@@ -18334,7 +18334,7 @@ BossF__Func_2177F28: // _02177F28
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0217800C: .word gameArchiveStage
+_0217800C: .word gGameArchiveStage
 _02178010: .word aBsef8BDmgNsbmd_0
 _02178014: .word 0x000034CC
 _02178018: .word BossF__Func_217801C

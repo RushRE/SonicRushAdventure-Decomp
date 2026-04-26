@@ -80,13 +80,13 @@ StartPlatform *CreateStartPlatform(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     NNS_G3dResDefaultSetup(work->assets.mdlStartJump);
 
     OBS_ACTION3D_NN_WORK *aniPlatform = &work->aniPlatform;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniPlatform, "/gmk_start_jump.nsbmd", 0, NULL, gameArchiveCommon);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniPlatform, "/gmk_start_jump.nsbmd", 0, NULL, gGameArchiveCommon);
     VEC_Set(&work->aniPlatform.ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, aniPlatform, "/gmk_start_jump.nsbca", NULL, gameArchiveCommon);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, aniPlatform, "/gmk_start_jump.nsbca", NULL, gGameArchiveCommon);
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "com", gameArchiveCommon);
+    NNS_FndMountArchive(&arc, "com", gGameArchiveCommon);
     NNSG3dResFileHeader *resource = NNS_FndGetArchiveFileByName("com:/effe_startdash.nsbmd");
     NNS_G3dResDefaultSetup(resource);
     NNS_FndUnmountArchive(&arc);
@@ -133,7 +133,7 @@ void LoadStartPlatformAssets(struct StartPlatformAssets *assets)
 {
     NNSFndArchive arc;
 
-    NNS_FndMountArchive(&arc, "com", gameArchiveCommon);
+    NNS_FndMountArchive(&arc, "com", gGameArchiveCommon);
     assets->mdlStartJump       = NNS_FndGetArchiveFileByName("com:/gmk_start_jump.nsbmd");
     assets->aniStartJump       = NNS_FndGetArchiveFileByName("com:/gmk_start_jump.nsbca");
     assets->startJumpCollision = NNS_FndGetArchiveFileByName("com:/gmk_stdm_jump.df");
@@ -149,7 +149,7 @@ void StartPlatform_Destructor(Task *task)
     OBS_ACTION3D_NN_WORK *aniWork = &work->aniPlatform;
     Animator3D__Release(&aniWork->ani.work);
 
-    NNS_FndMountArchive(&arc, "com", gameArchiveCommon);
+    NNS_FndMountArchive(&arc, "com", gGameArchiveCommon);
     NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByName("com:/gmk_start_jump.nsbmd"));
     NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByName("com:/effe_startdash.nsbmd"));
     NNS_FndUnmountArchive(&arc);

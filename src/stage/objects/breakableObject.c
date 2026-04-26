@@ -26,7 +26,7 @@ BreakableObject *BreakableObject__Create(MapObject *mapObject, fx32 x, fx32 y, f
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_break_obj.bac", GetObjectDataWork(OBJDATAWORK_54), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_break_obj.bac", GetObjectDataWork(OBJDATAWORK_54), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, OBJ_DATA_GFX_AUTO, GetObjectSpriteRef(OBJDATAWORK_55));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 6);

@@ -108,8 +108,8 @@ EnemyGhost *CreateGhost(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjRect__SetOnDefend(&work->colliderDetect, EnemyGhost_OnDefend_Detect);
     work->colliderDetect.parent = &work->gameWork.objWork;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->aniMachine, "/act/ac_ene_b_ghost.bac", GetObjectDataWork(OBJDATAWORK_11), gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_b_ghost.bac", GetObjectDataWork(OBJDATAWORK_11), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->aniMachine, "/act/ac_ene_b_ghost.bac", GetObjectDataWork(OBJDATAWORK_11), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_b_ghost.bac", GetObjectDataWork(OBJDATAWORK_11), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetOAMOrder(&work->aniMachine.ani.work, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -150,7 +150,7 @@ EnemyGhostBomb *CreateGhostBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetGravity(&work->gameWork.objWork, 0xA8, FLOAT_TO_FX32(15.0));
     StageTask__SetHitbox(&work->gameWork.objWork, -4, -3, 3, 4);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_b_ghost.bac", GetObjectDataWork(OBJDATAWORK_11), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_b_ghost.bac", GetObjectDataWork(OBJDATAWORK_11), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, GHOST_ANI_MOVING, 49);

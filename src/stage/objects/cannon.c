@@ -143,7 +143,7 @@ CannonRing *CreateCannonRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_DISABLE_LOOPING;
     work->type = mapObject->flags & CANNONRING_OBJFLAG_TYPE_MASK;
 
-    void *sprCannonRing = ObjDataLoad(GetObjectFileWork(OBJDATAWORK_166), "/act/ac_gmk_dash_ct_f3d.bac", gameArchiveStage);
+    void *sprCannonRing = ObjDataLoad(GetObjectFileWork(OBJDATAWORK_166), "/act/ac_gmk_dash_ct_f3d.bac", gGameArchiveStage);
 
     AnimatorSprite3D *aniRing  = &work->aniRing;
     VRAMPixelKey vramTexture   = VRAMSystem__AllocTexture(2048, FALSE);

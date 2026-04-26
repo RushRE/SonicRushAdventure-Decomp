@@ -50,14 +50,14 @@ SpringRope *CreateSpringRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     // Init 2D graphics, these are fallback graphics in the event this gets rendered on the screen without 3D support
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_c.bac", GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_c.bac", GetObjectDataWork(OBJDATAWORK_159), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 105);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
     // Init 3D graphics, these are the main graphics the devs want you to see
     OBS_ACTION3D_NN_WORK *aniRope3D = &work->aniRope3D;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniRope3D, "/mod/gmk_rope_c.nsbmd", 1, GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniRope3D, "/mod/gmk_rope_c.nsbmd", 1, GetObjectDataWork(OBJDATAWORK_160), gGameArchiveStage);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_ROTATION;
     aniRope3D->ani.work.scale.x = FLOAT_TO_FX32(3.3);
     aniRope3D->ani.work.scale.y = FLOAT_TO_FX32(3.3);
@@ -181,7 +181,7 @@ SpringRopeSpring *CreateSpringRopeSpring(MapObject *mapObject, fx32 x, fx32 y, f
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_c_spring.bac", GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage, 8);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_c_spring.bac", GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage, 8);
     work->gameWork.objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -243,7 +243,7 @@ SpringRopeBase *CreateSpringRopeBase(MapObject *mapObject, fx32 x, fx32 y, fx32 
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_c_land.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage, 16);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_c_land.bac", GetObjectDataWork(OBJDATAWORK_162), gGameArchiveStage, 16);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 106);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);

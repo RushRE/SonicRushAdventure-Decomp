@@ -189,8 +189,8 @@ typedef struct VSRoomManager_
     DWCAccFriendData opponentFriendData;
     VSRoomManager__Unknown unknownList[VSROOMMANAGER_UNKNOWNLIST_COUNT];
     MBGameRegistry gameRegistry;
-    char16 gameName[48];
-    char16 gameIntroduction[96];
+    char16 gameName[MB_GAME_NAME_LENGTH];
+    char16 gameIntroduction[MB_GAME_INTRO_LENGTH];
     s32 score;
     u32 roomSearchTimer;
     u32 transferStatus;

@@ -67,7 +67,7 @@ SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_sprg_crystal.bac", GetObjectDataWork(OBJDATAWORK_172), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_sprg_crystal.bac", GetObjectDataWork(OBJDATAWORK_172), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, SPRINGCRYSTAL_ANI_IDLE_V, 48);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -88,7 +88,7 @@ SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -50, -64, 0, -24);
             ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, 0, -64, 50, -24);
 
-            ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_sprg_crystal_v.df", GetObjectDataWork(OBJDATAWORK_200), gameArchiveStage);
+            ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_sprg_crystal_v.df", GetObjectDataWork(OBJDATAWORK_200), gGameArchiveStage);
             work->gameWork.collisionObject.work.width  = 96;
             work->gameWork.collisionObject.work.height = 64;
             work->gameWork.collisionObject.work.ofst_x = -48;
@@ -106,7 +106,7 @@ SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].rect, -64, -50, -24, 0);
             ObjRect__SetBox2D(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_ATK].rect, -64, 0, -24, 50);
 
-            ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_sprg_crystal_h.df", GetObjectDataWork(OBJDATAWORK_201), gameArchiveStage);
+            ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_sprg_crystal_h.df", GetObjectDataWork(OBJDATAWORK_201), gGameArchiveStage);
             work->gameWork.collisionObject.work.width  = 64;
             work->gameWork.collisionObject.work.height = 96;
             work->gameWork.collisionObject.work.ofst_x = -64;

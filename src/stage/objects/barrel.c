@@ -84,14 +84,14 @@ Barrel *CreateBarrel(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_barrel.bac", GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_barrel.bac", GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 84);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_1);
     StageTask__SetAnimation(&work->gameWork.objWork, BARREL_ANI_BARREL_SLEEP_HAUNTED);
 
     AnimatorSpriteDS *aniChain = &work->aniChain;
-    ObjAction2dBACLoad(aniChain, "/act/ac_gmk_barrel.bac", 1, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
+    ObjAction2dBACLoad(aniChain, "/act/ac_gmk_barrel.bac", 1, GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage);
     aniChain->work.cParam.palette = work->gameWork.animator.ani.work.cParam.palette;
     aniChain->cParam[0].palette = aniChain->cParam[1].palette = aniChain->work.cParam.palette;
 
@@ -100,7 +100,7 @@ Barrel *CreateBarrel(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetOAMPriority(&aniChain->work, SPRITE_PRIORITY_1);
 
     AnimatorSpriteDS *aniEyes = &work->aniEyes;
-    ObjAction2dBACLoad(aniEyes, "/act/ac_gmk_barrel.bac", 2, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
+    ObjAction2dBACLoad(aniEyes, "/act/ac_gmk_barrel.bac", 2, GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage);
     aniEyes->work.cParam.palette = work->gameWork.animator.ani.work.cParam.palette;
     aniEyes->cParam[0].palette = aniEyes->cParam[1].palette = aniEyes->work.cParam.palette;
 

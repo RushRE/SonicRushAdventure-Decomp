@@ -123,7 +123,7 @@ AvalancheTree *CreateAvalancheTree(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_dec_ice_tree.bac", GetObjectDataWork(OBJDATAWORK_202), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_dec_ice_tree.bac", GetObjectDataWork(OBJDATAWORK_202), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 54, GetObjectSpriteRef(OBJDATAWORK_203));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, AVALANCHETREE_ANI_TREE_0, 64);

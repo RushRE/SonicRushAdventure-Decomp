@@ -39,7 +39,7 @@ void StarCombo__SpawnConfetti(void)
     {
         AnimatorSpriteDS animator;
 
-        sSprTrickEffects = ObjDataLoad(NULL, "/ac_eff_trick.bac", gameArchiveCommon);
+        sSprTrickEffects = ObjDataLoad(NULL, "/ac_eff_trick.bac", gGameArchiveCommon);
 
         AnimatorSpriteDS__Init(&animator, sSprTrickEffects, 0, ANIMATORSPRITEDS_FLAG_NONE, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE, 0,
                                PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, NULL, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);

@@ -113,7 +113,7 @@ WaterGun *CreateWaterGun(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_water_graind.bac", GetObjectFileWork(OBJDATAWORK_172), gameArchiveStage, 0x31);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_water_graind.bac", GetObjectFileWork(OBJDATAWORK_172), gGameArchiveStage, 0x31);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 95);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_22);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -133,7 +133,7 @@ WaterGun *CreateWaterGun(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_ALLOW_MULTI_ATK_PER_FRAME;
 
     collisionData = (void *)GetObjectFileWork(OBJDATAWORK_193);
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", collisionData, gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", collisionData, gGameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.width  = 112;
     work->gameWork.collisionObject.work.height = 64;
@@ -310,7 +310,7 @@ void WaterGun_State_CreateWaterTrail(WaterGun *work)
             if (work->gameWork.objWork.collisionObj->diff_data_work != GetObjectFileWork(OBJDATAWORK_193))
             {
                 ObjDataRelease(work->gameWork.objWork.collisionObj->diff_data_work);
-                ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage);
+                ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", GetObjectFileWork(OBJDATAWORK_193), gGameArchiveStage);
             }
         }
         else
@@ -318,7 +318,7 @@ void WaterGun_State_CreateWaterTrail(WaterGun *work)
             if (work->gameWork.objWork.collisionObj->diff_data_work != GetObjectFileWork(OBJDATAWORK_194))
             {
                 ObjDataRelease(work->gameWork.objWork.collisionObj->diff_data_work);
-                ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun01.df", GetObjectFileWork(OBJDATAWORK_194), gameArchiveStage);
+                ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun01.df", GetObjectFileWork(OBJDATAWORK_194), gGameArchiveStage);
             }
         }
 
@@ -364,7 +364,7 @@ void WaterGun_Action_ResetGun(WaterGun *work)
         StageTask__SetAnimation(&work->gameWork.objWork, WATERGUN_ANI_GUN_HORIZONTAL);
 
         ObjDataRelease(work->gameWork.objWork.collisionObj->diff_data_work);
-        ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage);
+        ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_water_graind_gun00.df", GetObjectFileWork(OBJDATAWORK_193), gGameArchiveStage);
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ANGLE);
         ProcessSpatialSfx(&gDefaultSfxPlayer, &work->gameWork.objWork.position);
@@ -743,7 +743,7 @@ AnimatorSpriteDS *CreateWaterGrindRailManager(s32 id)
     i        = 0;
     do
     {
-        ObjAction2dBACLoad(animator, "/act/ac_gmk_water_graind.bac", OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_172), gameArchiveStage);
+        ObjAction2dBACLoad(animator, "/act/ac_gmk_water_graind.bac", OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_172), gGameArchiveStage);
 
         animator->vramPixels[GRAPHICS_ENGINE_A] = ObjActionAllocSprite(GetObjectFileWork(fileWorkID + i * 2), GRAPHICS_ENGINE_A, grindRailSpriteSize[i]);
         animator->vramPixels[GRAPHICS_ENGINE_B] = ObjActionAllocSprite(GetObjectFileWork(fileWorkID2 + i * 2), GRAPHICS_ENGINE_B, grindRailSpriteSize[i]);

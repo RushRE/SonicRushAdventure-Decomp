@@ -137,9 +137,11 @@ Static arm9
     Object asm/game/unknown/unknown2066510.o
     Object src/network/wirelessManager.o
     Object src/network/wirelessManager_1.o
-    Object asm/network/wh.o
-    Object asm/network/wfs.o
-    Object asm/network/mbp.o
+    Object src/network/wh.o
+    Object asm/network/wh_vars.o
+    Object src/network/wfs.o
+    Object src/network/wfs_thread.o
+    Object src/network/mbp.o
     
     ## GAME ENGINE ##
     Object src/game/input/touchField.o

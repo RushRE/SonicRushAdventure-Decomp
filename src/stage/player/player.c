@@ -357,7 +357,7 @@ Player *Player__Create(u32 characterID, u16 aidIndex)
     // Load snowboard animations
     if (IsSnowboardStage())
     {
-        ObjDataLoad(&sPlayerSnowboardAnimationFile, "/mod/plybd.nsbca", gameArchiveStage);
+        ObjDataLoad(&sPlayerSnowboardAnimationFile, "/mod/plybd.nsbca", gGameArchiveStage);
         work->snowboardAnims = (NNSG3dResFileHeader *)sPlayerSnowboardAnimationFile.fileData;
     }
 

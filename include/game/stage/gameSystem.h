@@ -143,7 +143,7 @@ extern Player *gPlayerList[PLAYER_COUNT];
 extern OBS_DIFF_COLLISION stageCollision;
 extern PlayerGameStatus playerGameStatus;
 
-extern OBS_DATA_WORK bossAssetFiles[16];
+extern OBS_DATA_WORK gBossAssetFileList[16];
 
 // --------------------
 // FUNCTIONS

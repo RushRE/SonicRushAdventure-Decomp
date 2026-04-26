@@ -9,6 +9,26 @@ extern "C"
 #endif
 
 // --------------------
+// TYPES
+// --------------------
+
+typedef void (*WFSStateCallback)(void *);
+
+typedef void *(*WFSAllocator)(void *arg, size_t size, void *ptr);
+
+// --------------------
+// CONSTANTS
+// --------------------
+
+#define WFS_FILE_HANDLE_MAX (WM_NUM_MAX_CHILD * 2)
+
+#define WFS_FILE_CACHE_SIZE (CARD_ROM_PAGE_SIZE * 2)
+
+#define WFS_FILE_CACHE_LINE 2
+
+#define WFS_BITMAP_TO_PARENT 1
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -21,50 +41,133 @@ enum WFSState_
 };
 typedef u32 WFSState;
 
+enum WFSiFileStatus_
+{
+    WFS_FILE_STAT_FREE,
+    WFS_FILE_STAT_OPENING,
+    WFS_FILE_STAT_ALIVE,
+    WFS_FILE_STAT_CLOSING
+};
+typedef u32 WFSiFileStatus;
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct WFSiMessage_
+{
+    u32 type : 4;
+    u32 pck_h : 4;
+    u32 flag : 24;
+    u32 arg;
+    u8 pck_l;
+    u8 reserved[3];
+} WFSiMessage;
+
+typedef struct WFSiFileList_
+{
+    struct WFSiFileList_ *next;
+    WBTBlockInfoList info;
+    FSFile file;
+
+    WFSiFileStatus stat;
+    int ref;
+    int req_bitmap;
+
+    u32 own_id;
+    u32 rom_src;
+    u32 rom_len;
+
+    u32 ack_seq;
+    int busy_page;
+    int last_page;
+    int page[WFS_FILE_CACHE_LINE];
+    u8 cache[WFS_FILE_CACHE_LINE][WFS_FILE_CACHE_SIZE] ATTRIBUTE_ALIGN(32);
+} WFSiFileList;
+
+typedef struct WFSChildContext_
+{
+    WBTBlockInfoTable block_info_table;
+    WBTRecvBufTable recv_buf_table;
+    WBTPacketBitmapTable recv_buf_packet_bmp_table;
+    WBTBlockInfo block_info[WBT_NUM_OF_AID];
+    WMStatus status[1] ATTRIBUTE_ALIGN(32);
+    u32 *recv_pkt_bmp_buf;
+    u32 base_offset;
+    u32 max_file_size;
+    u32 block_id;
+} WFSChildContext;
+
+typedef struct WFSParentContext_
+{
+    WFSiMessage recv_msg[WBT_NUM_OF_AID];
+
+    WFSiFileList list[WFS_FILE_HANDLE_MAX];
+    WFSiFileList *free_list;
+    WFSiFileList *alive_list;
+    WFSiFileList *busy_list;
+
+    int ack_bitmap;
+    int sync_bitmap;
+    BOOL msg_busy;
+
+    int all_bitmap;
+    int busy_bitmap;
+
+    BOOL is_changing;
+    int busy_count;
+    int deny_bitmap;
+    int new_packet_size;
+
+    u32 sentFileCount[0x10];
+
+} WFSParentContext;
+
+typedef struct WFSWork_
+{
+    BOOL is_parent;
+    BOOL send_idle;
+    BOOL is_running;
+
+    WFSState state;
+    WFSStateCallback state_func;
+    WFSAllocator alloc_func;
+    void *alloc_arg;
+
+    FSFile *target_file;
+
+    u8 *table;
+    u32 table_size;
+
+    int parent_packet_size;
+    int child_packet_size;
+
+    u16 port;
+
+    u8 padding1[14];
+
+    u8 send_buf[1024] ATTRIBUTE_ALIGN(32);
+
+    union
+    {
+        WFSParentContext parent[1] ATTRIBUTE_ALIGN(32);
+        WFSChildContext child[1] ATTRIBUTE_ALIGN(32);
+    } context;
+} WFSWork;
+
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void WFSi_ReadRomCallback(void);
-NOT_DECOMPILED void WFSi_WriteRomCallback(void);
-NOT_DECOMPILED void WFSi_RomArchiveProc(void);
-NOT_DECOMPILED void WFSi_LoadTables(void);
-NOT_DECOMPILED void WFSi_ReplaceRomArchive(void);
-NOT_DECOMPILED void WFSi_OnSendMessageDone(void);
-NOT_DECOMPILED void WFSi_SendMessage(void);
-NOT_DECOMPILED void WFSi_SendAck(void);
-NOT_DECOMPILED void WFSi_SendOpenAck(void);
-NOT_DECOMPILED void WFSi_FindAlive(void);
-NOT_DECOMPILED void WFSi_FindBusy(void);
-NOT_DECOMPILED void WFSi_FindAliveForID(void);
-NOT_DECOMPILED void WFSi_MoveList(void);
-NOT_DECOMPILED void WFSi_FromFreeToBusy(void);
-NOT_DECOMPILED void WFSi_FromBusyToAlive(void);
-NOT_DECOMPILED void WFSi_FromAliveToBusy(void);
-NOT_DECOMPILED void WFSi_FromBusyToFree(void);
-NOT_DECOMPILED void WFSi_ReadRequest(void);
-NOT_DECOMPILED void sub_206ca5c(void);
-NOT_DECOMPILED void WFSi_SetMPData(void);
-NOT_DECOMPILED void WFSi_OnSetMPDataDone(void);
-NOT_DECOMPILED void WFSi_PortCallback(void);
-NOT_DECOMPILED void WFSi_OnParentSystemCallback(void);
-NOT_DECOMPILED void WFSi_ReallocBitmap(void);
-NOT_DECOMPILED void WFSi_OnChildSystemCallback(void);
-NOT_DECOMPILED void WFSi_InitCommon(void);
-NOT_DECOMPILED void WFS_InitParent(void);
-NOT_DECOMPILED void WFS_InitChild(void);
-NOT_DECOMPILED void WFS_Start(void);
-NOT_DECOMPILED void WFS_End(void);
-NOT_DECOMPILED s32 WFS_GetStatus(void);
-NOT_DECOMPILED u32 WFS_GetBusyBitmap(void);
-NOT_DECOMPILED u32 WFS_Func_206D9B4(void);
-NOT_DECOMPILED void WFS_EnableSync(u16 sync_bitmap);
-NOT_DECOMPILED void WFS_SetDebugMode(void);
-NOT_DECOMPILED void WFSi_NotifyBusy(void);
-NOT_DECOMPILED void WFSi_TaskThread(void);
-NOT_DECOMPILED void sub_206DB9C(void);
-NOT_DECOMPILED void WFSi_CreateTaskThread(void);
-NOT_DECOMPILED void WFSi_EndTaskThread(void);
+void WFS_InitParent(int port, WFSStateCallback callback, WFSAllocator allocator, void *allocatorArg, int parentPacket, FSFile *rom, BOOL useParentFS);
+void WFS_InitChild(int port, WFSStateCallback callback, WFSAllocator allocator, void *allocatorArg);
+void WFS_Start(void);
+void WFS_End(void);
+s32 WFS_GetStatus(void);
+u32 WFS_GetCurrentBitmap(void);
+u32 WFS_GetSentFileCount(void);
+void WFS_EnableSync(u16 syncBitmap);
+void WFS_SetDebugMode(BOOL enabled);
 
 #ifdef __cplusplus
 }

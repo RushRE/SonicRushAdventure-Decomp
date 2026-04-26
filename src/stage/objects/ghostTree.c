@@ -48,10 +48,10 @@ GhostTree *CreateGhostTree(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_PAUSED | DISPLAY_FLAG_FLIP_X;
 
     OBS_ACTION3D_NN_WORK *aniArm = &work->aniArm;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniArm, "/mod/gmk_gst_tree.nsbmd", 0, GetObjectDataWork(OBJDATAWORK_180), gameArchiveStage);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniArm, "/mod/gmk_gst_tree.nsbca", GetObjectDataWork(OBJDATAWORK_181), gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniArm, "/mod/gmk_gst_tree.nsbmd", 0, GetObjectDataWork(OBJDATAWORK_180), gGameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniArm, "/mod/gmk_gst_tree.nsbca", GetObjectDataWork(OBJDATAWORK_181), gGameArchiveStage);
     AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_JOINT_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], 0, NULL);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniArm, "/mod/gmk_gst_tree.nsbva", GetObjectDataWork(OBJDATAWORK_182), gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniArm, "/mod/gmk_gst_tree.nsbva", GetObjectDataWork(OBJDATAWORK_182), gGameArchiveStage);
     AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_VIS_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_VIS_ANIM], 0, NULL);
     aniArm->ani.work.scale.x = FLOAT_TO_FX32(3.3);
     aniArm->ani.work.scale.y = FLOAT_TO_FX32(3.3);

@@ -73,7 +73,7 @@ _0216765C:
 	str r1, [r4, #0x1c]
 	bl GetObjectFileWork
 	str r0, [sp]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
@@ -93,7 +93,7 @@ _0216765C:
 	bhi _021677E0
 	mov r0, #0xbc
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
 	ldr r2, =aActAcGmkLPisto

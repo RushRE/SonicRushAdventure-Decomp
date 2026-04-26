@@ -72,7 +72,7 @@ typedef struct WirelessManager_Unknown2068724_
 // FUNCTIONS
 // --------------------
 
-void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMode wfsAllocMode);
+void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMode mbpAllocMode);
 void WirelessManager__Create(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize);
 void WirelessManager__Create1(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3, void *param, u16 paramSize);
 void WirelessManager__Create2(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize);
@@ -98,13 +98,13 @@ void WirelessManager__Func_2067F40(WirelessManager_Unknown2067A88 *a1);
 void WirelessManager__Create6(MBGameRegistry *gameRegistry, s32 a2);
 void WirelessManager__Func_2068060(void);
 void WirelessManager__Func_2068160(WirelessManager_Unknown2068160 *a1);
-MBPChildInfo *WirelessManager__Func_20681A0(s32 id);
+MBPChildInfo *WirelessManager__GetChildInfo(s32 id);
 void WirelessManager__Func_20681D0(void);
-u32 WirelessManager__Func_20681F8(void);
-u32 WirelessManager__Func_2068214(void);
-u32 WirelessManager__Func_2068234(void);
+u32 WirelessManager__GetChildBitmap(void);
+u32 WirelessManager__GetChildCount(void);
+u32 WirelessManager__GetField4(void);
 s32 WirelessManager__GetStatus(void);
-u16 WirelessManager__Func_2068284(u16 bitmap);
+u16 WirelessManager__GetBitmapUserCount(u16 bitmap);
 WMLinkLevel WirelessManager__GetLinkLevel(void);
 
 #ifdef __cplusplus

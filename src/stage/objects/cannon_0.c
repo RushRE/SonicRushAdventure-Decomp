@@ -47,7 +47,7 @@ Cannon *CreateCannon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    void *mdlCannon = ObjDataLoad(GetObjectFileWork(OBJDATAWORK_165), "/mod/gmk_cannon.nsbmd", gameArchiveStage);
+    void *mdlCannon = ObjDataLoad(GetObjectFileWork(OBJDATAWORK_165), "/mod/gmk_cannon.nsbmd", gGameArchiveStage);
 
     animator = &work->aniCannon[0];
 
@@ -100,7 +100,7 @@ CannonFloor *CreateCannonFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     OBS_ACTION3D_NN_WORK *aniCannon = &work->aniCannon;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniCannon, "/mod/gmk_cannon.nsbmd", CANNON_MDL_FLOOR, GetObjectFileWork(OBJDATAWORK_165), gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniCannon, "/mod/gmk_cannon.nsbmd", CANNON_MDL_FLOOR, GetObjectFileWork(OBJDATAWORK_165), gGameArchiveStage);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
     aniCannon->ani.work.scale.x = FLOAT_TO_FX32(2.3523);
     aniCannon->ani.work.scale.y = FLOAT_TO_FX32(2.3523);

@@ -97,7 +97,7 @@ NONMATCH_FUNC Truck *Truck__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 	mov r0, #0xb4
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r1, #0x18
 	ldr r2, [r0, #0]
 	mov r0, r11
@@ -122,7 +122,7 @@ NONMATCH_FUNC Truck *Truck__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 	mov r0, #0xb7
 	bl GetObjectFileWork
 	mov r4, r0
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	str r4, [sp]
 	ldr r2, [r1, #0]
 	mov r0, r11
@@ -161,7 +161,7 @@ _0216EC48:
 _0216EC80:
 	cmp r7, #6
 	blt _0216EC48
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	ldr r1, =aActAcItmRing3d_0
 	ldr r2, [r0, #0]
 	mov r0, #0
@@ -225,7 +225,7 @@ _0216EC80:
 	mov r2, r1
 	bl AnimatorSprite3D__ProcessAnimation
 	ldr r1, [r6, #0xccc]
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	orr r1, r1, #0x18
 	str r1, [r6, #0xccc]
 	ldr r2, [r0, #0]
@@ -291,7 +291,7 @@ _0216EC80:
 	mov r1, #0
 	mov r2, r1
 	bl AnimatorSprite3D__ProcessAnimation
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	ldr r1, =aBpaGmkTruckCan
 	ldr r2, [r2, #0]
 	mov r0, #0
@@ -670,7 +670,7 @@ NONMATCH_FUNC TruckBarrier *TruckBarrier__Create(MapObject *mapObject, fx32 x, f
 	str r1, [r4, #0x1c]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r1, #0x1a
 	ldr r2, [r0, #0]
 	mov r0, r4
@@ -1431,7 +1431,7 @@ NONMATCH_FUNC Truck3DItemBox *Truck3DItemBox__Create(MapObject *mapObject, fx32 
 	orr r1, r1, #0x10
 	str r1, [r5, #0x18]
 	bl GetObjectFileWork
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	ldr r1, =aActAcItmBox3dB
 	ldr r2, [r2, #0]
 	bl ObjDataLoad
@@ -1757,7 +1757,7 @@ NONMATCH_FUNC Truck3DBomb *TruckBomb3D__Create(MapObject *mapObject, fx32 x, fx3
 	mov r1, #0x10
 	str r1, [sp]
 	str r0, [sp, #4]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x370
@@ -1965,7 +1965,7 @@ NONMATCH_FUNC Truck3DSpike *TruckSpike3D__Create(MapObject *mapObject, fx32 x, f
 	mov r1, #0x10
 	str r1, [sp]
 	str r0, [sp, #4]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x370
@@ -2117,7 +2117,7 @@ NONMATCH_FUNC Truck3DLava *TruckLava3D__Create(MapObject *mapObject, fx32 x, fx3
 	cmp r0, #0
 	moveq r1, #1
 	movne r1, #0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r3, r1, lsl #0x10
 	ldr r2, [r0, #0]
 	ldr r1, =aActAcGmkTruckL
@@ -2147,7 +2147,7 @@ NONMATCH_FUNC Truck3DLava *TruckLava3D__Create(MapObject *mapObject, fx32 x, fx3
 	add r0, sp, #0x44
 	mov r2, r1
 	bl AnimatorSprite3D__ProcessAnimation
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	ldr r1, =aBpaGmkTruckLav
 	ldr r2, [r2, #0]
 	mov r0, #0

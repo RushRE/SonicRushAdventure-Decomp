@@ -23,9 +23,9 @@ typedef u32 GameDataFileReqStatus;
 
 enum GameDataFileReqMode_
 {
-    GAMEDATA_FILEREQ_MODE_0,
-    GAMEDATA_FILEREQ_MODE_1,
-    GAMEDATA_FILEREQ_MODE_2,
+    GAMEDATA_FILEREQ_MODE_FROM_CARD,
+    GAMEDATA_FILEREQ_MODE_FROM_WIRELESS_PARENT,
+    GAMEDATA_FILEREQ_MODE_WIRELESS_WAITING,
 };
 typedef u32 GameDataFileReqMode;
 
@@ -70,9 +70,9 @@ struct GMS_GAMEDAT_LOAD_CONTEXT_
 // VARIABLES
 // --------------------
 
-extern void *gameArchiveSound;
-extern void *gameArchiveCommon;
-extern void *gameArchiveStage;
+extern void *gGameArchiveSound;
+extern void *gGameArchiveCommon;
+extern void *gGameArchiveStage;
 
 // --------------------
 // FUNCTIONS

@@ -100,7 +100,7 @@ Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     u16 anims[] = { TRAMPOLINE_ANI_FLAT, TRAMPOLINE_ANI_SLOPE_UPWARDS, TRAMPOLINE_ANI_SLOPE_UPWARDS };
 
-    void *sprTrampoline = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_95), "/act/ac_gmk_trampoline3d.bac", gameArchiveStage);
+    void *sprTrampoline = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_95), "/act/ac_gmk_trampoline3d.bac", gGameArchiveStage);
 
     VRAMPaletteKey vramPalette = ObjActionAllocPalette(GetObjectGraphicsRef(OBJDATAWORK_97), Sprite__GetPaletteSizeFromAnim(sprTrampoline, TRAMPOLINE_ANI_BASE));
     VRAMPixelKey vramPixels    = ObjActionAllocTexture(GetObjectGraphicsRef(OBJDATAWORK_96), Sprite__GetTextureSizeFromAnim(sprTrampoline, TRAMPOLINE_ANI_BASE));
@@ -122,7 +122,7 @@ Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_VRAM_A;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_trampoline3d.bac", GetObjectDataWork(OBJDATAWORK_95), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_trampoline3d.bac", GetObjectDataWork(OBJDATAWORK_95), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, anims[anim], GetObjectSpriteRef(2 * anim + OBJDATAWORK_98));
 

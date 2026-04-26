@@ -292,7 +292,7 @@ void WaterSurface_Init_Zone2(void)
     WaterSurfaceControlConfigZ2 *control = sWaterSurface->controlConfig;
     MI_CpuClear16(control, sizeof(WaterSurfaceControlConfigZ2));
 
-    void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z2_map.bpa", gameArchiveStage);
+    void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z2_map.bpa", gGameArchiveStage);
     InitPaletteAnimator(&control->aniPalette, paletteAniFile, 0, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_BG, VRAMKEY_TO_ADDR(0x4000));
 }
 
@@ -342,20 +342,20 @@ void WaterSurface_Init_Zone3(void)
 
     for (i = 0; i < 7; i++)
     {
-        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z3_map.bpa", gameArchiveStage);
+        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z3_map.bpa", gGameArchiveStage);
         InitPaletteAnimator(&control->aniPaletteFG[i], paletteAniFile, i, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_BG, VRAMKEY_TO_ADDR(0x4000));
     }
 
     for (i = 0; i < 6; i++)
     {
-        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z3_map_w.bpa", gameArchiveStage);
+        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z3_map_w.bpa", gGameArchiveStage);
         InitPaletteAnimator(&control->aniPaletteFG_W[i], paletteAniFile, i, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_SPRITE, sWaterSurface->underwaterPalette2);
     }
     control->aniPaletteFG_W[6].userFlags |= ANIMATORBPA_FLAG_PAUSED;
 
     for (i = 0; i < 3; i++)
     {
-        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z3_far.bpa", gameArchiveStage);
+        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z3_far.bpa", gGameArchiveStage);
         InitPaletteAnimator(&control->aniPaletteBG[i], paletteAniFile, i, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_SPRITE, VRAM_BG_PLTT);
     }
 }
@@ -657,13 +657,13 @@ void WaterSurface_Init_Zone6(void)
 
     for (i = 0; i < 4; i++)
     {
-        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z6_map.bpa", gameArchiveStage);
+        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z6_map.bpa", gGameArchiveStage);
         InitPaletteAnimator(&control->aniPaletteFG[i], paletteAniFile, i, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_BG, VRAMKEY_TO_ADDR(0x4000));
     }
 
     for (i = 0; i < 2; i++)
     {
-        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z6_far.bpa", gameArchiveStage);
+        void *paletteAniFile = ObjDataLoad(NULL, "/bpa/z6_far.bpa", gGameArchiveStage);
         InitPaletteAnimator(&control->aniPaletteBG[i], paletteAniFile, i, ANIMATORBPA_FLAG_CAN_LOOP, PALETTE_MODE_SPRITE, VRAM_BG_PLTT);
     }
 }
@@ -770,7 +770,7 @@ void CreateWaterSurface(void)
 
     if ((sWaterSurface->flags & WATERSURFACE_FLAG_HAS_WATER_SURFACE) != 0)
     {
-        OBS_DATA_WORK *dataWork = ObjDataLoad(NULL, "/act/ac_eff_water.bac", gameArchiveStage);
+        OBS_DATA_WORK *dataWork = ObjDataLoad(NULL, "/act/ac_eff_water.bac", gGameArchiveStage);
 
         AnimatorSprite__Init(&sWaterSurface->aniWaterSurface[0], dataWork, WATERBUBBLE_ANI_WATER_SURFACE, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A,
                              PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 4), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_12);

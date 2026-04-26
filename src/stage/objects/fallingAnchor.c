@@ -37,7 +37,7 @@ NONMATCH_FUNC FallingAnchor *CreateFallingAnchor(MapObject *mapObject, fx32 x, f
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_anchor_elv.bac", GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_anchor_elv.bac", GetObjectDataWork(OBJDATAWORK_166), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 31, GetObjectSpriteRef(OBJDATAWORK_167));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 92);
@@ -46,7 +46,7 @@ NONMATCH_FUNC FallingAnchor *CreateFallingAnchor(MapObject *mapObject, fx32 x, f
     StageTask__SetAnimation(&work->gameWork.objWork, 0);
 
     AnimatorSpriteDS *aniChain = &work->aniChain;
-    ObjAction2dBACLoad(&work->aniChain, "/act/ac_gmk_anchor_elv.bac", 31, GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage);
+    ObjAction2dBACLoad(&work->aniChain, "/act/ac_gmk_anchor_elv.bac", 31, GetObjectDataWork(OBJDATAWORK_166), gGameArchiveStage);
     aniChain->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniChain->cParam[0].palette = aniChain->cParam[1].palette = aniChain->work.cParam.palette;
     aniChain->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -126,7 +126,7 @@ NONMATCH_FUNC FallingAnchor *CreateFallingAnchor(MapObject *mapObject, fx32 x, f
 	mov r0, #0xa6
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r1, #0
 	ldr r2, [r0, #0]
 	mov r0, r4
@@ -158,7 +158,7 @@ NONMATCH_FUNC FallingAnchor *CreateFallingAnchor(MapObject *mapObject, fx32 x, f
 	mov r0, #0xa6
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r5
 	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkAnchor_0

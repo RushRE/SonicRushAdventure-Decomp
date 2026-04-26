@@ -49,7 +49,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flip_board.bac", GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flip_board.bac", GetObjectFileWork(OBJDATAWORK_167), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, FLIPBOARD_ANI_BOARD, 61);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -57,7 +57,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
     StageTask__SetAnimation(&work->gameWork.objWork, FLIPBOARD_ANI_BOARD);
 
     AnimatorSpriteDS *aniSnow = &work->aniSnow;
-    ObjAction2dBACLoad(aniSnow, "/act/ac_gmk_flip_board.bac", 35, GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage);
+    ObjAction2dBACLoad(aniSnow, "/act/ac_gmk_flip_board.bac", 35, GetObjectFileWork(OBJDATAWORK_167), gGameArchiveStage);
     aniSnow->cParam[0].palette = aniSnow->cParam[1].palette = aniSnow->work.cParam.palette = work->gameWork.animator.ani.work.cParam.palette;
     AnimatorSpriteDS__SetAnimation(aniSnow, FLIPBOARD_ANI_SNOW);
     StageTask__SetOAMOrder(&aniSnow->work, SPRITE_ORDER_23);
@@ -125,7 +125,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 	str r1, [r4, #0x20]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	ldr r1, =0x0000FFFF
 	ldr r2, [r0, #0]
 	mov r0, r4
@@ -151,7 +151,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 	mov r0, #0xa7
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r5
 	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkFlipBo

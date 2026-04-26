@@ -196,9 +196,9 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR;
 
     ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniSnowboard, boardModelPath[player->characterID], 0, GetObjectFileWork(OBJDATAWORK_165 + player->characterID),
-                           gameArchiveStage);
+                           gGameArchiveStage);
     NNS_G3dResDefaultSetup(work->gameWork.objWork.obj_3d->file[0]->fileData);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, work->gameWork.objWork.obj_3d, "/mod/ply_board.nsbca", 0, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, work->gameWork.objWork.obj_3d, "/mod/ply_board.nsbca", 0, gGameArchiveStage);
 
     VEC_Set(&work->gameWork.objWork.obj_3d->ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
     work->gameWork.objWork.obj_3d->ani.work.translation2.y = -FLOAT_TO_FX32(16.0);

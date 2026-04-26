@@ -192,160 +192,160 @@ static s32 GetLoadProgress(s32 count, s32 id, u32 subCount, u32 subID);
 
 #include "stageResources.inc"
 
-static GMS_GAMEDAT_LOAD_CONTEXT loadContext;
+static GMS_GAMEDAT_LOAD_CONTEXT sLoadContext;
 
-OBS_DATA_WORK bossAssetFiles[16];
+OBS_DATA_WORK gBossAssetFileList[16];
 
-extern void *eventManagerArchive;
-void *gameArchiveSound;
-void *gameArchiveCommon;
-void *gameArchiveStage;
+extern void *gEventManagerArchive;
+void *gGameArchiveSound;
+void *gGameArchiveCommon;
+void *gGameArchiveStage;
 
-static const AreaReleaseFunc releaseAreaTable[STAGE_COUNT] = {
-    [STAGE_Z11] = gmGameData__ReleaseZ11,
-    [STAGE_Z12] = gmGameData__ReleaseZ12,
-    [STAGE_TUTORIAL] = gmGameData__ReleaseZ1T,
-    [STAGE_Z1B] = gmGameData__ReleaseZ1B,
-    [STAGE_Z21] = gmGameData__ReleaseZ21,
-    [STAGE_Z22] = gmGameData__ReleaseZ22,
-    [STAGE_Z2B] = gmGameData__ReleaseZ2B,
-    [STAGE_Z31] = gmGameData__ReleaseZ31,
-    [STAGE_Z32] = gmGameData__ReleaseZ32,
-    [STAGE_HIDDEN_ISLAND_1] = gmGameData__ReleaseZ91,
-    [STAGE_Z3B] = gmGameData__ReleaseZ3B,
-    [STAGE_Z41] = gmGameData__ReleaseZ41,
-    [STAGE_Z42] = gmGameData__ReleaseZ42,
-    [STAGE_Z4B] = gmGameData__ReleaseZ4B,
-    [STAGE_Z51] = gmGameData__ReleaseZ51,
-    [STAGE_Z52] = gmGameData__ReleaseZ52,
-    [STAGE_Z5B] = gmGameData__ReleaseZ5B,
-    [STAGE_Z61] = gmGameData__ReleaseZ61,
-    [STAGE_Z62] = gmGameData__ReleaseZ62,
-    [STAGE_HIDDEN_ISLAND_2] = gmGameData__ReleaseZ91,
-    [STAGE_Z6B] = gmGameData__ReleaseZ6B,
-    [STAGE_Z71] = gmGameData__ReleaseZ71,
-    [STAGE_Z72] = gmGameData__ReleaseZ72,
-    [STAGE_Z7B] = gmGameData__ReleaseZ7B,
-    [STAGE_BOSS_FINAL] = gmGameData__ReleaseZFB,
-    [STAGE_HIDDEN_ISLAND_3] = gmGameData__ReleaseZ91,
-    [STAGE_HIDDEN_ISLAND_4] = gmGameData__ReleaseZ31,
-    [STAGE_HIDDEN_ISLAND_5] = gmGameData__ReleaseZ91,
-    [STAGE_HIDDEN_ISLAND_6] = gmGameData__ReleaseZ11,
-    [STAGE_HIDDEN_ISLAND_7] = gmGameData__ReleaseZ11,
-    [STAGE_HIDDEN_ISLAND_8] = gmGameData__ReleaseZ31,
-    [STAGE_HIDDEN_ISLAND_9] = gmGameData__ReleaseZ21,
-    [STAGE_HIDDEN_ISLAND_10] = gmGameData__ReleaseZ21,
-    [STAGE_HIDDEN_ISLAND_11] = gmGameData__ReleaseZ31,
-    [STAGE_HIDDEN_ISLAND_12] = gmGameData__ReleaseZ51,
-    [STAGE_HIDDEN_ISLAND_13] = gmGameData__ReleaseZ51,
-    [STAGE_HIDDEN_ISLAND_14] = gmGameData__ReleaseZ91,
-    [STAGE_HIDDEN_ISLAND_15] = gmGameData__ReleaseZ41,
-    [STAGE_HIDDEN_ISLAND_16] = gmGameData__ReleaseZ91,
+static const AreaReleaseFunc sReleaseAreaTable[STAGE_COUNT] = {
+    [STAGE_Z11]               = gmGameData__ReleaseZ11,
+    [STAGE_Z12]               = gmGameData__ReleaseZ12,
+    [STAGE_TUTORIAL]          = gmGameData__ReleaseZ1T,
+    [STAGE_Z1B]               = gmGameData__ReleaseZ1B,
+    [STAGE_Z21]               = gmGameData__ReleaseZ21,
+    [STAGE_Z22]               = gmGameData__ReleaseZ22,
+    [STAGE_Z2B]               = gmGameData__ReleaseZ2B,
+    [STAGE_Z31]               = gmGameData__ReleaseZ31,
+    [STAGE_Z32]               = gmGameData__ReleaseZ32,
+    [STAGE_HIDDEN_ISLAND_1]   = gmGameData__ReleaseZ91,
+    [STAGE_Z3B]               = gmGameData__ReleaseZ3B,
+    [STAGE_Z41]               = gmGameData__ReleaseZ41,
+    [STAGE_Z42]               = gmGameData__ReleaseZ42,
+    [STAGE_Z4B]               = gmGameData__ReleaseZ4B,
+    [STAGE_Z51]               = gmGameData__ReleaseZ51,
+    [STAGE_Z52]               = gmGameData__ReleaseZ52,
+    [STAGE_Z5B]               = gmGameData__ReleaseZ5B,
+    [STAGE_Z61]               = gmGameData__ReleaseZ61,
+    [STAGE_Z62]               = gmGameData__ReleaseZ62,
+    [STAGE_HIDDEN_ISLAND_2]   = gmGameData__ReleaseZ91,
+    [STAGE_Z6B]               = gmGameData__ReleaseZ6B,
+    [STAGE_Z71]               = gmGameData__ReleaseZ71,
+    [STAGE_Z72]               = gmGameData__ReleaseZ72,
+    [STAGE_Z7B]               = gmGameData__ReleaseZ7B,
+    [STAGE_BOSS_FINAL]        = gmGameData__ReleaseZFB,
+    [STAGE_HIDDEN_ISLAND_3]   = gmGameData__ReleaseZ91,
+    [STAGE_HIDDEN_ISLAND_4]   = gmGameData__ReleaseZ31,
+    [STAGE_HIDDEN_ISLAND_5]   = gmGameData__ReleaseZ91,
+    [STAGE_HIDDEN_ISLAND_6]   = gmGameData__ReleaseZ11,
+    [STAGE_HIDDEN_ISLAND_7]   = gmGameData__ReleaseZ11,
+    [STAGE_HIDDEN_ISLAND_8]   = gmGameData__ReleaseZ31,
+    [STAGE_HIDDEN_ISLAND_9]   = gmGameData__ReleaseZ21,
+    [STAGE_HIDDEN_ISLAND_10]  = gmGameData__ReleaseZ21,
+    [STAGE_HIDDEN_ISLAND_11]  = gmGameData__ReleaseZ31,
+    [STAGE_HIDDEN_ISLAND_12]  = gmGameData__ReleaseZ51,
+    [STAGE_HIDDEN_ISLAND_13]  = gmGameData__ReleaseZ51,
+    [STAGE_HIDDEN_ISLAND_14]  = gmGameData__ReleaseZ91,
+    [STAGE_HIDDEN_ISLAND_15]  = gmGameData__ReleaseZ41,
+    [STAGE_HIDDEN_ISLAND_16]  = gmGameData__ReleaseZ91,
     [STAGE_HIDDEN_ISLAND_VS1] = gmGameData__ReleaseZ11,
     [STAGE_HIDDEN_ISLAND_VS2] = gmGameData__ReleaseZ21,
     [STAGE_HIDDEN_ISLAND_VS3] = gmGameData__ReleaseZ31,
     [STAGE_HIDDEN_ISLAND_VS4] = gmGameData__ReleaseZ41,
-    [STAGE_HIDDEN_ISLAND_R1] = gmGameData__ReleaseZ91,
-    [STAGE_HIDDEN_ISLAND_R2] = gmGameData__ReleaseZ91,
-    [STAGE_HIDDEN_ISLAND_R3] = gmGameData__ReleaseZ91,
+    [STAGE_HIDDEN_ISLAND_R1]  = gmGameData__ReleaseZ91,
+    [STAGE_HIDDEN_ISLAND_R2]  = gmGameData__ReleaseZ91,
+    [STAGE_HIDDEN_ISLAND_R3]  = gmGameData__ReleaseZ91,
 };
 
-static const AreaFlushFunc flushAreaTable[STAGE_COUNT] = {
-    [STAGE_Z11] = gmGameData__FlushZ11,
-    [STAGE_Z12] = gmGameData__FlushZ12,
-    [STAGE_TUTORIAL] = gmGameData__FlushZ11,
-    [STAGE_Z1B] = gmGameData__FlushZ1B,
-    [STAGE_Z21] = gmGameData__FlushZ21,
-    [STAGE_Z22] = gmGameData__FlushZ22,
-    [STAGE_Z2B] = gmGameData__FlushZ2B,
-    [STAGE_Z31] = gmGameData__FlushZ31,
-    [STAGE_Z32] = gmGameData__FlushZ32,
-    [STAGE_HIDDEN_ISLAND_1] = gmGameData__FlushZ91,
-    [STAGE_Z3B] = gmGameData__FlushZ3B,
-    [STAGE_Z41] = gmGameData__FlushZ41,
-    [STAGE_Z42] = gmGameData__FlushZ42,
-    [STAGE_Z4B] = gmGameData__FlushZ4B,
-    [STAGE_Z51] = gmGameData__FlushZ51,
-    [STAGE_Z52] = gmGameData__FlushZ52,
-    [STAGE_Z5B] = gmGameData__FlushZ5B,
-    [STAGE_Z61] = gmGameData__FlushZ61,
-    [STAGE_Z62] = gmGameData__FlushZ62,
-    [STAGE_HIDDEN_ISLAND_2] = gmGameData__FlushZ91,
-    [STAGE_Z6B] = gmGameData__FlushZ6B,
-    [STAGE_Z71] = gmGameData__FlushZ71,
-    [STAGE_Z72] = gmGameData__FlushZ72,
-    [STAGE_Z7B] = gmGameData__FlushZ7B,
-    [STAGE_BOSS_FINAL] = gmGameData__FlushZFB,
-    [STAGE_HIDDEN_ISLAND_3] = gmGameData__FlushZ91,
-    [STAGE_HIDDEN_ISLAND_4] = gmGameData__FlushZ31,
-    [STAGE_HIDDEN_ISLAND_5] = gmGameData__FlushZ91,
-    [STAGE_HIDDEN_ISLAND_6] = gmGameData__FlushZ11,
-    [STAGE_HIDDEN_ISLAND_7] = gmGameData__FlushZ11,
-    [STAGE_HIDDEN_ISLAND_8] = gmGameData__FlushZ31,
-    [STAGE_HIDDEN_ISLAND_9] = gmGameData__FlushZ21,
-    [STAGE_HIDDEN_ISLAND_10] = gmGameData__FlushZ21,
-    [STAGE_HIDDEN_ISLAND_11] = gmGameData__FlushZ31,
-    [STAGE_HIDDEN_ISLAND_12] = gmGameData__FlushZ51,
-    [STAGE_HIDDEN_ISLAND_13] = gmGameData__FlushZ51,
-    [STAGE_HIDDEN_ISLAND_14] = gmGameData__FlushZ91,
-    [STAGE_HIDDEN_ISLAND_15] = gmGameData__FlushZ41,
-    [STAGE_HIDDEN_ISLAND_16] = gmGameData__FlushZ91,
+static const AreaFlushFunc sFlushAreaTable[STAGE_COUNT] = {
+    [STAGE_Z11]               = gmGameData__FlushZ11,
+    [STAGE_Z12]               = gmGameData__FlushZ12,
+    [STAGE_TUTORIAL]          = gmGameData__FlushZ11,
+    [STAGE_Z1B]               = gmGameData__FlushZ1B,
+    [STAGE_Z21]               = gmGameData__FlushZ21,
+    [STAGE_Z22]               = gmGameData__FlushZ22,
+    [STAGE_Z2B]               = gmGameData__FlushZ2B,
+    [STAGE_Z31]               = gmGameData__FlushZ31,
+    [STAGE_Z32]               = gmGameData__FlushZ32,
+    [STAGE_HIDDEN_ISLAND_1]   = gmGameData__FlushZ91,
+    [STAGE_Z3B]               = gmGameData__FlushZ3B,
+    [STAGE_Z41]               = gmGameData__FlushZ41,
+    [STAGE_Z42]               = gmGameData__FlushZ42,
+    [STAGE_Z4B]               = gmGameData__FlushZ4B,
+    [STAGE_Z51]               = gmGameData__FlushZ51,
+    [STAGE_Z52]               = gmGameData__FlushZ52,
+    [STAGE_Z5B]               = gmGameData__FlushZ5B,
+    [STAGE_Z61]               = gmGameData__FlushZ61,
+    [STAGE_Z62]               = gmGameData__FlushZ62,
+    [STAGE_HIDDEN_ISLAND_2]   = gmGameData__FlushZ91,
+    [STAGE_Z6B]               = gmGameData__FlushZ6B,
+    [STAGE_Z71]               = gmGameData__FlushZ71,
+    [STAGE_Z72]               = gmGameData__FlushZ72,
+    [STAGE_Z7B]               = gmGameData__FlushZ7B,
+    [STAGE_BOSS_FINAL]        = gmGameData__FlushZFB,
+    [STAGE_HIDDEN_ISLAND_3]   = gmGameData__FlushZ91,
+    [STAGE_HIDDEN_ISLAND_4]   = gmGameData__FlushZ31,
+    [STAGE_HIDDEN_ISLAND_5]   = gmGameData__FlushZ91,
+    [STAGE_HIDDEN_ISLAND_6]   = gmGameData__FlushZ11,
+    [STAGE_HIDDEN_ISLAND_7]   = gmGameData__FlushZ11,
+    [STAGE_HIDDEN_ISLAND_8]   = gmGameData__FlushZ31,
+    [STAGE_HIDDEN_ISLAND_9]   = gmGameData__FlushZ21,
+    [STAGE_HIDDEN_ISLAND_10]  = gmGameData__FlushZ21,
+    [STAGE_HIDDEN_ISLAND_11]  = gmGameData__FlushZ31,
+    [STAGE_HIDDEN_ISLAND_12]  = gmGameData__FlushZ51,
+    [STAGE_HIDDEN_ISLAND_13]  = gmGameData__FlushZ51,
+    [STAGE_HIDDEN_ISLAND_14]  = gmGameData__FlushZ91,
+    [STAGE_HIDDEN_ISLAND_15]  = gmGameData__FlushZ41,
+    [STAGE_HIDDEN_ISLAND_16]  = gmGameData__FlushZ91,
     [STAGE_HIDDEN_ISLAND_VS1] = gmGameData__FlushZ11,
     [STAGE_HIDDEN_ISLAND_VS2] = gmGameData__FlushZ21,
     [STAGE_HIDDEN_ISLAND_VS3] = gmGameData__FlushZ31,
     [STAGE_HIDDEN_ISLAND_VS4] = gmGameData__FlushZ41,
-    [STAGE_HIDDEN_ISLAND_R1] = gmGameData__FlushZ91,
-    [STAGE_HIDDEN_ISLAND_R2] = gmGameData__FlushZ91,
-    [STAGE_HIDDEN_ISLAND_R3] = gmGameData__FlushZ91,
+    [STAGE_HIDDEN_ISLAND_R1]  = gmGameData__FlushZ91,
+    [STAGE_HIDDEN_ISLAND_R2]  = gmGameData__FlushZ91,
+    [STAGE_HIDDEN_ISLAND_R3]  = gmGameData__FlushZ91,
 };
 
-static const AreaBuildFunc buildAreaTable[STAGE_COUNT] = {
-    [STAGE_Z11] = gmGameData__BuildZ11,
-    [STAGE_Z12] = gmGameData__BuildZ12,
-    [STAGE_TUTORIAL] = gmGameData__BuildZ1T,
-    [STAGE_Z1B] = gmGameData__BuildZ1B,
-    [STAGE_Z21] = gmGameData__BuildZ21,
-    [STAGE_Z22] = gmGameData__BuildZ22,
-    [STAGE_Z2B] = gmGameData__BuildZ2B,
-    [STAGE_Z31] = gmGameData__BuildZ31,
-    [STAGE_Z32] = gmGameData__BuildZ32,
-    [STAGE_HIDDEN_ISLAND_1] = gmGameData__BuildZ91,
-    [STAGE_Z3B] = gmGameData__BuildZ3B,
-    [STAGE_Z41] = gmGameData__BuildZ41,
-    [STAGE_Z42] = gmGameData__BuildZ42,
-    [STAGE_Z4B] = gmGameData__BuildZ4B,
-    [STAGE_Z51] = gmGameData__BuildZ51,
-    [STAGE_Z52] = gmGameData__BuildZ52,
-    [STAGE_Z5B] = gmGameData__BuildZ5B,
-    [STAGE_Z61] = gmGameData__BuildZ61,
-    [STAGE_Z62] = gmGameData__BuildZ62,
-    [STAGE_HIDDEN_ISLAND_2] = gmGameData__BuildZ91,
-    [STAGE_Z6B] = gmGameData__BuildZ6B,
-    [STAGE_Z71] = gmGameData__BuildZ71,
-    [STAGE_Z72] = gmGameData__BuildZ72,
-    [STAGE_Z7B] = gmGameData__BuildZ7B,
-    [STAGE_BOSS_FINAL] = gmGameData__BuildZFB,
-    [STAGE_HIDDEN_ISLAND_3] = gmGameData__BuildZ91,
-    [STAGE_HIDDEN_ISLAND_4] = gmGameData__BuildZ31,
-    [STAGE_HIDDEN_ISLAND_5] = gmGameData__BuildZ91,
-    [STAGE_HIDDEN_ISLAND_6] = gmGameData__BuildZ11,
-    [STAGE_HIDDEN_ISLAND_7] = gmGameData__BuildZ11,
-    [STAGE_HIDDEN_ISLAND_8] = gmGameData__BuildZ31,
-    [STAGE_HIDDEN_ISLAND_9] = gmGameData__BuildZ21,
-    [STAGE_HIDDEN_ISLAND_10] = gmGameData__BuildZ21,
-    [STAGE_HIDDEN_ISLAND_11] = gmGameData__BuildZ31,
-    [STAGE_HIDDEN_ISLAND_12] = gmGameData__BuildZ51,
-    [STAGE_HIDDEN_ISLAND_13] = gmGameData__BuildZ51,
-    [STAGE_HIDDEN_ISLAND_14] = gmGameData__BuildZ91,
-    [STAGE_HIDDEN_ISLAND_15] = gmGameData__BuildZ41,
-    [STAGE_HIDDEN_ISLAND_16] = gmGameData__BuildZ91,
+static const AreaBuildFunc sBuildAreaTable[STAGE_COUNT] = {
+    [STAGE_Z11]               = gmGameData__BuildZ11,
+    [STAGE_Z12]               = gmGameData__BuildZ12,
+    [STAGE_TUTORIAL]          = gmGameData__BuildZ1T,
+    [STAGE_Z1B]               = gmGameData__BuildZ1B,
+    [STAGE_Z21]               = gmGameData__BuildZ21,
+    [STAGE_Z22]               = gmGameData__BuildZ22,
+    [STAGE_Z2B]               = gmGameData__BuildZ2B,
+    [STAGE_Z31]               = gmGameData__BuildZ31,
+    [STAGE_Z32]               = gmGameData__BuildZ32,
+    [STAGE_HIDDEN_ISLAND_1]   = gmGameData__BuildZ91,
+    [STAGE_Z3B]               = gmGameData__BuildZ3B,
+    [STAGE_Z41]               = gmGameData__BuildZ41,
+    [STAGE_Z42]               = gmGameData__BuildZ42,
+    [STAGE_Z4B]               = gmGameData__BuildZ4B,
+    [STAGE_Z51]               = gmGameData__BuildZ51,
+    [STAGE_Z52]               = gmGameData__BuildZ52,
+    [STAGE_Z5B]               = gmGameData__BuildZ5B,
+    [STAGE_Z61]               = gmGameData__BuildZ61,
+    [STAGE_Z62]               = gmGameData__BuildZ62,
+    [STAGE_HIDDEN_ISLAND_2]   = gmGameData__BuildZ91,
+    [STAGE_Z6B]               = gmGameData__BuildZ6B,
+    [STAGE_Z71]               = gmGameData__BuildZ71,
+    [STAGE_Z72]               = gmGameData__BuildZ72,
+    [STAGE_Z7B]               = gmGameData__BuildZ7B,
+    [STAGE_BOSS_FINAL]        = gmGameData__BuildZFB,
+    [STAGE_HIDDEN_ISLAND_3]   = gmGameData__BuildZ91,
+    [STAGE_HIDDEN_ISLAND_4]   = gmGameData__BuildZ31,
+    [STAGE_HIDDEN_ISLAND_5]   = gmGameData__BuildZ91,
+    [STAGE_HIDDEN_ISLAND_6]   = gmGameData__BuildZ11,
+    [STAGE_HIDDEN_ISLAND_7]   = gmGameData__BuildZ11,
+    [STAGE_HIDDEN_ISLAND_8]   = gmGameData__BuildZ31,
+    [STAGE_HIDDEN_ISLAND_9]   = gmGameData__BuildZ21,
+    [STAGE_HIDDEN_ISLAND_10]  = gmGameData__BuildZ21,
+    [STAGE_HIDDEN_ISLAND_11]  = gmGameData__BuildZ31,
+    [STAGE_HIDDEN_ISLAND_12]  = gmGameData__BuildZ51,
+    [STAGE_HIDDEN_ISLAND_13]  = gmGameData__BuildZ51,
+    [STAGE_HIDDEN_ISLAND_14]  = gmGameData__BuildZ91,
+    [STAGE_HIDDEN_ISLAND_15]  = gmGameData__BuildZ41,
+    [STAGE_HIDDEN_ISLAND_16]  = gmGameData__BuildZ91,
     [STAGE_HIDDEN_ISLAND_VS1] = gmGameData__BuildZ11,
     [STAGE_HIDDEN_ISLAND_VS2] = gmGameData__BuildZ21,
     [STAGE_HIDDEN_ISLAND_VS3] = gmGameData__BuildZ31,
     [STAGE_HIDDEN_ISLAND_VS4] = gmGameData__BuildZ41,
-    [STAGE_HIDDEN_ISLAND_R1] = gmGameData__BuildZ91,
-    [STAGE_HIDDEN_ISLAND_R2] = gmGameData__BuildZ91,
-    [STAGE_HIDDEN_ISLAND_R3] = gmGameData__BuildZ91,
+    [STAGE_HIDDEN_ISLAND_R1]  = gmGameData__BuildZ91,
+    [STAGE_HIDDEN_ISLAND_R2]  = gmGameData__BuildZ91,
+    [STAGE_HIDDEN_ISLAND_R3]  = gmGameData__BuildZ91,
 };
 
 #else
@@ -362,18 +362,18 @@ extern const GMS_GAMEDAT_LOAD_DATA assetList_Z6B[10];
 extern const GMS_GAMEDAT_LOAD_DATA assetList_Z7B[8];
 extern const GMS_GAMEDAT_LOAD_DATA assetList_ZFB[9];
 
-extern const AreaFlushFunc flushAreaTable[STAGE_COUNT];
-extern const AreaBuildFunc buildAreaTable[STAGE_COUNT];
-extern const AreaReleaseFunc releaseAreaTable[STAGE_COUNT];
+extern const AreaFlushFunc sFlushAreaTable[STAGE_COUNT];
+extern const AreaBuildFunc sBuildAreaTable[STAGE_COUNT];
+extern const AreaReleaseFunc sReleaseAreaTable[STAGE_COUNT];
 
-static GMS_GAMEDAT_LOAD_CONTEXT loadContext;
+static GMS_GAMEDAT_LOAD_CONTEXT sLoadContext;
 
-extern void *eventManagerArchive;
-void *gameArchiveSound;
-void *gameArchiveCommon;
-void *gameArchiveStage;
+extern void *gEventManagerArchive;
+void *gGameArchiveSound;
+void *gGameArchiveCommon;
+void *gGameArchiveStage;
 
-OBS_DATA_WORK bossAssetFiles[16];
+OBS_DATA_WORK gBossAssetFileList[16];
 
 #endif
 
@@ -383,11 +383,11 @@ OBS_DATA_WORK bossAssetFiles[16];
 
 void InitGameDataLoadContext(GameDataFileReqMode mode)
 {
-    MI_CpuClear16(&loadContext, sizeof(loadContext));
+    MI_CpuClear16(&sLoadContext, sizeof(sLoadContext));
 
-    loadContext.mode        = mode;
-    loadContext.characterID = gameState.characterID[0];
-    loadContext.stageID     = gameState.stageID;
+    sLoadContext.mode        = mode;
+    sLoadContext.characterID = gameState.characterID[0];
+    sLoadContext.stageID     = gameState.stageID;
 }
 
 GameDataFileReqStatus LoadStageCommonAssets(void)
@@ -400,7 +400,7 @@ GameDataFileReqStatus LoadStageCommonAssets(void)
 
 GameDataFileReqStatus LoadStageAssets(void)
 {
-    return GameDataLoadFileReq(&assetList_Stage[loadContext.stageID], FALSE);
+    return GameDataLoadFileReq(&assetList_Stage[sLoadContext.stageID], FALSE);
 }
 
 void ReleaseStageCommonArchives(void)
@@ -408,26 +408,26 @@ void ReleaseStageCommonArchives(void)
     ReleasePlayerAssets();
     TitleCard__ReleaseCommonArchive();
 
-    if (gameArchiveCommon != NULL)
+    if (gGameArchiveCommon != NULL)
     {
-        HeapFree(HEAP_USER, gameArchiveCommon);
-        gameArchiveCommon = NULL;
+        HeapFree(HEAP_USER, gGameArchiveCommon);
+        gGameArchiveCommon = NULL;
     }
 }
 
 void FlushStageArea(void)
 {
-    flushAreaTable[gameState.stageID]();
+    sFlushAreaTable[gameState.stageID]();
 
     TitleCard__ReleaseStageArchive();
     MapSys__Flush();
     EventManager__Release();
     MapFarSys__Release();
 
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
-        HeapFree(HEAP_USER, gameArchiveStage);
-        gameArchiveStage = NULL;
+        HeapFree(HEAP_USER, gGameArchiveStage);
+        gGameArchiveStage = NULL;
     }
     ReleaseStageAudioWork();
 }
@@ -436,7 +436,7 @@ void BuildStageCommonAssets(void)
 {
     NNSFndArchive arc;
 
-    NNS_FndMountArchive(&arc, "com", gameArchiveCommon);
+    NNS_FndMountArchive(&arc, "com", gGameArchiveCommon);
     if (!IsBossStage())
     {
         NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_GMK_GOAL_CHEST_NSBMD));
@@ -454,18 +454,18 @@ void BuildStageArea(void)
     MapSys__BuildData();
     EventManager__LoadObjectLayout();
     MapFarSys__Build();
-    InitAudioSystemForStage(gameArchiveSound);
-    buildAreaTable[gameState.stageID]();
+    InitAudioSystemForStage(gGameArchiveSound);
+    sBuildAreaTable[gameState.stageID]();
 }
 
 void ReleaseStageCommonAssets(void)
 {
-    if (gameArchiveCommon == NULL)
+    if (gGameArchiveCommon == NULL)
         return;
 
     NNSFndArchive arc;
 
-    NNS_FndMountArchive(&arc, "com", gameArchiveCommon);
+    NNS_FndMountArchive(&arc, "com", gGameArchiveCommon);
     if (!IsBossStage())
     {
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_GMK_GOAL_CHEST_NSBMD));
@@ -480,7 +480,7 @@ void ReleaseStageArea(void)
 {
     NNS_SndStopSoundAll();
     NNS_SndStopChannelAll();
-    releaseAreaTable[gameState.stageID]();
+    sReleaseAreaTable[gameState.stageID]();
     MapSys__Release();
     EventManager__ReleaseObjectLayout();
 }
@@ -488,13 +488,13 @@ void ReleaseStageArea(void)
 void ReleaseStageAudioWork(void)
 {
     ReleaseAudioSystem();
-    gameArchiveSound = NULL;
+    gGameArchiveSound = NULL;
 }
 
 void *GetStageDrawState(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "eve", eventManagerArchive);
+    NNS_FndMountArchive(&arc, "eve", gEventManagerArchive);
 
     void *fileData = NNS_FndGetArchiveFileByIndex(&arc, ARC_EVE_FILE_DRAWSTATE);
 
@@ -516,7 +516,7 @@ void InitStageEdgeConfig(void)
 
 GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo, BOOL isCommonAsset)
 {
-    GMS_GAMEDAT_LOAD_CONTEXT *context = &loadContext;
+    GMS_GAMEDAT_LOAD_CONTEXT *context = &sLoadContext;
 
     if (context->status == GAMEDATA_FILEREQ_STATUS_COMPLETE || context->status == GAMEDATA_FILEREQ_STATUS_ERROR)
         return context->status;
@@ -526,7 +526,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
 
     switch (context->mode)
     {
-        case GAMEDATA_FILEREQ_MODE_0: {
+        case GAMEDATA_FILEREQ_MODE_FROM_CARD: {
             if (context->file == NULL)
             {
                 strcpy(context->path, data->path);
@@ -541,7 +541,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
             {
                 if (context->file->status == FSREQ_STATUS_CLOSED)
                 {
-                    if (WirelessManager__Func_2068234() == 2 && (WFS_GetStatus() == WFS_STATE_ERROR || WFS_GetStatus() == WFS_STATE_STOP))
+                    if (WirelessManager__GetField4() == 2 && (WFS_GetStatus() == WFS_STATE_ERROR || WFS_GetStatus() == WFS_STATE_STOP))
                     {
                         ReleaseFSRequestWork(context->file);
                         context->file   = NULL;
@@ -568,7 +568,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
             break;
         }
 
-        case GAMEDATA_FILEREQ_MODE_1: {
+        case GAMEDATA_FILEREQ_MODE_FROM_WIRELESS_PARENT: {
             if (context->file == NULL)
             {
                 strcpy(context->path, data->path);
@@ -591,7 +591,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
                     }
                     else
                     {
-                        if (context->fileID < WFS_Func_206D9B4())
+                        if (context->fileID < WFS_GetSentFileCount())
                         {
                             if (data->proc_post != NULL)
                                 data->proc_post(context->file, context->path);
@@ -606,16 +606,16 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
             break;
         }
 
-        case GAMEDATA_FILEREQ_MODE_2: {
-            u16 oldBitmap     = context->connectBitmap;
+        case GAMEDATA_FILEREQ_MODE_WIRELESS_WAITING: {
+            u16 oldConnectBitmap   = context->connectBitmap;
             context->connectBitmap = WH_GetConnectBitmap();
-            if (WirelessManager__Func_2068284(oldBitmap) > WirelessManager__Func_2068284(context->connectBitmap))
+            if (WirelessManager__GetBitmapUserCount(oldConnectBitmap) > WirelessManager__GetBitmapUserCount(context->connectBitmap))
             {
                 context->status = GAMEDATA_FILEREQ_STATUS_ERROR;
                 return context->status;
             }
 
-            u16 fileCount = WFS_Func_206D9B4();
+            u16 fileCount = WFS_GetSentFileCount();
             if (!isCommonAsset)
                 fileCount -= 2;
 
@@ -719,7 +719,7 @@ void PostLoad_InitMapArchive(AsyncFileWork *file, const char *path)
 
 void PostLoad_InitEveArchive(AsyncFileWork *file, const char *path)
 {
-    eventManagerArchive = file->userData;
+    gEventManagerArchive = file->userData;
 
     file->userData = NULL;
 }
@@ -732,7 +732,7 @@ void PostLoad_InitMapFar(AsyncFileWork *file, const char *path)
 
 void PostLoad_InitPlayerArchive(AsyncFileWork *file, const char *path)
 {
-    void *archive = HeapAllocTail(HEAP_USER, MI_GetUncompressedSize(file->userData));
+    void *archive  = HeapAllocTail(HEAP_USER, MI_GetUncompressedSize(file->userData));
     gPlayerArchive = archive;
     RenderCore_CPUCopyCompressed(file->userData, archive);
     HeapFree(HEAP_USER, file->userData);
@@ -743,60 +743,60 @@ void PostLoad_InitPlayerArchive(AsyncFileWork *file, const char *path)
 
 void PostLoad_InitCommonArchive(AsyncFileWork *file, const char *path)
 {
-    gameArchiveCommon = HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(file->userData));
-    RenderCore_CPUCopyCompressed(file->userData, gameArchiveCommon);
-    TitleCard__LoadCommonArchive(gameArchiveCommon);
+    gGameArchiveCommon = HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(file->userData));
+    RenderCore_CPUCopyCompressed(file->userData, gGameArchiveCommon);
+    TitleCard__LoadCommonArchive(gGameArchiveCommon);
 }
 
 void PostLoad_InitStageArchive(AsyncFileWork *file, const char *path)
 {
-    gameArchiveStage = HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(file->userData));
-    RenderCore_CPUCopyCompressed(file->userData, gameArchiveStage);
+    gGameArchiveStage = HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(file->userData));
+    RenderCore_CPUCopyCompressed(file->userData, gGameArchiveStage);
 }
 
 void PostLoad_InitSoundArchive(AsyncFileWork *file, const char *path)
 {
-    gameArchiveSound = file->userData;
+    gGameArchiveSound = file->userData;
 }
 
 void PostLoad_InitBossAssetsZ1(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_Z1B, bossAssetFiles, ARRAY_COUNT(assetList_Z1B) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_Z1B, gBossAssetFileList, ARRAY_COUNT(assetList_Z1B) - STAGE_FILE_COUNT);
 }
 
 void PostLoad_InitBossAssetsZ2(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_Z2B, bossAssetFiles, ARRAY_COUNT(assetList_Z2B) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_Z2B, gBossAssetFileList, ARRAY_COUNT(assetList_Z2B) - STAGE_FILE_COUNT);
 }
 
 void PostLoad_InitBossAssetsZ3(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_Z3B, bossAssetFiles, ARRAY_COUNT(assetList_Z3B) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_Z3B, gBossAssetFileList, ARRAY_COUNT(assetList_Z3B) - STAGE_FILE_COUNT);
 }
 
 void PostLoad_InitBossAssetsZ4(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_Z4B, bossAssetFiles, ARRAY_COUNT(assetList_Z4B) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_Z4B, gBossAssetFileList, ARRAY_COUNT(assetList_Z4B) - STAGE_FILE_COUNT);
 }
 
 void PostLoad_InitBossAssetsZ5(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_Z5B, bossAssetFiles, ARRAY_COUNT(assetList_Z5B) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_Z5B, gBossAssetFileList, ARRAY_COUNT(assetList_Z5B) - STAGE_FILE_COUNT);
 }
 
 void PostLoad_InitBossAssetsZ6(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_Z6B, bossAssetFiles, ARRAY_COUNT(assetList_Z6B) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_Z6B, gBossAssetFileList, ARRAY_COUNT(assetList_Z6B) - STAGE_FILE_COUNT);
 }
 
 void PostLoad_InitBossAssetsZ7(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_Z7B, bossAssetFiles, ARRAY_COUNT(assetList_Z7B) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_Z7B, gBossAssetFileList, ARRAY_COUNT(assetList_Z7B) - STAGE_FILE_COUNT);
 }
 
 void PostLoad_InitBossAssetsZF(AsyncFileWork *file, const char *path)
 {
-    LoadBossAssets(file, path, assetList_ZFB, bossAssetFiles, ARRAY_COUNT(assetList_ZFB) - STAGE_FILE_COUNT);
+    LoadBossAssets(file, path, assetList_ZFB, gBossAssetFileList, ARRAY_COUNT(assetList_ZFB) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ11(void)
@@ -811,7 +811,7 @@ void gmGameData__FlushZ12(void)
 
 void gmGameData__FlushZ1B(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_Z1B) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_Z1B) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ21(void)
@@ -826,7 +826,7 @@ void gmGameData__FlushZ22(void)
 
 void gmGameData__FlushZ2B(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_Z2B) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_Z2B) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ31(void)
@@ -841,7 +841,7 @@ void gmGameData__FlushZ32(void)
 
 void gmGameData__FlushZ3B(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_Z3B) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_Z3B) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ41(void)
@@ -856,7 +856,7 @@ void gmGameData__FlushZ42(void)
 
 void gmGameData__FlushZ4B(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_Z4B) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_Z4B) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ51(void)
@@ -871,7 +871,7 @@ void gmGameData__FlushZ52(void)
 
 void gmGameData__FlushZ5B(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_Z5B) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_Z5B) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ61(void)
@@ -886,7 +886,7 @@ void gmGameData__FlushZ62(void)
 
 void gmGameData__FlushZ6B(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_Z6B) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_Z6B) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ71(void)
@@ -901,12 +901,12 @@ void gmGameData__FlushZ72(void)
 
 void gmGameData__FlushZ7B(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_Z7B) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_Z7B) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZFB(void)
 {
-    ReleaseBossAssets(bossAssetFiles, ARRAY_COUNT(assetList_ZFB) - STAGE_FILE_COUNT);
+    ReleaseBossAssets(gBossAssetFileList, ARRAY_COUNT(assetList_ZFB) - STAGE_FILE_COUNT);
 }
 
 void gmGameData__FlushZ91(void)
@@ -917,7 +917,7 @@ void gmGameData__FlushZ91(void)
 void gmGameData__BuildZ11(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
@@ -928,7 +928,7 @@ void gmGameData__BuildZ11(void)
 void gmGameData__BuildZ12(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
@@ -939,7 +939,7 @@ void gmGameData__BuildZ12(void)
 void gmGameData__BuildZ1B(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     // Do nothing
 
@@ -954,7 +954,7 @@ void gmGameData__BuildZ1T(void)
 void gmGameData__BuildZ21(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD));
@@ -965,7 +965,7 @@ void gmGameData__BuildZ21(void)
 void gmGameData__BuildZ22(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD));
@@ -981,7 +981,7 @@ void gmGameData__BuildZ2B(void)
 void gmGameData__BuildZ31(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
@@ -992,9 +992,9 @@ void gmGameData__BuildZ31(void)
 void gmGameData__BuildZ32(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD)); 
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
@@ -1008,7 +1008,7 @@ void gmGameData__BuildZ3B(void)
 void gmGameData__BuildZ41(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
@@ -1020,7 +1020,7 @@ void gmGameData__BuildZ41(void)
 void gmGameData__BuildZ42(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
@@ -1037,7 +1037,7 @@ void gmGameData__BuildZ4B(void)
 void gmGameData__BuildZ51(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     // Do nothing?
 
@@ -1047,7 +1047,7 @@ void gmGameData__BuildZ51(void)
 void gmGameData__BuildZ52(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     // Do nothing?
 
@@ -1062,7 +1062,7 @@ void gmGameData__BuildZ5B(void)
 void gmGameData__BuildZ61(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     // Do nothing?
 
@@ -1072,7 +1072,7 @@ void gmGameData__BuildZ61(void)
 void gmGameData__BuildZ62(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     // Do nothing?
 
@@ -1087,7 +1087,7 @@ void gmGameData__BuildZ6B(void)
 void gmGameData__BuildZ71(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
@@ -1097,7 +1097,7 @@ void gmGameData__BuildZ71(void)
 void gmGameData__BuildZ72(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
@@ -1117,7 +1117,7 @@ void gmGameData__BuildZFB(void)
 void gmGameData__BuildZ91(void)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
     NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z91_ACT_LZ7_FILE_MOD_GMK_ROPE_C_NSBMD));
 
@@ -1126,10 +1126,10 @@ void gmGameData__BuildZ91(void)
 
 void gmGameData__ReleaseZ11(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
@@ -1140,10 +1140,10 @@ void gmGameData__ReleaseZ11(void)
 
 void gmGameData__ReleaseZ12(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
@@ -1154,10 +1154,10 @@ void gmGameData__ReleaseZ12(void)
 
 void gmGameData__ReleaseZ1B(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         // Do nothing?
 
@@ -1172,13 +1172,13 @@ void gmGameData__ReleaseZ1T(void)
 
 void gmGameData__ReleaseZ21(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD)); 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD)); 
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1186,10 +1186,10 @@ void gmGameData__ReleaseZ21(void)
 
 void gmGameData__ReleaseZ22(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD));
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD));
@@ -1205,10 +1205,10 @@ void gmGameData__ReleaseZ2B(void)
 
 void gmGameData__ReleaseZ31(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD));
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
@@ -1219,10 +1219,10 @@ void gmGameData__ReleaseZ31(void)
 
 void gmGameData__ReleaseZ32(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD));
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
@@ -1238,10 +1238,10 @@ void gmGameData__ReleaseZ3B(void)
 
 void gmGameData__ReleaseZ41(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
@@ -1253,10 +1253,10 @@ void gmGameData__ReleaseZ41(void)
 
 void gmGameData__ReleaseZ42(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
@@ -1273,10 +1273,10 @@ void gmGameData__ReleaseZ4B(void)
 
 void gmGameData__ReleaseZ51(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         // Do nothing?
 
@@ -1286,10 +1286,10 @@ void gmGameData__ReleaseZ51(void)
 
 void gmGameData__ReleaseZ52(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         // Do nothing?
 
@@ -1304,10 +1304,10 @@ void gmGameData__ReleaseZ5B(void)
 
 void gmGameData__ReleaseZ61(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         // Do nothing?
 
@@ -1317,10 +1317,10 @@ void gmGameData__ReleaseZ61(void)
 
 void gmGameData__ReleaseZ62(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         // Do nothing?
 
@@ -1335,10 +1335,10 @@ void gmGameData__ReleaseZ6B(void)
 
 void gmGameData__ReleaseZ71(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
@@ -1348,10 +1348,10 @@ void gmGameData__ReleaseZ71(void)
 
 void gmGameData__ReleaseZ72(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
@@ -1371,10 +1371,10 @@ void gmGameData__ReleaseZFB(void)
 
 void gmGameData__ReleaseZ91(void)
 {
-    if (gameArchiveStage != NULL)
+    if (gGameArchiveStage != NULL)
     {
         NNSFndArchive arc;
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z91_ACT_LZ7_FILE_MOD_GMK_ROPE_C_NSBMD));
 

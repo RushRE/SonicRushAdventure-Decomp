@@ -1644,8 +1644,8 @@ assetList_Z3B:
         .word 0
         .word PostLoad_InitBossAssetsZ3
 	
-.public flushAreaTable
-flushAreaTable: // 0x0210D9B8
+.public sFlushAreaTable
+sFlushAreaTable: // 0x0210D9B8
 	.word gmGameData__FlushZ11, gmGameData__FlushZ12
 	.word gmGameData__FlushZ11, gmGameData__FlushZ1B
 	.word gmGameData__FlushZ21, gmGameData__FlushZ22
@@ -1670,8 +1670,8 @@ flushAreaTable: // 0x0210D9B8
 	.word gmGameData__FlushZ41, gmGameData__FlushZ91
 	.word gmGameData__FlushZ91, gmGameData__FlushZ91
 
-.public buildAreaTable
-buildAreaTable: // 0x0210DA70
+.public sBuildAreaTable
+sBuildAreaTable: // 0x0210DA70
 	.word gmGameData__BuildZ11, gmGameData__BuildZ12
 	.word gmGameData__BuildZ1T, gmGameData__BuildZ1B
 	.word gmGameData__BuildZ21, gmGameData__BuildZ22
@@ -1696,8 +1696,8 @@ buildAreaTable: // 0x0210DA70
 	.word gmGameData__BuildZ41, gmGameData__BuildZ91
 	.word gmGameData__BuildZ91, gmGameData__BuildZ91
 	
-.public releaseAreaTable
-releaseAreaTable: // 0x0210DB28
+.public sReleaseAreaTable
+sReleaseAreaTable: // 0x0210DB28
 	.word gmGameData__ReleaseZ11, gmGameData__ReleaseZ12
 	.word gmGameData__ReleaseZ1T, gmGameData__ReleaseZ1B
 	.word gmGameData__ReleaseZ21, gmGameData__ReleaseZ22

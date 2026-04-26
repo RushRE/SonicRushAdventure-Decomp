@@ -52,7 +52,7 @@ SteamFan *CreateSteamFan(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_steam_fan.bac", GetObjectDataWork(OBJDATAWORK_165), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_steam_fan.bac", GetObjectDataWork(OBJDATAWORK_165), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetObjectSpriteRef(OBJDATAWORK_166));

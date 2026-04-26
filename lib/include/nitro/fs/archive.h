@@ -108,8 +108,8 @@ typedef enum
 // TYPES
 // --------------------
 
-typedef FSResult (*FS_ARCHIVE_READ_FUNC)(struct FSArchive *p, void *dst, u32 pos, u32 size);
-typedef FSResult (*FS_ARCHIVE_WRITE_FUNC)(struct FSArchive *p, const void *src, u32 pos, u32 size);
+typedef FSResult (*FS_ARCHIVE_READ_FUNC)(struct FSArchive *p, void *dst, size_t pos, size_t size);
+typedef FSResult (*FS_ARCHIVE_WRITE_FUNC)(struct FSArchive *p, const void *src, size_t pos, size_t size);
 typedef FSResult (*FS_ARCHIVE_PROC_FUNC)(struct FSFile *, FSCommandType);
 
 // --------------------

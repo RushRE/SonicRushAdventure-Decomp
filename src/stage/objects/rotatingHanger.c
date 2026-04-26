@@ -28,7 +28,7 @@ RotatingHanger *RotatingHanger__Create(MapObject *mapObject, fx32 x, fx32 y, fx3
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rot_hanger.bac", GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rot_hanger.bac", GetObjectDataWork(OBJDATAWORK_160), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 85);

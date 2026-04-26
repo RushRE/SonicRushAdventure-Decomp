@@ -40,8 +40,8 @@ objectSpawnFunc3: // 0x02134030
 eventManagerTask: // 0x02134034
 	.space 0x04
   
-.public eventManagerArchive
-eventManagerArchive: // 0x02134038
+.public gEventManagerArchive
+gEventManagerArchive: // 0x02134038
 	.space 0x04
   
 .public objectLayout

@@ -89,7 +89,7 @@ Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     }
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_stalactite.bac", GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_stalactite.bac", GetObjectDataWork(OBJDATAWORK_159), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 52, GetObjectSpriteRef(OBJDATAWORK_160));
     if ((GetObjectSpriteRef(OBJDATAWORK_160)->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) > 1)
@@ -103,7 +103,7 @@ Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
     AnimatorSpriteDS *aniWeakPoint = &work->aniWeakPoint;
-    ObjAction2dBACLoad(aniWeakPoint, "/act/ac_gmk_stalactite.bac", 56, GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage);
+    ObjAction2dBACLoad(aniWeakPoint, "/act/ac_gmk_stalactite.bac", 56, GetObjectDataWork(OBJDATAWORK_159), gGameArchiveStage);
     aniWeakPoint->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniWeakPoint->cParam[0].palette = aniWeakPoint->cParam[1].palette = aniWeakPoint->work.cParam.palette;
     aniWeakPoint->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -125,7 +125,7 @@ Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     id        = OBJDATAWORK_164;
     for (; i < 3; i++)
     {
-        ObjAction2dBACLoad(aniDebris, "/act/ac_gmk_stalactite.bac", 0, sprDebris, gameArchiveStage);
+        ObjAction2dBACLoad(aniDebris, "/act/ac_gmk_stalactite.bac", 0, sprDebris, gGameArchiveStage);
         ObjActionAllocSpriteDS(aniDebris, Sprite__GetSpriteSize2FromAnim(sprDebris->fileData, i + STALACTITE_ANI_4), GetObjectSpriteRef(id));
         aniDebris->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
         aniDebris->cParam[0].palette = aniDebris->cParam[1].palette = aniDebris->work.cParam.palette;
@@ -155,7 +155,7 @@ Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjRect__SetOnDefend(&work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK], Stalactite_OnDefend);
     work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_stalactite_bottom.df", GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_stalactite_bottom.df", GetObjectDataWork(OBJDATAWORK_171), gGameArchiveStage);
     StageTaskCollisionObj *collisionWork0 = &work->gameWork.collisionObject.work;
     collisionWork0->parent                = &work->gameWork.objWork;
     collisionWork0->width                 = 104;
@@ -199,7 +199,7 @@ FallingStalactite *CreateFallingStalactite(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_stalactite.bac", GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage, 66);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_stalactite.bac", GetObjectDataWork(OBJDATAWORK_159), gGameArchiveStage, 66);
     if (type)
         ObjActionAllocSpritePalette(&work->gameWork.objWork, STALACTITE_ANI_7, 45);
     else
@@ -208,7 +208,7 @@ FallingStalactite *CreateFallingStalactite(MapObject *mapObject, fx32 x, fx32 y,
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_stalactite_drop.df", GetObjectDataWork(OBJDATAWORK_170), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_stalactite_drop.df", GetObjectDataWork(OBJDATAWORK_170), gGameArchiveStage);
     StageTaskCollisionObj *collisionWork0 = &work->gameWork.collisionObject.work;
     collisionWork0->parent                = &work->gameWork.objWork;
     collisionWork0->width                 = 40;

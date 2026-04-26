@@ -103,14 +103,14 @@ NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, f
     work->gameWork.objWork.offset.z = -FLOAT_TO_FX32(32.0);
     VEC_Set(&work->gameWork.objWork.scale, FLOAT_TO_FX32(1.1875), FLOAT_TO_FX32(1.1875), FLOAT_TO_FX32(1.1875));
 
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniChest, "/gmk_goal_chest.nsbmd", 0, NULL, gameArchiveCommon);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniChest, "/gmk_goal_chest.nsbca", NULL, gameArchiveCommon);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniChest, "/gmk_goal_chest.nsbmd", 0, NULL, gGameArchiveCommon);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniChest, "/gmk_goal_chest.nsbca", NULL, gGameArchiveCommon);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_ROTATION;
     VEC_Set(&work->aniChest.ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
     AnimatorMDL__Init(&work->aniChestEffect, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->aniChestEffect, ObjDataLoad(NULL, "/gmk_chest_efect.nsbmd", gameArchiveCommon), 0, FALSE, FALSE);
-    void *dataEffect = ObjDataLoad(NULL, "/gmk_chest_efect.nsbta", gameArchiveCommon);
+    AnimatorMDL__SetResource(&work->aniChestEffect, ObjDataLoad(NULL, "/gmk_chest_efect.nsbmd", gGameArchiveCommon), 0, FALSE, FALSE);
+    void *dataEffect = ObjDataLoad(NULL, "/gmk_chest_efect.nsbta", gGameArchiveCommon);
     AnimatorMDL__SetAnimation(&work->aniChestEffect, B3D_ANIM_TEX_ANIM, dataEffect, GOALCHEST_ANI_EFFECT_ACTIVE, NULL);
     VEC_Set(&work->aniChestEffect.work.scale, FLOAT_TO_FX32(1.65), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.2));
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_USE_DEFAULT_DRAW;
@@ -224,14 +224,14 @@ _021653B0:
 	str r0, [r4, #0x40]
 	mov r3, #0
 	str r3, [sp]
-	ldr r1, =gameArchiveCommon
+	ldr r1, =gGameArchiveCommon
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
 	ldr r2, =aGmkGoalChestNs
 	bl ObjAction3dNNModelLoad
-	ldr r1, =gameArchiveCommon
+	ldr r1, =gGameArchiveCommon
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
@@ -251,7 +251,7 @@ _021653B0:
 	bl AnimatorMDL__Init
 	mov r0, #0
 	ldr r1, =aGmkChestEfectN
-	ldr r2, =gameArchiveCommon
+	ldr r2, =gGameArchiveCommon
 	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r1, r0
@@ -262,7 +262,7 @@ _021653B0:
 	bl AnimatorMDL__SetResource
 	mov r0, #0
 	ldr r1, =aGmkChestEfectN_0
-	ldr r2, =gameArchiveCommon
+	ldr r2, =gGameArchiveCommon
 	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r2, r0

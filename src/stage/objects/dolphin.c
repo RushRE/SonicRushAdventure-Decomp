@@ -135,8 +135,8 @@ NONMATCH_FUNC Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS;
 
     OBS_ACTION3D_NN_WORK *aniDolphin = &work->aniDolphin;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniDolphin, "/mod/gmk_dolphin.nsbmd", 0, GetObjectDataWork(OBJDATAWORK_169), gameArchiveStage);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, aniDolphin, "/mod/gmk_dolphin.nsbca", GetObjectDataWork(OBJDATAWORK_170), gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniDolphin, "/mod/gmk_dolphin.nsbmd", 0, GetObjectDataWork(OBJDATAWORK_169), gGameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, aniDolphin, "/mod/gmk_dolphin.nsbca", GetObjectDataWork(OBJDATAWORK_170), gGameArchiveStage);
 
     AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_JOINT_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_JOINT_ANIM], DOLPHIN_ANI_IDLE, NULL);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_LOOPING;
@@ -196,7 +196,7 @@ NONMATCH_FUNC Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 
 	str r1, [r4, #0x1c]
 	bl GetObjectFileWork
 	str r0, [sp]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
@@ -207,7 +207,7 @@ NONMATCH_FUNC Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 
 	mov r0, #0xaa
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
@@ -275,7 +275,7 @@ DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkDolphi, GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkDolphi, GetObjectDataWork(OBJDATAWORK_171), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
 
     s32 paletteFlags;
@@ -291,7 +291,7 @@ DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if (sHoopAnimConfig[work->type][1] != DOLPHINHOOP_ANI_NONE)
     {
         AnimatorSpriteDS *aniRingBack = &work->aniRingBack;
-        ObjAction2dBACLoad(aniRingBack, aActAcGmkDolphi, OBJ_DATA_GFX_AUTO, GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage);
+        ObjAction2dBACLoad(aniRingBack, aActAcGmkDolphi, OBJ_DATA_GFX_AUTO, GetObjectDataWork(OBJDATAWORK_171), gGameArchiveStage);
 
         aniRingBack->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
         aniRingBack->cParam[0].palette = aniRingBack->cParam[1].palette = aniRingBack->work.cParam.palette;

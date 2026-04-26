@@ -68,14 +68,14 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_LIMIT_MAP_BOUNDS;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_balloon.bac", GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage, 16);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_balloon.bac", GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage, 16);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 2, 6);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, 2);
 
     AnimatorSpriteDS *aniBalloon = &work->aniBalloon;
-    ObjAction2dBACLoad(aniBalloon, "/act/ac_gmk_balloon.bac", 26, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
+    ObjAction2dBACLoad(aniBalloon, "/act/ac_gmk_balloon.bac", 26, GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage);
     aniBalloon->work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     aniBalloon->work.cParam.palette = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 97);
     aniBalloon->cParam[0].palette = aniBalloon->cParam[1].palette = aniBalloon->work.cParam.palette;
@@ -85,7 +85,7 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     AnimatorSpriteDS__SetAnimation(aniBalloon, 0);
 
     AnimatorSpriteDS *aniCrystal = &work->aniCrystal;
-    ObjAction2dBACLoad(aniCrystal, "/act/ac_gmk_balloon.bac", 2, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
+    ObjAction2dBACLoad(aniCrystal, "/act/ac_gmk_balloon.bac", 2, GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage);
     aniCrystal->work.cParam.palette = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 1, 97);
     aniCrystal->cParam[0].palette = aniCrystal->cParam[1].palette = aniCrystal->work.cParam.palette;
     aniCrystal->work.flags                                        = aniCrystal->work.flags | ANIMATOR_FLAG_DISABLE_PALETTES;

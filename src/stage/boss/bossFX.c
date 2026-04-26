@@ -734,13 +734,13 @@ BossFX3D *BossFX3D__Create(size_t size, BossFX3DState state, const char *path, u
 
     STD_CopyString(fullPath, path);
     STD_ConcatenateString(fullPath, ".nsbmd");
-    ObjAction3dNNModelLoad(&work->objWork, &work->aniModel, fullPath, 0, NULL, gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->objWork, &work->aniModel, fullPath, 0, NULL, gGameArchiveStage);
     work->aniModel.ani.work.scale.x = FLOAT_TO_FX32(3.3);
     work->aniModel.ani.work.scale.y = FLOAT_TO_FX32(3.3);
     work->aniModel.ani.work.scale.z = FLOAT_TO_FX32(3.3);
 
     STD_CopyString(fullPath, "exc:");
-    NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+    NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
     STD_CopyString(&fullPath[4], path);
     STD_ConcatenateString(&fullPath[4], ".nsbmd");
     work->resModel = NNS_FndGetArchiveFileByName(fullPath);
@@ -883,7 +883,7 @@ void BossFX3D__State_CondorTackle(BossFX3D *work)
 
     if ((work->aniModel.ani.animFlags[0] & ANIMATORMDL_FLAG_FINISHED) != 0)
     {
-        NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
+        NNS_FndMountArchive(&arc, "exc", gGameArchiveStage);
 
         AnimatorMDL__SetAnimation(&work->aniModel.ani, 0, NNS_FndGetArchiveFileByName("exc:bsef6_tackle.nsbca"), 1, NULL);
         AnimatorMDL__SetAnimation(&work->aniModel.ani, 1, NNS_FndGetArchiveFileByName("exc:bsef6_tackle.nsbma"), 1, NULL);
@@ -926,7 +926,7 @@ BossFX2D *BossFX2D__Create(size_t size, BossFX2DState state, const char *path, u
     work->objWork.gravityStrength  = FLOAT_TO_FX32(0.1640625);
     work->objWork.terminalVelocity = FLOAT_TO_FX32(15.0);
 
-    ObjObjectAction3dBACLoad(&work->objWork, &work->aniSprite, path, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, NULL, gameArchiveStage);
+    ObjObjectAction3dBACLoad(&work->objWork, &work->aniSprite, path, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, NULL, gGameArchiveStage);
     work->aniSprite.ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
     work->aniSprite.ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P;
     AnimatorSprite__SetAnimation(&work->aniSprite.ani.animatorSprite, animID);

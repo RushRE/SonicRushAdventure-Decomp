@@ -16,10 +16,10 @@ extern "C" {
 
 #define MB_MAX_CHILD WM_NUM_MAX_CHILD
 
-#define MB_FILENAME_SIZE_MAX (10)
-#define MB_MAX_FILE          (16)
+#define MB_FILENAME_SIZE_MAX 10
+#define MB_MAX_FILE          16
 
-#define MB_SYSTEM_BUF_SIZE (0xC000)
+#define MB_SYSTEM_BUF_SIZE 0xC000
 
 #define MB_COMM_PARENT_SEND_MIN 256
 #define MB_COMM_PARENT_SEND_MAX 510
@@ -32,7 +32,7 @@ extern "C" {
 #define MB_TGID_AUTO 0x10000
 
 #define MB_ICON_COLOR_NUM          16
-#define MB_ICON_PALETTE_SIZE       (MB_ICON_COLOR_NUM * 2)
+#define MB_ICON_PALETTE_SIZE       (MB_ICON_COLOR_NUM * sizeof(GXRgb))
 #define MB_ICON_DATA_SIZE          512
 #define MB_GAME_NAME_LENGTH        48
 #define MB_GAME_INTRO_LENGTH       96
@@ -76,6 +76,8 @@ typedef enum
     MB_COMM_PSTATE_ERROR,
     MB_COMM_PSTATE_WAIT_TO_SEND,
 
+    MB_COMM_PSTATE_COUNT,
+
     MB_COMM_PSTATE_WM_EVENT = 0x80000000
 } MBCommPState;
 
@@ -104,7 +106,7 @@ typedef enum
 
     MB_ERRCODE_FATAL,
 
-    MB_ERRCODE_MAX
+    MB_ERRCODE_COUNT
 } MBErrCode;
 
 // --------------------
@@ -199,7 +201,6 @@ void MB_CommSetParentStateCallback(MBCommPStateCallback callback);
 u32 MB_GetSegmentLength(FSFile *file);
 BOOL MB_ReadSegment(FSFile *file, void *buf, u32 len);
 BOOL MB_RegisterFile(const MBGameRegistry *game_reg, const void *buf);
-void *MB_UnregisterFile(const MBGameRegistry *game_reg);
 BOOL MB_CommResponseRequest(u16 child_aid, MBCommResponseRequestType ack);
 
 BOOL MB_CommIsBootable(u16 child_aid);

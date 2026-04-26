@@ -76,16 +76,16 @@ CrumblingFloor *CreateCrumblingFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_b_fall_floor.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage, 0);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_b_fall_floor.bac", GetObjectDataWork(OBJDATAWORK_162), gGameArchiveStage, 0);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, spriteSizeTable[objType], GetObjectSpriteRef(2 * objType + OBJDATAWORK_163));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, CRUMBLINGFLOOR_ANI_FLAT, 6);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, objType);
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, collisionTable[objType], GetObjectDataWork(objType + OBJDATAWORK_167), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, collisionTable[objType], GetObjectDataWork(objType + OBJDATAWORK_167), gGameArchiveStage);
     if (mapObject->id != MAPOBJECT_231)
     {
-        ObjObjectCollisionDirSet(&work->gameWork.objWork, "/df/gmk_b_fall_floor_up.di", GetObjectDataWork(OBJDATAWORK_169), gameArchiveStage);
+        ObjObjectCollisionDirSet(&work->gameWork.objWork, "/df/gmk_b_fall_floor_up.di", GetObjectDataWork(OBJDATAWORK_169), gGameArchiveStage);
     }
 
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;

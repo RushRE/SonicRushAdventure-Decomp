@@ -106,7 +106,7 @@ BOOL CreatePauseMenu(void)
     s32 i;
     s32 textAnim;
 
-    void *spriteFile   = ObjDataLoad(NULL, "ac_pause.bac", gameArchiveCommon);
+    void *spriteFile   = ObjDataLoad(NULL, "ac_pause.bac", gGameArchiveCommon);
     u8 *locSpriteSizes = spriteSizes[language];
     textAnim           = PAUSEMENU_ACTION_COUNT * language;
     for (i = 0; i < PAUSEMENU_ANIMATOR_COUNT; i++)

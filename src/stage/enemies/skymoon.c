@@ -72,14 +72,14 @@ EnemySkymoon *CreateSkymoon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if (mapObject->id == MAPOBJECT_23)
     {
         // Skymoon (no laser)
-        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_skymoon.bac", GetObjectDataWork(OBJDATAWORK_23), gameArchiveStage,
+        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_skymoon.bac", GetObjectDataWork(OBJDATAWORK_23), gGameArchiveStage,
                                  OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->gameWork.objWork, SKYMOON_ANI_IDLE, 100);
     }
     else
     {
         // Skymoon (has laser)
-        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_laser_skymoon.bac", GetObjectDataWork(OBJDATAWORK_24), gameArchiveStage,
+        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_laser_skymoon.bac", GetObjectDataWork(OBJDATAWORK_24), gGameArchiveStage,
                                  OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->gameWork.objWork, SKYMOON_ANI_IDLE, 101);
 
@@ -122,7 +122,7 @@ EnemySkymoonLaser *CreateSkymoonLaser(MapObject *mapObject, fx32 x, fx32 y, fx32
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_laser_skymoon.bac", GetObjectDataWork(OBJDATAWORK_24), gameArchiveStage, 8);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_laser_skymoon.bac", GetObjectDataWork(OBJDATAWORK_24), gGameArchiveStage, 8);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, SKYMOON_ANI_LASER_SHOOT, 31);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);

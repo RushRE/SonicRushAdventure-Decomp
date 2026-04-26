@@ -93,7 +93,7 @@ Boss6Stage__Create: // 0x021539C4
 	bl BossHelpers__Model__InitSystem
 	mov r9, #0
 	add r0, r8, #0x158
-	ldr r7, _02153E00 // =bossAssetFiles+0x00000010
+	ldr r7, _02153E00 // =gBossAssetFileList+0x00000010
 	ldr r4, _02153E04 // =_02179680
 	add r10, r0, #0x400
 	mov r6, r9
@@ -111,7 +111,7 @@ _02153B18:
 	cmp r9, #3
 	add r10, r10, #0x17c
 	blt _02153B18
-	ldr r0, _02153E08 // =bossAssetFiles
+	ldr r0, _02153E08 // =gBossAssetFileList
 	add r4, r8, #0x258
 	str r0, [sp]
 	ldr r2, _02153E04 // =_02179680
@@ -130,7 +130,7 @@ _02153B18:
 	strb r0, [r4, #0x80a]
 	mov r0, #0x13
 	strb r0, [r4, #0x80b]
-	ldr r0, _02153E08 // =bossAssetFiles
+	ldr r0, _02153E08 // =gBossAssetFileList
 	strb r6, [r4, #0x80c]
 	str r0, [sp]
 	ldr r2, _02153E04 // =_02179680
@@ -142,13 +142,13 @@ _02153B18:
 	mov r1, r6
 	str r1, [r8, #0x12c]
 	strb r1, [r5, #0x80a]
-	ldr r0, _02153E0C // =gameArchiveStage
+	ldr r0, _02153E0C // =gGameArchiveStage
 	ldr r1, _02153E10 // =_02179684
 	ldr r2, [r0, #0]
 	add r0, sp, #0x18
 	bl NNS_FndMountArchive
 	add r0, r8, #0x1cc
-	ldr r4, _02153E08 // =bossAssetFiles
+	ldr r4, _02153E08 // =gBossAssetFileList
 	add r10, r0, #0x800
 	mov r9, r6
 	add r7, sp, #0x18
@@ -176,7 +176,7 @@ _02153BF4:
 	blt _02153BF4
 	add r0, r8, #0x188
 	ldr r6, _02153E18 // =_02179504
-	ldr r4, _02153E08 // =bossAssetFiles
+	ldr r4, _02153E08 // =gBossAssetFileList
 	add r9, r0, #0xc00
 	mov r10, #0
 	add r11, sp, #0x18
@@ -210,7 +210,7 @@ _02153C5C:
 	add r0, sp, #0x18
 	mov r1, #0x1b
 	bl NNS_FndGetArchiveFileByIndex
-	ldr r1, _02153E08 // =bossAssetFiles
+	ldr r1, _02153E08 // =gBossAssetFileList
 	mov r4, r0
 	ldr r0, [r1, #0]
 	bl NNS_G3dGetTex
@@ -289,10 +289,10 @@ _02153DF0: .word Boss6Stage__State2_2156834
 _02153DF4: .word 0x00083FE0
 _02153DF8: .word 0x001EEF88
 _02153DFC: .word _02178CCC
-_02153E00: .word bossAssetFiles+0x00000010
+_02153E00: .word gBossAssetFileList+0x00000010
 _02153E04: .word _02179680
-_02153E08: .word bossAssetFiles
-_02153E0C: .word gameArchiveStage
+_02153E08: .word gBossAssetFileList
+_02153E0C: .word gGameArchiveStage
 _02153E10: .word _02179684
 _02153E14: .word aZ6TaLinePl
 _02153E18: .word _02179504
@@ -417,7 +417,7 @@ Boss6__Create: // 0x02153E2C
 	str r1, [r8, #0x270]
 	bl Boss6Stage__LoadAssets
 	add r4, r8, #0x214
-	ldr r0, _021541D8 // =bossAssetFiles
+	ldr r0, _021541D8 // =gBossAssetFileList
 	mov r3, #0
 	stmia sp, {r0, r3}
 	ldr r2, _021541DC // =_02179680
@@ -432,7 +432,7 @@ Boss6__Create: // 0x02153E2C
 	str r1, [r4, #0x420]
 	mov r0, #4
 	strb r0, [r4, #0x40a]
-	ldr r1, _021541E0 // =gameArchiveStage
+	ldr r1, _021541E0 // =gGameArchiveStage
 	strb r3, [r4, #0x40b]
 	ldr r2, [r1, #0]
 	mov r0, r8
@@ -467,7 +467,7 @@ Boss6__Create: // 0x02153E2C
 	ldr r1, _021541F0 // =aBodyMuzzle_0
 	mov r2, #0x1d
 	bl BossHelpers__Model__Init
-	ldr r1, _021541D8 // =bossAssetFiles
+	ldr r1, _021541D8 // =gBossAssetFileList
 	mov r0, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -477,7 +477,7 @@ Boss6__Create: // 0x02153E2C
 	mov r3, #1
 	bl ObjAction3dNNModelLoad
 	mov r2, #0
-	ldr r1, _021541D8 // =bossAssetFiles
+	ldr r1, _021541D8 // =gBossAssetFileList
 	str r2, [r8, #0x12c]
 	stmia sp, {r1, r2}
 	add r1, r8, #0x10c
@@ -488,14 +488,14 @@ Boss6__Create: // 0x02153E2C
 	bl ObjAction3dNNModelLoad
 	mov r0, #0
 	str r0, [r8, #0x12c]
-	ldr r2, _021541E0 // =gameArchiveStage
+	ldr r2, _021541E0 // =gGameArchiveStage
 	ldr r1, _021541F4 // =_02179684
 	ldr r2, [r2, #0]
 	add r0, sp, #0xc
 	bl NNS_FndMountArchive
 	add r0, r8, #0x94
 	ldr r6, _021541F8 // =_02179590
-	ldr r4, _021541D8 // =bossAssetFiles
+	ldr r4, _021541D8 // =gBossAssetFileList
 	mov r9, #0
 	add r10, r0, #0x400
 	add r11, sp, #0xc
@@ -541,9 +541,9 @@ _021541C8: .word Boss6__State_2156D34
 _021541CC: .word Boss6__Draw
 _021541D0: .word Boss6__Collide
 _021541D4: .word Boss6__OnDefend_215708C
-_021541D8: .word bossAssetFiles
+_021541D8: .word gBossAssetFileList
 _021541DC: .word _02179680
-_021541E0: .word gameArchiveStage
+_021541E0: .word gGameArchiveStage
 _021541E4: .word aBoss6Nsbca
 _021541E8: .word BossHelpers__Model__RenderCallback
 _021541EC: .word aBodyWeak_0
@@ -727,7 +727,7 @@ _0215449C:
 	strh r1, [r0, #0x3c]
 	add r0, r4, #0x364
 	bl Boss6Stage__LoadAssets
-	ldr r1, _021545B4 // =bossAssetFiles
+	ldr r1, _021545B4 // =gBossAssetFileList
 	add r5, r4, #0x4c
 	str r1, [sp]
 	mov r6, #0
@@ -746,7 +746,7 @@ _0215449C:
 	str r0, [r5, #0x420]
 	mov r0, #8
 	strb r0, [r5, #0x40a]
-	ldr r0, _021545B4 // =bossAssetFiles
+	ldr r0, _021545B4 // =gBossAssetFileList
 	strb r3, [r5, #0x40b]
 	str r0, [sp]
 	str r3, [sp, #4]
@@ -765,7 +765,7 @@ _0215449C:
 	strb r0, [r6, #0x40a]
 	add r0, r4, #0x344
 	add r1, r0, #0x400
-	ldr r2, _021545B4 // =bossAssetFiles
+	ldr r2, _021545B4 // =gBossAssetFileList
 	strb r3, [r6, #0x40b]
 	stmia sp, {r2, r3}
 	ldr r2, _021545B8 // =_02179680
@@ -773,7 +773,7 @@ _0215449C:
 	mov r3, #4
 	bl ObjAction3dNNModelLoad
 	mov r2, #0
-	ldr r1, _021545B4 // =bossAssetFiles
+	ldr r1, _021545B4 // =gBossAssetFileList
 	str r2, [r4, #0x12c]
 	stmia sp, {r1, r2}
 	ldr r2, _021545B8 // =_02179680
@@ -795,7 +795,7 @@ _021545A4: .word Boss6Platform__State_215A2C4
 _021545A8: .word Boss6Platform__Draw
 _021545AC: .word 0x00000112
 _021545B0: .word StageTask__DefaultDiffData
-_021545B4: .word bossAssetFiles
+_021545B4: .word gBossAssetFileList
 _021545B8: .word _02179680
 _021545BC: .word 0x000034CC
 	arm_func_end Boss6Platform__Create
@@ -896,7 +896,7 @@ _02154704:
 	ldr r0, [r4, #0x378]
 	cmp r0, #0
 	bne _02154754
-	ldr r1, _021547C0 // =bossAssetFiles+0x00000008
+	ldr r1, _021547C0 // =gBossAssetFileList+0x00000008
 	ldr r2, _021547C4 // =_02179680
 	mov r0, r4
 	str r1, [sp]
@@ -906,7 +906,7 @@ _02154704:
 	bl ObjAction3dNNModelLoad
 	b _02154778
 _02154754:
-	ldr r1, _021547C8 // =bossAssetFiles
+	ldr r1, _021547C8 // =gBossAssetFileList
 	ldr r2, _021547C4 // =_02179680
 	mov r0, r4
 	str r1, [sp]
@@ -935,9 +935,9 @@ _021547B0: .word StageTask_Main
 _021547B4: .word GameObject__Destructor
 _021547B8: .word Boss6EnemyA__State_215B928
 _021547BC: .word Boss6Enemy__OnDefend_2155270
-_021547C0: .word bossAssetFiles+0x00000008
+_021547C0: .word gBossAssetFileList+0x00000008
 _021547C4: .word _02179680
-_021547C8: .word bossAssetFiles
+_021547C8: .word gBossAssetFileList
 _021547CC: .word 0x000034CC
 	arm_func_end Boss6EnemyA__Create
 
@@ -1029,7 +1029,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	orr r1, r1, #4
 	str r1, [r4, #0x230]
 	bl Boss6Stage__LoadAssets
-	ldr r1, _021549EC // =bossAssetFiles+0x00000008
+	ldr r1, _021549EC // =gBossAssetFileList+0x00000008
 	ldr r2, _021549F0 // =_02179680
 	str r1, [sp]
 	mov r5, #0
@@ -1046,7 +1046,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	str r0, [r4, #0x418]
 	mov r0, #8
 	strb r0, [r4, #0x402]
-	ldr r0, _021549EC // =bossAssetFiles+0x00000008
+	ldr r0, _021549EC // =gBossAssetFileList+0x00000008
 	strb r5, [r4, #0x403]
 	str r0, [sp]
 	ldr r2, _021549F0 // =_02179680
@@ -1056,7 +1056,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	str r5, [sp, #4]
 	bl ObjAction3dNNModelLoad
 	mov r2, r5
-	ldr r1, _021549EC // =bossAssetFiles+0x00000008
+	ldr r1, _021549EC // =gBossAssetFileList+0x00000008
 	str r2, [r4, #0x12c]
 	stmia sp, {r1, r2}
 	ldr r2, _021549F0 // =_02179680
@@ -1079,7 +1079,7 @@ _021549DC: .word Boss6EnemyB__Destructor
 _021549E0: .word Boss6EnemyB__State_215BA88
 _021549E4: .word Boss6EnemyB__Draw
 _021549E8: .word Boss6Enemy__OnDefend_2155270
-_021549EC: .word bossAssetFiles+0x00000008
+_021549EC: .word gBossAssetFileList+0x00000008
 _021549F0: .word _02179680
 _021549F4: .word 0x000034CC
 	arm_func_end Boss6EnemyB__Create
@@ -1168,7 +1168,7 @@ _02154AD0:
 	blt _02154AD0
 	add r0, r8, #0x364
 	bl Boss6Stage__LoadAssets
-	ldr r1, _02154BAC // =bossAssetFiles
+	ldr r1, _02154BAC // =gBossAssetFileList
 	ldr r2, _02154BB0 // =_02179680
 	str r1, [sp]
 	mov r4, #0
@@ -1197,7 +1197,7 @@ _02154B9C: .word GameObject__Destructor
 _02154BA0: .word Boss6Missile__State_215C32C
 _02154BA4: .word Boss6Missile__Collide
 _02154BA8: .word Boss6Missile__OnHit
-_02154BAC: .word bossAssetFiles
+_02154BAC: .word gBossAssetFileList
 _02154BB0: .word _02179680
 _02154BB4: .word 0x00001A66
 	arm_func_end Boss6Missile__Create
@@ -1475,7 +1475,7 @@ Boss6Stage__Func_2154EB4: // 0x02154EB4
 Boss6Stage__LoadAssets: // 0x02154F7C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x68
-	ldr r1, _02154FDC // =gameArchiveStage
+	ldr r1, _02154FDC // =gGameArchiveStage
 	mov r4, r0
 	ldr r2, [r1, #0]
 	ldr r1, _02154FE0 // =_02179684
@@ -1498,7 +1498,7 @@ Boss6Stage__LoadAssets: // 0x02154F7C
 	add sp, sp, #0x68
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02154FDC: .word gameArchiveStage
+_02154FDC: .word gGameArchiveStage
 _02154FE0: .word _02179684
 	arm_func_end Boss6Stage__LoadAssets
 
@@ -3404,7 +3404,7 @@ Boss6Stage__State2_2156834: // 0x02156834
 	mov r2, #0
 	str r2, [sp]
 	mov r0, r5
-	ldr r1, _021569A0 // =bossAssetFiles
+	ldr r1, _021569A0 // =gBossAssetFileList
 	mov r3, r2
 	ldr r1, [r1, #0x18]
 	bl AnimatorMDL__SetResource
@@ -3448,7 +3448,7 @@ Boss6Stage__State2_2156834: // 0x02156834
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021569A0: .word bossAssetFiles
+_021569A0: .word gBossAssetFileList
 _021569A4: .word 0x005DC000
 _021569A8: .word gPlayer
 _021569AC: .word Boss6Stage__PlayerDraw

@@ -309,7 +309,7 @@ EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->type = robotType;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[robotType], GetObjectDataWork(sDataWorkList[robotType]), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, sSpriteList[robotType], GetObjectDataWork(sDataWorkList[robotType]), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);

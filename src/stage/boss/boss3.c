@@ -174,7 +174,7 @@ NONMATCH_FUNC Boss3Stage *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 
 	mov r2, #0
 	str r2, [sp]
 	add r0, r4, #0x400
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	mov r3, r2
 	ldr r1, [r1, #8]
 	bl AnimatorMDL__SetResource
@@ -192,7 +192,7 @@ NONMATCH_FUNC Boss3Stage *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 
 	mov r0, r6
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, =bossAssetFiles
+	ldr r0, =gBossAssetFileList
 	str r2, [sp]
 	ldr r1, [r0, #0x10]
 	mov r0, r6
@@ -211,7 +211,7 @@ NONMATCH_FUNC Boss3Stage *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	str r2, [sp]
 	ldr r1, [r1, #0x18]
 	mov r0, r4
@@ -231,7 +231,7 @@ NONMATCH_FUNC Boss3Stage *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	str r2, [sp]
 	ldr r1, [r1, #0x20]
 	mov r0, r4
@@ -276,7 +276,7 @@ NONMATCH_FUNC Boss3Stage *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 
 	ldr r1, =aStage00
 	mov r2, #0x1e
 	bl BossHelpers__Model__Init
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	add r0, sp, #0x7c
 	ldr r2, [r1, #0]
 	ldr r1, =aExc_3
@@ -364,7 +364,7 @@ _02160E2C:
 	str r5, [r0, #0x374]
 	cmp r6, #4
 	blt _02160E2C
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	add r0, sp, #0x14
 	ldr r2, [r1, #0]
 	ldr r1, =aExc_3
@@ -446,7 +446,7 @@ NONMATCH_FUNC Boss3 *Boss3__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	mov r2, #0
 	str r2, [sp]
 	add r0, r4, #0xc00
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	mov r3, r2
 	ldr r1, [r1, #0]
 	bl AnimatorMDL__SetResource
@@ -497,7 +497,7 @@ _02161084:
 	bl AnimatorMDL__Init
 	mov r0, #0
 	str r0, [sp]
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	mov r0, r10
 	ldr r1, [r1, #0]
 	mov r2, #3
@@ -528,14 +528,14 @@ _02161084:
 	add r10, r10, #0x144
 	cmp r9, #2
 	blt _02161084
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	add r0, sp, #0x14
 	ldr r2, [r1, #0]
 	ldr r1, =aExc_3
 	bl NNS_FndMountArchive
 	add r0, r8, #0x3cc
 	ldr r6, =_0217A8E8
-	ldr r4, =bossAssetFiles
+	ldr r4, =gBossAssetFileList
 	add r10, r0, #0x800
 	mov r9, #0
 	add r11, sp, #0x14
@@ -640,7 +640,7 @@ NONMATCH_FUNC GameObjectTask *Boss3SplatInk__Create(MapObject *mapObject, fx32 x
 	ldr r1, =aExc_3
 	bic r2, r2, #4
 	str r2, [r4, #0x270]
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	add r0, sp, #0xc
 	ldr r2, [r2, #0]
 	bl NNS_FndMountArchive
@@ -744,7 +744,7 @@ NONMATCH_FUNC GameObjectTask *Boss3DimInk__Create(MapObject *mapObject, fx32 x, 
 	orr r1, r1, #0x8300
 	str r1, [r4, #0x1c]
 	bl Boss3Stage__LoadAssets
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	ldr r1, =aExc_3
 	ldr r2, [r2, #0]
 	add r0, sp, #0xc
@@ -856,7 +856,7 @@ NONMATCH_FUNC GameObjectTask *Boss3InkSmoke__Create(MapObject *mapObject, fx32 x
 	str r1, [r6, #0xf4]
 	str r0, [r6, #0xfc]
 	ldr r0, [r6, #0x18]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	orr r0, r0, #0x10
 	str r0, [r6, #0x18]
 	ldr r2, [r6, #0x1c]
@@ -972,7 +972,7 @@ NONMATCH_FUNC GameObjectTask *Boss3ScreenSplatInk__Create(MapObject *mapObject, 
 	orr r1, r1, #0x8300
 	str r1, [r4, #0x1c]
 	bl Boss3Stage__LoadAssets
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	ldr r1, =aExc_3
 	ldr r2, [r2, #0]
 	add r0, sp, #0xc
@@ -1134,7 +1134,7 @@ NONMATCH_FUNC GameObjectTask *Boss3Arm__Create(MapObject *mapObject, fx32 x, fx3
 	cmp r5, #0
 	bne _02161AA4
 	mov r3, #0
-	ldr r0, =bossAssetFiles
+	ldr r0, =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r0, #0]
 	add r0, r6, #0x400
@@ -1145,7 +1145,7 @@ _02161AA4:
 	cmp r5, #1
 	blo _02161AC8
 	mov r3, #0
-	ldr r0, =bossAssetFiles
+	ldr r0, =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r0, #0]
 	add r0, r6, #0x400
@@ -1233,7 +1233,7 @@ NONMATCH_FUNC void Boss3Stage__LoadAssets(Boss3Stage *work)
 	mov r4, r0
 	bl MapFarSys__GetAsset
 	str r0, [r4]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	add r0, sp, #0
 	ldr r2, [r1, #0]
 	ldr r1, =aExc_3
@@ -2953,7 +2953,7 @@ _02162F74:
 	add r7, r7, #0x144
 	blt _02162F74
 	bl EnableSpatialVolume
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	add r0, sp, #0
 	ldr r2, [r1, #0]
 	ldr r1, =aExc_3
@@ -8697,7 +8697,7 @@ void Boss3SplatInk__StateInk_216760C(Boss3SplatInk *work)
     work->stateInk = Boss3SplatInk__StateInk_216767C;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_3, gGameArchiveStage);
     BossHelpers__SetAnimation(&work->animatormdl410, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_INK_NSBCA), 0, NULL, TRUE);
     NNS_FndUnmountArchive(&arc);
 }
@@ -8746,7 +8746,7 @@ void Boss3SplatInk__StateInk_2167780(Boss3SplatInk *work)
 void Boss3SplatInk__StateInk_2167784(Boss3SplatInk *work)
 {
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_3, gGameArchiveStage);
     BossHelpers__SetAnimation(&work->animatormdl554, B3D_ANIM_MAT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_INK_NSBMA), 0, NULL, FALSE);
     NNS_FndUnmountArchive(&arc);
 
@@ -8882,7 +8882,7 @@ void Boss3DimInk__StateInk_2167C44(Boss3DimInk *work)
     work->field_3C8 = 0;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_3, gGameArchiveStage);
     BossHelpers__SetAnimation(&work->aniModel2, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBCA), 0, NULL, FALSE);
     BossHelpers__SetAnimation(&work->aniModel2, B3D_ANIM_TEX_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBTA), 0, NULL, FALSE);
     NNS_FndUnmountArchive(&arc);
@@ -8901,7 +8901,7 @@ void Boss3DimInk__StateInk_2167D18(Boss3DimInk *work)
     work->field_3C8 = 1;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, aExc_3, gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_3, gGameArchiveStage);
     BossHelpers__SetAnimation(&work->aniModel3, B3D_ANIM_JOINT_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBCA), 1, NULL, TRUE);
     BossHelpers__SetAnimation(&work->aniModel3, B3D_ANIM_TEX_ANIM, NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BSEF3_BLD_NSBTA), 1, NULL, TRUE);
     NNS_FndUnmountArchive(&arc);

@@ -86,7 +86,7 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
     s16 secondsDigit2 = FX_ModS32(seconds, 10);
     s16 minutesDigit2 = FX_DivS32(minutes, 10);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkTimerS, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkTimerS, GetObjectDataWork(OBJDATAWORK_117), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 24, GetObjectSpriteRef(OBJDATAWORK_118));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 4, 93);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -94,7 +94,7 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
     StageTask__SetAnimation(&work->gameWork.objWork, TIMERSHUTTER_ANI_WATER_DISPENSER);
 
     AnimatorSpriteDS *aniShutter = &work->aniShutter;
-    ObjAction2dBACLoad(aniShutter, aActAcGmkTimerS, 17, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
+    ObjAction2dBACLoad(aniShutter, aActAcGmkTimerS, 17, GetObjectDataWork(OBJDATAWORK_117), gGameArchiveStage);
     aniShutter->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniShutter->cParam[0].palette = aniShutter->cParam[1].palette = aniShutter->work.cParam.palette;
 
@@ -112,7 +112,7 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
     AnimatorSpriteDS *aniTimeDigit = work->aniTimeDigits;
     for (s16 i = 0; i < 4; i++)
     {
-        ObjAction2dBACLoad(aniTimeDigit, aActAcGmkTimerS, 2, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
+        ObjAction2dBACLoad(aniTimeDigit, aActAcGmkTimerS, 2, GetObjectDataWork(OBJDATAWORK_117), gGameArchiveStage);
         aniTimeDigit->work.cParam.palette = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, timeAnims[i], 95);
         aniTimeDigit->cParam[0].palette = aniTimeDigit->cParam[1].palette = aniTimeDigit->work.cParam.palette;
         aniTimeDigit->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -219,7 +219,7 @@ _021800D4:
 	mov r5, r1, asr #0x10
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r1, #0
 	ldr r2, [r0, #0]
 	mov r0, r8
@@ -250,7 +250,7 @@ _021800D4:
 	mov r0, #0x75
 	add r9, r8, #0x364
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r3, r0
 	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkTimerS
@@ -291,7 +291,7 @@ _021800D4:
 	ldr r6, =aActAcGmkTimerS
 	mov r11, #2
 	add r5, sp, #0x1c
-	ldr r4, =gameArchiveStage
+	ldr r4, =gGameArchiveStage
 	b _021802C4
 _02180238:
 	mov r0, r7
@@ -401,7 +401,7 @@ TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkTimerS, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage, 8);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, aActAcGmkTimerS, GetObjectDataWork(OBJDATAWORK_117), gGameArchiveStage, 8);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 16, 93);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -409,7 +409,7 @@ TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
     AnimatorSpriteDS *aniWater = &work->aniWater;
-    ObjAction2dBACLoad(aniWater, aActAcGmkTimerS, 16, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
+    ObjAction2dBACLoad(aniWater, aActAcGmkTimerS, 16, GetObjectDataWork(OBJDATAWORK_117), gGameArchiveStage);
     aniWater->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     aniWater->cParam[0].palette = aniWater->cParam[1].palette = aniWater->work.cParam.palette;
     aniWater->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;

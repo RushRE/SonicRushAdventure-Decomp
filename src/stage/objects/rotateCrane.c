@@ -63,7 +63,7 @@ NONMATCH_FUNC RotateCrane *RotateCrane__Create(MapObject *mapObject, fx32 x, fx3
 	str r1, [r4, #0x20]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	mov r1, #0
 	ldr r2, [r0, #0]
 	mov r0, r4
@@ -94,7 +94,7 @@ NONMATCH_FUNC RotateCrane *RotateCrane__Create(MapObject *mapObject, fx32 x, fx3
 	mov r0, #0xae
 	bl GetObjectFileWork
 	str r0, [sp]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
@@ -110,7 +110,7 @@ NONMATCH_FUNC RotateCrane *RotateCrane__Create(MapObject *mapObject, fx32 x, fx3
 	mov r0, #0xad
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, =gameArchiveStage
+	ldr r0, =gGameArchiveStage
 	ldr r1, =aActAcGmkVrotCr
 	ldr r6, [r0, #0]
 	mov r0, r5

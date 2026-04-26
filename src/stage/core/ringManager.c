@@ -113,7 +113,7 @@ RingManager *CreateRingManager(void)
                 break;
         }
 
-        void *spriteFile = ObjDataLoad(NULL, "/ac_itm_ring3d.bac", gameArchiveCommon);
+        void *spriteFile = ObjDataLoad(NULL, "/ac_itm_ring3d.bac", gGameArchiveCommon);
 
         AnimatorSprite3D *ani = &gRingManagerWork->aniRing3D;
         AnimatorSprite3D__Init(ani, ANIMATOR_FLAG_NONE, spriteFile, RING_ANI_RING,
@@ -140,7 +140,7 @@ RingManager *CreateRingManager(void)
         gRingManagerWork->drawRing    = RingManager_DrawRing_ZoneAct;
         gRingManagerWork->drawSparkle = RingManager_DrawSparkle_ZoneAct;
 
-        void *spriteFile = ObjDataLoad(NULL, "/ac_itm_ring.bac", gameArchiveCommon);
+        void *spriteFile = ObjDataLoad(NULL, "/ac_itm_ring.bac", gGameArchiveCommon);
 
         AnimatorSpriteDS *ani = &gRingManagerWork->aniRing;
         AnimatorSpriteDS__Init(ani, spriteFile, RING_ANI_RING, 0, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,

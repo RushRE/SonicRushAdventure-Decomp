@@ -3130,7 +3130,7 @@ StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, 
 
     if ((config->flags & DECOR_FLAG_4) != 0 && (config->flags & DECOR_FLAG_10) == 0)
     {
-        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &sDecorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &sDecorFileList[asset->fileID], gGameArchiveStage, OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->decorWork.objWork, config->palAnimID, config->palAnimFlags);
         StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
     }
@@ -3138,7 +3138,7 @@ StageDecoration *DecorationSys__CreateCommonDecor2D(MapDecor *mapDecor, fx32 x, 
     {
         if ((config->flags & DECOR_FLAG_40) == 0)
         {
-            ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &sDecorFileList[asset->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
+            ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator, asset->path, &sDecorFileList[asset->fileID], gGameArchiveStage, OBJ_DATA_GFX_NONE);
             ObjActionAllocSpritePalette(&work->decorWork.objWork, config->palAnimID, config->palAnimFlags);
             ObjObjectActionAllocSprite(&work->decorWork.objWork, Sprite__GetSpriteSize2FromAnim(work->animator.fileWork->fileData, config->animID),
                                        &sDecorSpriteRefList[config->spriteID]);
@@ -3211,16 +3211,16 @@ StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, 
 
     if ((config->flags & DECOR_FLAG_4) != 0 && (config->flags & DECOR_FLAG_10) == 0)
     {
-        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &sDecorFileList[asset->fileID], gameArchiveStage);
+        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, &sDecorFileList[asset->fileID], gGameArchiveStage);
         StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
 
-        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset2D->path, &sDecorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_AUTO);
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset2D->path, &sDecorFileList[asset2D->fileID], gGameArchiveStage, OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->decorWork.objWork, config2D->palAnimID, config2D->palAnimFlags);
         DecorationSys__SetAnimation(&work->decorWork, config2D->animID);
     }
     else
     {
-        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, &sDecorFileList[asset->fileID], gameArchiveStage);
+        ObjObjectAction3dBACLoad(&work->decorWork.objWork, &work->animator3D, asset->path, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, &sDecorFileList[asset->fileID], gGameArchiveStage);
         ObjObjectActionAllocTexture(&work->decorWork.objWork, Sprite__GetTextureSizeFromAnim(work->animator3D.fileWork->fileData, config->animID),
                                     Sprite__GetPaletteSizeFromAnim(work->animator3D.fileWork->fileData, config->animID), (OBS_TEXTURE_REF *)&sDecorSpriteRefList[config->spriteID]);
         StageTask__SetAnimation(&work->decorWork.objWork, config->animID);
@@ -3234,7 +3234,7 @@ StageDecoration *DecorationSys__CreateCommonDecor3D(MapDecor *mapDecor, fx32 x, 
         }
         ani3D->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
 
-        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset->path, &sDecorFileList[asset2D->fileID], gameArchiveStage, OBJ_DATA_GFX_NONE);
+        ObjObjectAction2dBACLoad(&work->decorWork.objWork, &work->animator2D, asset->path, &sDecorFileList[asset2D->fileID], gGameArchiveStage, OBJ_DATA_GFX_NONE);
         ObjActionAllocSpritePalette(&work->decorWork.objWork, config2D->palAnimID, config2D->palAnimFlags);
         ObjObjectActionAllocSprite(&work->decorWork.objWork, Sprite__GetSpriteSize2FromAnim(work->animator2D.fileWork->fileData, config2D->animID),
                                    &sDecorSpriteRefList[config2D->spriteID]);
@@ -4496,7 +4496,7 @@ void DecorationSys__CreateTripleGrindRailLeaf(fx32 x, fx32 y, fx32 velX, fx32 ve
     if (work == NULL)
         return;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_grd3l_leaf.bac", GetObjectDataWork(OBJDATAWORK_158), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_grd3l_leaf.bac", GetObjectDataWork(OBJDATAWORK_158), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 19);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);

@@ -112,7 +112,7 @@ NOT_DECOMPILED void *objectSpawnFunc4;
 NOT_DECOMPILED void *objectSpawnFunc;
 NOT_DECOMPILED void *objectSpawnFunc3;
 NOT_DECOMPILED void *eventManagerTask;
-NOT_DECOMPILED void *eventManagerArchive;
+NOT_DECOMPILED void *gEventManagerArchive;
 NOT_DECOMPILED void *objectLayout;
 NOT_DECOMPILED void *ringLayout;
 NOT_DECOMPILED void *decorLayout;

@@ -43,13 +43,13 @@ Icicle *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_icicle.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_icicle.bac", GetObjectFileWork(OBJDATAWORK_159), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 64, GetObjectSpriteRef(OBJDATAWORK_160));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, ICICLE_ANI_ICICLE, 35);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjObjectAction3dBACLoad(&work->gameWork.objWork, &work->animator, "/act/ac_gmk_icicle3d.bac", OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_162),
-                             gameArchiveStage);
+                             gGameArchiveStage);
     ObjObjectActionAllocTexture(&work->gameWork.objWork, 4096, 16, GetObjectTextureRef(OBJDATAWORK_163));
 
     if ((GetObjectTextureRef(OBJDATAWORK_163)->texture.referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) <= 1)

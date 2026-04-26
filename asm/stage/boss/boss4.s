@@ -73,7 +73,7 @@ Boss4Stage__Create: // 0x0216B638
 	add r0, r4, #0x39c
 	bl BossHelpers__InitLights
 	bl BossHelpers__Model__InitSystem
-	ldr r1, _0216B89C // =bossAssetFiles+0x00000010
+	ldr r1, _0216B89C // =gBossAssetFileList+0x00000010
 	mov r0, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -87,7 +87,7 @@ Boss4Stage__Create: // 0x0216B638
 	str r3, [r4, #0x41c]
 	str r7, [r4, #0x420]
 	str r3, [r4, #0x424]
-	ldr r1, _0216B8A4 // =gameArchiveStage
+	ldr r1, _0216B8A4 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x3d4
@@ -170,9 +170,9 @@ _0216B88C: .word _0217AFB0
 _0216B890: .word Boss4__Func_216D0C8
 _0216B894: .word Boss4__Func_216D1F4
 _0216B898: .word 0x000034CC
-_0216B89C: .word bossAssetFiles+0x00000010
+_0216B89C: .word gBossAssetFileList+0x00000010
 _0216B8A0: .word _0217ACD8
-_0216B8A4: .word gameArchiveStage
+_0216B8A4: .word gGameArchiveStage
 _0216B8A8: .word aBoss4Nsbta
 _0216B8AC: .word 0x0000011E
 _0216B8B0: .word 0x0000011D
@@ -329,7 +329,7 @@ Boss4__Create: // 0x0216B8BC
 	orr r1, r1, #0x400
 	str r1, [r8, #0x2b0]
 	bl Boss4__Func_2170120
-	ldr r1, _0216BC7C // =bossAssetFiles
+	ldr r1, _0216BC7C // =gBossAssetFileList
 	add r4, r8, #0x208
 	str r1, [sp]
 	mov r3, #0
@@ -346,7 +346,7 @@ Boss4__Create: // 0x0216B8BC
 	str r0, [r4, #0x420]
 	mov r0, #4
 	strb r0, [r4, #0x40a]
-	ldr r0, _0216BC88 // =gameArchiveStage
+	ldr r0, _0216BC88 // =gGameArchiveStage
 	strb r3, [r4, #0x40b]
 	ldr r1, [r0, #0]
 	ldr r2, _0216BC8C // =aBoss4Nsbca
@@ -367,14 +367,14 @@ Boss4__Create: // 0x0216B8BC
 	ldr r1, _0216BC94 // =aBodyCore
 	mov r2, #0x1e
 	bl BossHelpers__Model__Init
-	ldr r2, _0216BC88 // =gameArchiveStage
+	ldr r2, _0216BC88 // =gGameArchiveStage
 	ldr r1, _0216BC98 // =aExc_5
 	ldr r2, [r2, #0]
 	add r0, sp, #0xc
 	bl NNS_FndMountArchive
 	add r0, r8, #4
 	ldr r6, _0216BC9C // =_0217ABB4
-	ldr r4, _0216BC7C // =bossAssetFiles
+	ldr r4, _0216BC7C // =gBossAssetFileList
 	mov r9, #0
 	add r10, r0, #0x400
 	add r11, sp, #0xc
@@ -424,10 +424,10 @@ _0216BC6C: .word Boss4__Func_216FC8C
 _0216BC70: .word Boss4__Func_216FD08
 _0216BC74: .word Boss4__Func_216FD80
 _0216BC78: .word Boss4__Func_216FEB0
-_0216BC7C: .word bossAssetFiles
+_0216BC7C: .word gBossAssetFileList
 _0216BC80: .word _0217ACD8
 _0216BC84: .word 0x000034CC
-_0216BC88: .word gameArchiveStage
+_0216BC88: .word gGameArchiveStage
 _0216BC8C: .word aBoss4Nsbca
 _0216BC90: .word BossHelpers__Model__RenderCallback
 _0216BC94: .word aBodyCore
@@ -546,7 +546,7 @@ Boss4Core__Create: // 0x0216BCA0
 	add r5, r4, #0x3c8
 	orr r0, r0, #0x400
 	str r0, [r4, #0x270]
-	ldr r0, _0216BF84 // =bossAssetFiles+0x00000008
+	ldr r0, _0216BF84 // =gBossAssetFileList+0x00000008
 	mov r3, #0
 	stmia sp, {r0, r3}
 	ldr r2, _0216BF88 // =_0217ACD8
@@ -561,7 +561,7 @@ Boss4Core__Create: // 0x0216BCA0
 	str r1, [r5, #0x420]
 	mov r0, #4
 	strb r0, [r5, #0x40a]
-	ldr r2, _0216BF90 // =gameArchiveStage
+	ldr r2, _0216BF90 // =gGameArchiveStage
 	strb r3, [r5, #0x40b]
 	add r1, r5, #0x400
 	ldr r5, [r2, #0]
@@ -577,7 +577,7 @@ Boss4Core__Create: // 0x0216BCA0
 	add r0, r0, #0x400
 	mov r1, #1
 	bl BossHelpers__SetAnimation
-	ldr r2, _0216BF90 // =gameArchiveStage
+	ldr r2, _0216BF90 // =gGameArchiveStage
 	ldr r1, _0216BF98 // =aExc_5
 	ldr r2, [r2, #0]
 	add r0, sp, #0xc
@@ -585,7 +585,7 @@ Boss4Core__Create: // 0x0216BCA0
 	add r0, sp, #0xc
 	mov r1, #0xc
 	bl NNS_FndGetArchiveFileByIndex
-	ldr r1, _0216BF9C // =bossAssetFiles
+	ldr r1, _0216BF9C // =gBossAssetFileList
 	mov r5, r0
 	ldr r0, [r1, #8]
 	bl NNS_G3dGetTex
@@ -623,13 +623,13 @@ _0216BF74: .word Boss4__Func_216E408
 _0216BF78: .word Boss4__Func_216E4E0
 _0216BF7C: .word Boss4__Func_216E594
 _0216BF80: .word Boss4__Func_216E7F4
-_0216BF84: .word bossAssetFiles+0x00000008
+_0216BF84: .word gBossAssetFileList+0x00000008
 _0216BF88: .word _0217ACD8
 _0216BF8C: .word 0x000034CC
-_0216BF90: .word gameArchiveStage
+_0216BF90: .word gGameArchiveStage
 _0216BF94: .word aBoss4CoreNsbma
 _0216BF98: .word aExc_5
-_0216BF9C: .word bossAssetFiles
+_0216BF9C: .word gBossAssetFileList
 _0216BFA0: .word _0217ABB0
 	arm_func_end Boss4Core__Create
 
@@ -727,7 +727,7 @@ Boss4Ship__Create: // 0x0216BFA4
 	mov r0, #1
 	strh r0, [r2, #0x22]
 	ldr r0, [r2, #0x1c]
-	ldr r1, _0216C1C0 // =bossAssetFiles+0x00000010
+	ldr r1, _0216C1C0 // =gBossAssetFileList+0x00000010
 	orr r0, r0, #4
 	str r0, [r2, #0x1c]
 	ldr r2, _0216C1C4 // =_0217ACD8
@@ -771,7 +771,7 @@ _0216C1B0: .word Boss4__Func_216E118
 _0216C1B4: .word Boss4__Func_216E170
 _0216C1B8: .word 0x00000222
 _0216C1BC: .word StageTask__DefaultDiffData
-_0216C1C0: .word bossAssetFiles+0x00000010
+_0216C1C0: .word gBossAssetFileList+0x00000010
 _0216C1C4: .word _0217ACD8
 _0216C1C8: .word 0x000034CC
 _0216C1CC: .word BossHelpers__Model__RenderCallback
@@ -861,7 +861,7 @@ Boss4Pulley__Create: // 0x0216C1D8
 	str r4, [r4, #0x234]
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
-	ldr r1, _0216C3EC // =bossAssetFiles+0x00000010
+	ldr r1, _0216C3EC // =gBossAssetFileList+0x00000010
 	orr r0, r0, #4
 	str r0, [r4, #0x230]
 	ldr r0, [r4, #0x380]
@@ -915,7 +915,7 @@ _0216C3DC: .word Boss4__Func_216DC60
 _0216C3E0: .word Boss4__Func_216DDE0
 _0216C3E4: .word Boss4__Func_216DEA4
 _0216C3E8: .word Boss4__Func_216DEE8
-_0216C3EC: .word bossAssetFiles+0x00000010
+_0216C3EC: .word gBossAssetFileList+0x00000010
 _0216C3F0: .word _0217ACD8
 _0216C3F4: .word 0x000034CC
 _0216C3F8: .word BossHelpers__Model__RenderCallback
@@ -997,7 +997,7 @@ Boss4FireColumn__Create: // 0x0216C404
 	bic r0, r0, #4
 	str r0, [r4, #0x230]
 	mov r3, #0
-	ldr r0, _0216C63C // =gameArchiveStage
+	ldr r0, _0216C63C // =gGameArchiveStage
 	str r3, [sp]
 	ldr r5, [r0, #0]
 	ldr r2, _0216C640 // =aBsef4FcolNsbmd
@@ -1020,7 +1020,7 @@ Boss4FireColumn__Create: // 0x0216C404
 	ldr r0, [r4, #0x4b0]
 	bl CreateAsset3DSetup
 _0216C57C:
-	ldr r0, _0216C63C // =gameArchiveStage
+	ldr r0, _0216C63C // =gGameArchiveStage
 	ldr r2, _0216C648 // =aBsef4FcolNsbca
 	ldr r5, [r0, #0]
 	mov r0, r4
@@ -1028,7 +1028,7 @@ _0216C57C:
 	mov r3, #0
 	str r5, [sp]
 	bl ObjAction3dNNMotionLoad
-	ldr r0, _0216C63C // =gameArchiveStage
+	ldr r0, _0216C63C // =gGameArchiveStage
 	ldr r2, _0216C64C // =aBsef4FcolNsbma
 	ldr r5, [r0, #0]
 	mov r0, r4
@@ -1036,7 +1036,7 @@ _0216C57C:
 	mov r3, #0
 	str r5, [sp]
 	bl ObjAction3dNNMotionLoad
-	ldr r0, _0216C63C // =gameArchiveStage
+	ldr r0, _0216C63C // =gGameArchiveStage
 	ldr r2, _0216C650 // =aBsef4FcolNsbta
 	ldr r5, [r0, #0]
 	mov r0, r4
@@ -1044,7 +1044,7 @@ _0216C57C:
 	mov r3, #0
 	str r5, [sp]
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _0216C63C // =gameArchiveStage
+	ldr r1, _0216C63C // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x36c
@@ -1052,7 +1052,7 @@ _0216C57C:
 	ldr r2, _0216C654 // =aBsef4FcolNsbtp
 	mov r3, #0
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _0216C63C // =gameArchiveStage
+	ldr r1, _0216C63C // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x36c
@@ -1069,7 +1069,7 @@ _0216C62C: .word StageTask_Main
 _0216C630: .word Boss4__Func_216DB28
 _0216C634: .word Boss4__Func_216D9D4
 _0216C638: .word Boss4__Func_216DB68
-_0216C63C: .word gameArchiveStage
+_0216C63C: .word gGameArchiveStage
 _0216C640: .word aBsef4FcolNsbmd
 _0216C644: .word 0x000034CC
 _0216C648: .word aBsef4FcolNsbca
@@ -1156,7 +1156,7 @@ Boss4FireBall__Create: // 0x0216C65C
 	orr r0, r0, #4
 	str r0, [r4, #0x230]
 	mov r3, #0
-	ldr r0, _0216C904 // =gameArchiveStage
+	ldr r0, _0216C904 // =gGameArchiveStage
 	str r3, [sp]
 	ldr r5, [r0, #0]
 	ldr r2, _0216C908 // =aBsef4FballNsbm
@@ -1179,7 +1179,7 @@ Boss4FireBall__Create: // 0x0216C65C
 	ldr r0, [r4, #0x4b4]
 	bl CreateAsset3DSetup
 _0216C7E0:
-	ldr r0, _0216C904 // =gameArchiveStage
+	ldr r0, _0216C904 // =gGameArchiveStage
 	ldr r2, _0216C910 // =aBsef4FballNsbc
 	ldr r5, [r0, #0]
 	mov r0, r4
@@ -1187,7 +1187,7 @@ _0216C7E0:
 	mov r3, #0
 	str r5, [sp]
 	bl ObjAction3dNNMotionLoad
-	ldr r0, _0216C904 // =gameArchiveStage
+	ldr r0, _0216C904 // =gGameArchiveStage
 	ldr r2, _0216C914 // =aBsef4FballNsbm_0
 	ldr r5, [r0, #0]
 	mov r0, r4
@@ -1195,7 +1195,7 @@ _0216C7E0:
 	mov r3, #0
 	str r5, [sp]
 	bl ObjAction3dNNMotionLoad
-	ldr r0, _0216C904 // =gameArchiveStage
+	ldr r0, _0216C904 // =gGameArchiveStage
 	ldr r2, _0216C918 // =aBsef4FballNsbt
 	ldr r5, [r0, #0]
 	mov r0, r4
@@ -1203,7 +1203,7 @@ _0216C7E0:
 	mov r3, #0
 	str r5, [sp]
 	bl ObjAction3dNNMotionLoad
-	ldr r1, _0216C904 // =gameArchiveStage
+	ldr r1, _0216C904 // =gGameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x370
@@ -1253,7 +1253,7 @@ _0216C8F4: .word StageTask_Main
 _0216C8F8: .word Boss4__Func_216D93C
 _0216C8FC: .word Boss4__Func_216D6B4
 _0216C900: .word Boss4__Func_216D97C
-_0216C904: .word gameArchiveStage
+_0216C904: .word gGameArchiveStage
 _0216C908: .word aBsef4FballNsbm
 _0216C90C: .word 0x00001A66
 _0216C910: .word aBsef4FballNsbc
@@ -1269,7 +1269,7 @@ Boss4__Func_216C920: // 0x0216C920
 	mov r4, r0
 	bl MapFarSys__GetAsset
 	str r0, [r4]
-	ldr r1, _0216C9A8 // =gameArchiveStage
+	ldr r1, _0216C9A8 // =gGameArchiveStage
 	add r0, sp, #0
 	ldr r2, [r1, #0]
 	ldr r1, _0216C9AC // =aExc_5
@@ -1299,7 +1299,7 @@ Boss4__Func_216C920: // 0x0216C920
 	add sp, sp, #0x68
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216C9A8: .word gameArchiveStage
+_0216C9A8: .word gGameArchiveStage
 _0216C9AC: .word aExc_5
 	arm_func_end Boss4__Func_216C920
 
@@ -1945,7 +1945,7 @@ Boss4__Func_216D150: // 0x0216D150
 	ldr r1, _0216D1E4 // =aBsef4FballNsbm
 	add r0, sp, #0
 	bl STD_ConcatenateString
-	ldr r1, _0216D1E8 // =gameArchiveStage
+	ldr r1, _0216D1E8 // =gGameArchiveStage
 	add r0, sp, #0x40
 	ldr r2, [r1, #0]
 	ldr r1, _0216D1EC // =aExc_5
@@ -1970,7 +1970,7 @@ _0216D1B4:
 	.align 2, 0
 _0216D1E0: .word aExc_4
 _0216D1E4: .word aBsef4FballNsbm
-_0216D1E8: .word gameArchiveStage
+_0216D1E8: .word gGameArchiveStage
 _0216D1EC: .word aExc_5
 _0216D1F0: .word _0217AFB0
 	arm_func_end Boss4__Func_216D150

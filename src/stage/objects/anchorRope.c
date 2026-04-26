@@ -60,7 +60,7 @@ AnchorRope *CreateAnchorRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_ROTATE_CAMERA_DIR | DISPLAY_FLAG_DISABLE_ROTATION;
 
-    work->resAnchorRope = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_159), "/mod/gmk_anchor_rope.nsbmd", gameArchiveStage);
+    work->resAnchorRope = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_159), "/mod/gmk_anchor_rope.nsbmd", gGameArchiveStage);
 
     for (s32 i = 0; i < ANCHORROPE_ANIMATOR_COUNT; i++)
     {
@@ -74,7 +74,7 @@ AnchorRope *CreateAnchorRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 		// Init 2D graphics, these are fallback graphics in the event this gets rendered on the screen without 3D support
         AnimatorSpriteDS *aniRope2D = &work->aniRope2D[i];
-        ObjAction2dBACLoad(aniRope2D, "/act/ac_gmk_anchor_rope.bac", sSpriteSizeTable[i], GetObjectDataWork(OBJDATAWORK_160), gameArchiveStage);
+        ObjAction2dBACLoad(aniRope2D, "/act/ac_gmk_anchor_rope.bac", sSpriteSizeTable[i], GetObjectDataWork(OBJDATAWORK_160), gGameArchiveStage);
         aniRope2D->work.cParam.palette = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_160)->fileData, i, sPaletteFlagTable[i]);
         aniRope2D->cParam[0].palette = aniRope2D->cParam[1].palette = aniRope2D->work.cParam.palette;
         aniRope2D->flags |= ANIMATORSPRITEDS_FLAG_DISABLE_A;

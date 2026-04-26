@@ -218,10 +218,10 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
     u16 HUD__uiElementAnimID[HUD_ANIMATOR_COUNT_MAIN]     = { HUD_ANI_1, HUD_ANI_2, HUD_ANI_30, HUD_ANI_34, HUD_ANI_35, HUD_ANI_36, HUD_ANI_37, HUD_ANI_38, HUD_ANI_3, HUD_ANI_4 };
     u16 HUD__uiElementPaletteRow[HUD_ANIMATOR_COUNT_MAIN] = { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 };
 
-    spriteFile = ObjDataLoad(NULL, "/ac_fix.bac", gameArchiveCommon);
+    spriteFile = ObjDataLoad(NULL, "/ac_fix.bac", gGameArchiveCommon);
 
     if (!IsBossStage() && gmCheckGameMode(GAMEMODE_VS_BATTLE))
-        contSpriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gameArchiveCommon);
+        contSpriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gGameArchiveCommon);
 
     s32 numberCount;
     if (gmCheckGameMode(GAMEMODE_VS_BATTLE) || gmCheckGameMode(GAMEMODE_MISSION))
@@ -470,7 +470,7 @@ _02034494:
 	add r3, r3, #4
 	subs r2, r2, #1
 	bne _02034494
-	ldr r0, =gameArchiveCommon
+	ldr r0, =gGameArchiveCommon
 	ldr r1, =aAcFixBac
 	ldr r2, [r0, #0]
 	mov r0, #0
@@ -482,7 +482,7 @@ _02034494:
 	ldreq r0, [r0, #0x14]
 	cmpeq r0, #1
 	bne _020344FC
-	ldr r0, =gameArchiveCommon
+	ldr r0, =gGameArchiveCommon
 	ldr r1, =0x02119530 // aAcFixContBac_0
 	ldr r2, [r0, #0]
 	mov r0, #0
@@ -1218,7 +1218,7 @@ void CreateConnectionStatusHUD(BOOL useDWC)
         work->lastLinkLevel = DWC_GetLinkLevel();
     }
 
-    void *spriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gameArchiveCommon);
+    void *spriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gGameArchiveCommon);
 
     AnimatorSpriteDS *ani;
     u16 i;
@@ -1257,7 +1257,7 @@ void CreateTargetIndicatorHUD(StageTask *target)
     TargetIndicatorHUD *work = TaskGetWork(task, TargetIndicatorHUD);
     TaskInitWork16(work);
 
-    void *spriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gameArchiveCommon);
+    void *spriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gGameArchiveCommon);
 
     AnimatorSprite__Init(&work->animator, spriteFile, HUD_CONTANI_11, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, 8), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
@@ -1277,7 +1277,7 @@ void CreateRaceProgressHUD(s32 characterID)
     RaceProgressHUD *work = TaskGetWork(task, RaceProgressHUD);
     TaskInitWork16(work);
 
-    void *spriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gameArchiveCommon);
+    void *spriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gGameArchiveCommon);
 
     if (characterID == CHARACTER_BLAZE)
     {
@@ -2620,7 +2620,7 @@ _0203640C:
 void CreateBossGaugeHUD(BossGaugeHUD *work)
 {
     MI_CpuClear16(work, sizeof(BossGaugeHUD));
-    work->spritePtr = ObjDataLoad(NULL, "/ac_fix_boss.bac", gameArchiveCommon);
+    work->spritePtr = ObjDataLoad(NULL, "/ac_fix_boss.bac", gGameArchiveCommon);
     SetBossHealthbarPosition(32, 180);
     work->loaded = TRUE;
 }
@@ -3059,7 +3059,7 @@ void CreatePassFlagMissionHUD(void)
     TaskInitWork16(work);
 
     s32 i;
-    void *spriteFile = ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon);
+    void *spriteFile = ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gGameArchiveCommon);
     for (i = 0; i < PASSFLAGSHUD_ANIMATOR_COUNT; i++)
     {
         AnimatorSpriteDS *animator = &work->animators[i];
@@ -3150,7 +3150,7 @@ void CreateCollectRingsMissionHUD(void)
     CollectRingsMissionHUD *work = TaskGetWork(task, CollectRingsMissionHUD);
     TaskInitWork16(work);
 
-    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_RING_ICON,
+    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gGameArchiveCommon), HUD_MSNANI_RING_ICON,
                            ANIMATORSPRITEDS_FLAG_DISABLE_B, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE,
                            VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->animator.work.cParam.palette = PALETTE_ROW_2;
@@ -3210,7 +3210,7 @@ void CreateGenericQuotaMissionHUD(void)
     GenericQuotaMissionHUD *work = TaskGetWork(task, GenericQuotaMissionHUD);
     TaskInitWork16(work);
 
-    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_SLASH, ANIMATORSPRITEDS_FLAG_DISABLE_B,
+    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gGameArchiveCommon), HUD_MSNANI_SLASH, ANIMATORSPRITEDS_FLAG_DISABLE_B,
                            ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->animator.work.cParam.palette = PALETTE_ROW_0;

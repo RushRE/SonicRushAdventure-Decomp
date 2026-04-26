@@ -80,7 +80,7 @@ EnemySnowball *CreateSnowball(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->exposedOnDefendFunc = work->gameWork.colliders[GAMEOBJECT_COLLIDER_WEAK].onDefend;
     EnemySnowball_Action_Init(work, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_snowball.bac", GetObjectDataWork(OBJDATAWORK_13), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_snowball.bac", GetObjectDataWork(OBJDATAWORK_13), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, SNOWBALL_ANI_SNOWBALL_IDLE, 55);
@@ -107,7 +107,7 @@ EnemySnowballShot *CreateSnowballShot(MapObject *mapObject, fx32 x, fx32 y, fx32
     work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS;
 
     StageTask__SetHitbox(&work->gameWork.objWork, 3, 3, -3, -3);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_snowball.bac", GetObjectDataWork(OBJDATAWORK_13), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_snowball.bac", GetObjectDataWork(OBJDATAWORK_13), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, SNOWBALL_ANI_SHOT, 75);

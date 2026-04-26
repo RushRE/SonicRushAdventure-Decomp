@@ -503,7 +503,7 @@ StageClear__LoadAssets: // 0x02156FB0
 	push {r4, r5, r6, lr}
 	sub sp, #0x10
 	mov r4, r0
-	ldr r0, _021570FC // =gameArchiveCommon
+	ldr r0, _021570FC // =gGameArchiveCommon
 	mov r5, r4
 	add r5, #0xc
 	ldr r0, [r0, #0]
@@ -660,7 +660,7 @@ _021570DA:
 	add sp, #0x10
 	pop {r4, r5, r6, pc}
 	.align 2, 0
-_021570FC: .word gameArchiveCommon
+_021570FC: .word gGameArchiveCommon
 _02157100: .word aCldmCldmFixBac
 _02157104: .word gPlayerModelFile
 _02157108: .word gPlayerMainAnimationFile

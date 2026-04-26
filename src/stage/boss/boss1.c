@@ -809,7 +809,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 
     Boss1Stage__GetBackground(&work->background);
 
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniBossMain, Boss1__path_none, 0, &bossAssetFiles[0], NULL);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniBossMain, Boss1__path_none, 0, &gBossAssetFileList[0], NULL);
     work->gameWork.objWork.obj_3d             = NULL;
     work->aniBossMain.ani.work.scale.x        = FLOAT_TO_FX32(3.3);
     work->aniBossMain.ani.work.scale.y        = FLOAT_TO_FX32(3.3);
@@ -817,21 +817,21 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     work->aniBossMain.ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
     work->aniBossMain.ani.work.matrixOpIDs[1] = MATRIX_OP_NONE;
 
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, aBoss1Nsbca, NULL, gameArchiveStage);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, aBoss1Nsbva, NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, aBoss1Nsbca, NULL, gGameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, &work->aniBossMain, aBoss1Nsbva, NULL, gGameArchiveStage);
     NNS_G3dRenderObjSetCallBack(&work->aniBossMain.ani.renderObj, BossHelpers__Model__RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
     BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, aWeak, MTXSTACK_WEAK, NULL, NULL);
     BossHelpers__Model__Init(work->aniBossMain.ani.renderObj.resMdl, aBodyNeck, MTXSTACK_BODY_NECK, Boss1__NeckRenderCallback, work);
 
     OBS_ACTION3D_NN_WORK *aniBossSub = &work->aniBossSub1;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, Boss1__path_none, 2, &bossAssetFiles[0], NULL);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, Boss1__path_none, 2, &gBossAssetFileList[0], NULL);
     work->gameWork.objWork.obj_3d = NULL;
     aniBossSub->ani.work.scale.x  = FLOAT_TO_FX32(3.3);
     aniBossSub->ani.work.scale.y  = FLOAT_TO_FX32(200.0);
     aniBossSub->ani.work.scale.z  = FLOAT_TO_FX32(3.3);
 
     aniBossSub = &work->aniBossSub2;
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, Boss1__path_none, 1, &bossAssetFiles[0], NULL);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, aniBossSub, Boss1__path_none, 1, &gBossAssetFileList[0], NULL);
     work->gameWork.objWork.obj_3d       = NULL;
     aniBossSub->ani.work.scale.x        = FLOAT_TO_FX32(3.3);
     aniBossSub->ani.work.scale.y        = FLOAT_TO_FX32(3.3);
@@ -839,11 +839,11 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     aniBossSub->ani.work.matrixOpIDs[0] = MATRIX_OP_NONE;
 
     NNSFndArchive arc;
-    NNS_FndMountArchive(&arc, aExc_2, gameArchiveStage);
+    NNS_FndMountArchive(&arc, aExc_2, gGameArchiveStage);
     for (s32 i = 0; i < 24; i++)
     {
         InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z1BOSS_ACT_LZ7_FILE_BOSS1_Z1_AGO_BPA), 0, ANIMATORBPA_FLAG_NONE,
-                            PALETTE_MODE_TEXTURE, VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss1__paletteNameTable[i])));
+                            PALETTE_MODE_TEXTURE, VRAMKEY_TO_ADDR(Asset3DSetup_GetPaletteFromName(NNS_G3dGetTex(gBossAssetFileList[0].fileData), Boss1__paletteNameTable[i])));
     }
     BossHelpers__SetPaletteAnimations(work->aniPalette, 24, 0, 0);
     NNS_FndUnmountArchive(&arc);
@@ -1277,7 +1277,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	orr r1, r1, #0x40
 	str r1, [r4, #0x418]
 	bl Boss1Stage__GetBackground
-	ldr r0, =bossAssetFiles
+	ldr r0, =gBossAssetFileList
 	mov r3, #0
 	stmia sp, {r0, r3}
 	ldr r2, =Boss1__path_none
@@ -1292,7 +1292,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	str r1, [r8, #0x9f0]
 	mov r0, #4
 	strb r0, [r8, #0x9da]
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	strb r3, [r8, #0x9db]
 	ldr r2, [r1, #0]
 	mov r0, r8
@@ -1300,7 +1300,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	ldr r2, =aBoss1Nsbca
 	add r1, r8, #0x9d0
 	bl ObjAction3dNNMotionLoad
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r0, r8
 	ldr r2, [r1, #0]
 	add r1, r8, #0x9d0
@@ -1327,7 +1327,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	ldr r3, =Boss1__NeckRenderCallback
 	mov r2, #0x1d
 	bl BossHelpers__Model__Init
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	ldr r2, =Boss1__path_none
 	str r1, [sp]
 	mov r4, #0
@@ -1343,7 +1343,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	str r1, [r8, #0xb68]
 	str r0, [r8, #0xb6c]
 	str r1, [r8, #0xb70]
-	ldr r1, =bossAssetFiles
+	ldr r1, =gBossAssetFileList
 	add r4, r8, #0xcc
 	stmia sp, {r1, r2}
 	ldr r2, =Boss1__path_none
@@ -1358,13 +1358,13 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	str r1, [r4, #0xc1c]
 	str r1, [r4, #0xc20]
 	strb r2, [r4, #0xc0a]
-	ldr r2, =gameArchiveStage
+	ldr r2, =gGameArchiveStage
 	ldr r1, =aExc_2
 	ldr r2, [r2, #0]
 	add r0, sp, #0xc
 	bl NNS_FndMountArchive
 	ldr r6, =Boss1__paletteNameTable
-	ldr r4, =bossAssetFiles
+	ldr r4, =gBossAssetFileList
 	mov r9, #0
 	add r10, r8, #0x6d0
 	add r11, sp, #0xc
@@ -1576,7 +1576,7 @@ void Boss1Stage__SetupAnimators(Boss1Stage *work)
     for (s32 i = 0; i < BOSS1STAGE_MESH_COUNT; i++)
     {
         OBS_ACTION3D_NN_WORK *animator = &work->dropControl.aniStage[i];
-        ObjAction3dNNModelLoad(&work->gameWork.objWork, animator, Boss1__path_none, i, &bossAssetFiles[1], NULL);
+        ObjAction3dNNModelLoad(&work->gameWork.objWork, animator, Boss1__path_none, i, &gBossAssetFileList[1], NULL);
         work->gameWork.objWork.obj_3d    = NULL;
         animator->ani.work.scale.x       = FLOAT_TO_FX32(1.0);
         animator->ani.work.scale.y       = FLOAT_TO_FX32(1.0);
@@ -1585,8 +1585,8 @@ void Boss1Stage__SetupAnimators(Boss1Stage *work)
     }
 
     OBS_ACTION3D_NN_WORK *animator = &work->dropControl.aniStage[1];
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, aBoss1Nsbca, NULL, gameArchiveStage);
-    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, aBoss1Nsbva, NULL, gameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, aBoss1Nsbca, NULL, gGameArchiveStage);
+    ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, aBoss1Nsbva, NULL, gGameArchiveStage);
 
     BossHelpers__SetAnimation(&animator->ani, B3D_ANIM_JOINT_ANIM, animator->resources[B3D_RESOURCE_JOINT_ANIM], ANI_bs1_stage_01, NULL, FALSE);
     BossHelpers__SetAnimation(&animator->ani, B3D_ANIM_VIS_ANIM, animator->resources[B3D_RESOURCE_VIS_ANIM], ANI_bs1_stage_01, NULL, FALSE);

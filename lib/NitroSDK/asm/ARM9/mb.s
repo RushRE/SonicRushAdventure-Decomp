@@ -1941,8 +1941,8 @@ _020F87B0:
 _020F87F4: .word _02117000
 	arm_func_end MBi_MakeDownloadFileInfo
 
-	arm_func_start MB_UnregisterFile
-MB_UnregisterFile: // 0x020F87F8
+	arm_func_start MB_RegisterFile
+MB_RegisterFile: // 0x020F87F8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -2134,7 +2134,7 @@ _020F8AC0: .word 0x0000186C
 _020F8AC4: .word 0x02151D0C
 _020F8AC8: .word 0x00007CE0
 _020F8ACC: .word 0x000074E0
-	arm_func_end MB_UnregisterFile
+	arm_func_end MB_RegisterFile
 
 	arm_func_start MBi_ReadSegmentHeader
 MBi_ReadSegmentHeader: // 0x020F8AD0
@@ -3400,7 +3400,7 @@ MBi_SetMPData: // 0x020F9BC0
 	mov r4, #3
 	mov r1, #0
 	str r4, [sp, #8]
-	bl WM_SetMPDataToPort
+	bl WM_SetMPDataToPortEx
 	mov r4, r0
 	mov r1, r4
 	mov r0, #0xf

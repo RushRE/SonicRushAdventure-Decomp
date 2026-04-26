@@ -57,7 +57,7 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
     if (mapObject->id == MAPOBJECT_85)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pop_steam.bac", GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_pop_steam.bac", GetObjectFileWork(OBJDATAWORK_170), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 2, GetObjectSpriteRef(2 * popSteamType + OBJDATAWORK_171));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 34);
@@ -69,7 +69,7 @@ NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, f
     {
         AnimatorSpriteDS *aniCork = &work->aniCork.ani;
         
-        ObjAction2dBACLoad(aniCork, "/act/ac_gmk_pop_steam.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_170), gameArchiveStage);
+        ObjAction2dBACLoad(aniCork, "/act/ac_gmk_pop_steam.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_170), gGameArchiveStage);
         StageTask__SetOAMOrder(&aniCork->work, SPRITE_ORDER_23);
         StageTask__SetOAMPriority(&aniCork->work, SPRITE_PRIORITY_2);
         aniCork->flags |= ANIMATORSPRITEDS_FLAG_11 | ANIMATORSPRITEDS_FLAG_4;
@@ -255,7 +255,7 @@ _02166454:
 	streq r0, [r4, #0x20]
 	mov r0, #0xaa
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
 	ldr r2, =aActAcGmkPopSte
@@ -294,7 +294,7 @@ _02166454:
 	mov r0, #0xaa
 	add r7, r4, #0x364
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r3, r0
 	ldr r8, [r1, #0]
 	ldr r1, =aActAcGmkPopSte

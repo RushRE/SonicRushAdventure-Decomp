@@ -128,7 +128,7 @@ EffectSnowSlide *EffectAvalanche__Create(fx32 x, fx32 y, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_snowslide.bac", GetObjectDataWork(OBJDATAWORK_193), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_snowslide.bac", GetObjectDataWork(OBJDATAWORK_193), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->objWork, 160, GetObjectSpriteRef(OBJDATAWORK_194));
     ObjActionAllocSpritePalette(&work->objWork, 0, 35);
     StageTask__SetAnimation(&work->objWork, 0);
@@ -168,7 +168,7 @@ EffectSnowSlide *EffectAvalancheDebris__Create(u8 type, fx32 x, fx32 y, fx32 vel
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_snowslide.bac", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_snowslide.bac", GetObjectFileWork(OBJDATAWORK_193), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, 0, 35);
 
     u16 anim = type + 1;
@@ -208,13 +208,13 @@ EffectTruckJewel *EffectTruckJewel__Create(StageTask *parent, fx32 velX, fx32 ve
     if (type >= 5)
         type = 4;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani2D, "/act/ac_gmk_truck_jewel.bac", GetObjectDataWork(OBJDATAWORK_181), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani2D, "/act/ac_gmk_truck_jewel.bac", GetObjectDataWork(OBJDATAWORK_181), gGameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 58);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_24);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
 
     ObjObjectAction3dBACLoad(&work->objWork, &work->ani3D, "/act/ac_gmk_truck_jewel3d.bac", OBJ_DATA_GFX_AUTO, OBJ_DATA_GFX_AUTO, GetObjectDataWork(OBJDATAWORK_182),
-                             gameArchiveStage);
+                             gGameArchiveStage);
     work->ani3D.ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
     work->ani3D.ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
     StageTask__SetAnimation(&work->objWork, type);
@@ -320,7 +320,7 @@ EffectPirateShipCannonBlast *PirateShipCannonBlast__Create(StageTask *parent, fx
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pirate_ship.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage, 8);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pirate_ship.bac", GetObjectDataWork(OBJDATAWORK_162), gGameArchiveStage, 8);
     ObjActionAllocSpritePalette(&work->objWork, PIRATESHIP_ANI_SHIP, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_3);
@@ -670,7 +670,7 @@ EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_sling_dust.bac", GetObjectFileWork(OBJDATAWORK_160), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_sling_dust.bac", GetObjectFileWork(OBJDATAWORK_160), gGameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, type, 92);
 
     ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, (s32)type), GetObjectSpriteRef(2 * type + OBJDATAWORK_161));
@@ -706,7 +706,7 @@ EffectSailboatBazookaSmoke *EffectSailboatBazookaSmoke__Create(StageTask *parent
     if (work == NULL)
         return NULL;
 
-    LoadEffectTask3DAsset(&work->effWork, "/mod/sb_bazooka", GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage,
+    LoadEffectTask3DAsset(&work->effWork, "/mod/sb_bazooka", GetObjectFileWork(OBJDATAWORK_167), gGameArchiveStage,
                           B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, EffectTask_State_TrackParent, FALSE);
 
     FXMatrix33 matRotate;
@@ -758,7 +758,7 @@ NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
         EffectTask__sVars.airEffectSingleton = (StageTask *)work;
 
-        ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_air_ef.bac", GetObjectDataWork(OBJDATAWORK_174), gameArchiveStage, OBJ_DATA_GFX_NONE);
+        ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_air_ef.bac", GetObjectDataWork(OBJDATAWORK_174), gGameArchiveStage, OBJ_DATA_GFX_NONE);
         ObjObjectActionAllocSprite(&work->objWork, 10, GetObjectSpriteRef(OBJDATAWORK_175));
         ObjActionAllocSpritePalette(&work->objWork, 0, 97);
         StageTask__SetAnimation(&work->objWork, 0);
@@ -821,7 +821,7 @@ _0202CE0C:
 	mov r0, #0xae
 	str r4, [r1, #4]
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
+	ldr r1, =gGameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
 	mov r0, #0
@@ -1212,7 +1212,7 @@ EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 vel
 
     SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectRingSparkle__Destructor);
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, aAcItmRingBac_0, GetObjectFileWork(OBJDATAWORK_153), gameArchiveCommon, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, aAcItmRingBac_0, GetObjectFileWork(OBJDATAWORK_153), gGameArchiveCommon, OBJ_DATA_GFX_NONE);
     work->objWork.obj_2d->ani.vramPixels[0]     = gRingManagerWork->aniRingSparkle.vramPixels[0];
     work->objWork.obj_2d->ani.vramPixels[1]     = gRingManagerWork->aniRingSparkle.vramPixels[1];
     work->objWork.obj_2d->ani.cParam[1].palette = 2;
@@ -1258,7 +1258,7 @@ NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, aAcFixKeyLittle, GetObjectFileWork(OBJDATAWORK_152), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, aAcFixKeyLittle, GetObjectFileWork(OBJDATAWORK_152), gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     work->objWork.obj_2d->ani.cParam[1].palette = 1;
     work->objWork.obj_2d->ani.cParam[0].palette = work->objWork.obj_2d->ani.cParam[1].palette;
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -1286,7 +1286,7 @@ NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, 
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, #0x98
 	bl GetObjectFileWork
-	ldr r1, =gameArchiveCommon
+	ldr r1, =gGameArchiveCommon
 	ldr ip, =0x0000FFFF
 	ldr r1, [r1, #0]
 	mov r3, r0

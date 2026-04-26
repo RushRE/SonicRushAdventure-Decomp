@@ -64,7 +64,7 @@ TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 
     if ((mapObject->id == MAPOBJECT_122) || (mapObject->id != MAPOBJECT_123))
     {
         ObjObjectAction3dBACLoad(&work->gameWork.objWork, &work->aniSprite, aActAcGmkBallSi, OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_177),
-                                 gameArchiveStage);
+                                 gGameArchiveStage);
         ObjObjectActionAllocTexture(&work->gameWork.objWork, 0x800, 16, GetObjectFileWork(OBJDATAWORK_178));
         OBS_DATA_WORK *work178 = GetObjectFileWork(OBJDATAWORK_178);
         if ((work178->referenceCount & ~0x8000) == 1)

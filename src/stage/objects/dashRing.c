@@ -65,7 +65,7 @@ DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     TaskInitWork8(work);
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_c.bac", GetObjectFileWork(OBJDATAWORK_35), gameArchiveStage, 0);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_c.bac", GetObjectFileWork(OBJDATAWORK_35), gGameArchiveStage, 0);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, DASHRING_ANI_HORIZONTAL_FRONT, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
@@ -213,7 +213,7 @@ DashRing *CreateDashRingRainbow(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             break;
     }
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_ct.bac", GetObjectFileWork(OBJDATAWORK_48), gameArchiveStage, gfxSize);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_ct.bac", GetObjectFileWork(OBJDATAWORK_48), gGameArchiveStage, gfxSize);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, DASHRING_ANI_HORIZONTAL_FRONT, 8);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);

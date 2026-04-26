@@ -1721,7 +1721,7 @@ void GameDataRequest_Main_TryLoadCommonAssets(void)
 {
     GameDataRequest *work = TaskGetWorkCurrent(GameDataRequest);
 
-    InitGameDataLoadContext(GAMEDATA_FILEREQ_MODE_0);
+    InitGameDataLoadContext(GAMEDATA_FILEREQ_MODE_FROM_CARD);
     if ((work->load_proc & GAMEDATA_LOADPROC_COMMON) != 0)
         SetCurrentTaskMainEvent(GameDataRequest_Main_AwaitLoadCommonAssets);
     else
@@ -1738,7 +1738,7 @@ void GameDataRequest_Main_TryLoadStage(void)
 {
     GameDataRequest *work = TaskGetWorkCurrent(GameDataRequest);
 
-    InitGameDataLoadContext(GAMEDATA_FILEREQ_MODE_0);
+    InitGameDataLoadContext(GAMEDATA_FILEREQ_MODE_FROM_CARD);
     if ((work->load_proc & GAMEDATA_LOADPROC_STAGE) != 0)
     {
         SetCurrentTaskMainEvent(GameDataRequest_Main_AwaitLoadStageAssets);

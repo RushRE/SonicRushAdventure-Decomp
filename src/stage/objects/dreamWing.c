@@ -65,7 +65,7 @@ DreamWing *CreateDreamWing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dream_wing.bac", GetObjectFileWork(OBJDATAWORK_184), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dream_wing.bac", GetObjectFileWork(OBJDATAWORK_184), gGameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, DREAMWING_ANI_WING_IDLE, 32);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -106,7 +106,7 @@ DreamWingHangChain *CreateDreamWingHangChain(MapObject *mapObject, fx32 x, fx32 
     if (work->gameWork.objWork.userWork > 16)
         work->gameWork.objWork.userWork = 16;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dream_wing.bac", GetObjectFileWork(OBJDATAWORK_184), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dream_wing.bac", GetObjectFileWork(OBJDATAWORK_184), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
 
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 1, GetObjectSpriteRef(OBJDATAWORK_185));

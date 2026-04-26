@@ -62,7 +62,7 @@ Boss7Stage__Create: // 0x0215C8E4
 	bl AnimatorMDL__Init
 	mov r2, #0
 	ldr r0, [sp, #0x14]
-	ldr r1, _0215CBD0 // =bossAssetFiles
+	ldr r1, _0215CBD0 // =gBossAssetFileList
 	str r2, [sp]
 	ldr r1, [r1, #8]
 	add r0, r0, #0x400
@@ -104,7 +104,7 @@ Boss7Stage__Create: // 0x0215C8E4
 	str r0, [r1, #0x374]
 	str r1, [r0, #0x370]
 	ldr r0, [sp, #0x14]
-	ldr r1, _0215CBE4 // =gameArchiveStage
+	ldr r1, _0215CBE4 // =gGameArchiveStage
 	str r2, [r0, #0x38c]
 	ldr r2, [r1, #0]
 	ldr r1, _0215CBE8 // =_02179768
@@ -128,7 +128,7 @@ Boss7Stage__Create: // 0x0215C8E4
 	bl NNS_G3dResDefaultSetup
 	add r0, sp, #0x18
 	bl NNS_FndUnmountArchive
-	ldr r2, _0215CBE4 // =gameArchiveStage
+	ldr r2, _0215CBE4 // =gGameArchiveStage
 	ldr r1, _0215CBEC // =aBsef7FlameBac
 	ldr r2, [r2, #0]
 	mov r0, #0
@@ -195,12 +195,12 @@ _0215CBC0: .word 0x000010B0
 _0215CBC4: .word Boss7Stage__State_215F744
 _0215CBC8: .word Boss7Stage__Draw
 _0215CBCC: .word Boss7Stage__Collide
-_0215CBD0: .word bossAssetFiles
+_0215CBD0: .word gBossAssetFileList
 _0215CBD4: .word 0x0004058A
 _0215CBD8: .word g_obj
 _0215CBDC: .word 0x00000137
 _0215CBE0: .word Boss7Stage__State2_215F920
-_0215CBE4: .word gameArchiveStage
+_0215CBE4: .word gGameArchiveStage
 _0215CBE8: .word _02179768
 _0215CBEC: .word aBsef7FlameBac
 	arm_func_end Boss7Stage__Create
@@ -283,7 +283,7 @@ Boss7Saw__Create: // 0x0215CBF0
 	mov r2, r1
 	str r3, [sp]
 	bl StageTask__SetHitbox
-	ldr r1, _0215CDC0 // =gameArchiveStage
+	ldr r1, _0215CDC0 // =gGameArchiveStage
 	add r0, sp, #0xc
 	ldr r2, [r1, #0]
 	ldr r1, _0215CDC4 // =_02179768
@@ -324,7 +324,7 @@ _0215CDB0: .word 0x000E03C0
 _0215CDB4: .word _021796C0
 _0215CDB8: .word 0xEFFF1FE0
 _0215CDBC: .word 0x00000102
-_0215CDC0: .word gameArchiveStage
+_0215CDC0: .word gGameArchiveStage
 _0215CDC4: .word _02179768
 	arm_func_end Boss7Saw__Create
 
@@ -484,7 +484,7 @@ Boss7Whisker__Create: // 0x0215CDC8
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
-	ldr r0, _0215D140 // =bossAssetFiles
+	ldr r0, _0215D140 // =gBossAssetFileList
 	str r2, [sp]
 	ldr r1, [r0, #0]
 	mov r3, r2
@@ -553,7 +553,7 @@ _0215D130: .word _021796C0
 _0215D134: .word Boss7Whisker__OnDefend_2160D58
 _0215D138: .word 0x00000102
 _0215D13C: .word Boss7Whisker__OnHit_2160F60
-_0215D140: .word bossAssetFiles
+_0215D140: .word gBossAssetFileList
 _0215D144: .word 0x000034CC
 _0215D148: .word BossHelpers__Model__RenderCallback
 _0215D14C: .word aHip
@@ -646,7 +646,7 @@ Boss7Rocket__Create: // 0x0215D15C
 	cmp r0, #0
 	bne _0215D2C0
 	mov r3, #0
-	ldr r0, _0215D424 // =bossAssetFiles
+	ldr r0, _0215D424 // =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r0, #0]
 	mov r0, r6
@@ -657,7 +657,7 @@ _0215D2C0:
 	cmp r0, #1
 	bne _0215D2E4
 	mov r3, #0
-	ldr r0, _0215D424 // =bossAssetFiles
+	ldr r0, _0215D424 // =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r0, #0]
 	mov r0, r6
@@ -677,7 +677,7 @@ _0215D2E4:
 	mov r3, #6
 	str r5, [sp]
 	bl NNS_G3dRenderObjSetCallBack
-	ldr r1, _0215D430 // =gameArchiveStage
+	ldr r1, _0215D430 // =gGameArchiveStage
 	add r0, sp, #0xc
 	ldr r2, [r1, #0]
 	ldr r1, _0215D434 // =_02179768
@@ -745,10 +745,10 @@ _0215D414: .word Boss7Rocket__Collide
 _0215D418: .word _021796C0
 _0215D41C: .word 0x00000102
 _0215D420: .word Boss7Rocket__OnHit
-_0215D424: .word bossAssetFiles
+_0215D424: .word gBossAssetFileList
 _0215D428: .word 0x000034CC
 _0215D42C: .word BossHelpers__Model__RenderCallback
-_0215D430: .word gameArchiveStage
+_0215D430: .word gGameArchiveStage
 _0215D434: .word _02179768
 	arm_func_end Boss7Rocket__Create
 
@@ -1013,7 +1013,7 @@ Boss7Johnny__Create: // 0x0215D5BC
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r3, #0
-	ldr r0, _0215DA9C // =bossAssetFiles
+	ldr r0, _0215DA9C // =gBossAssetFileList
 	str r3, [sp]
 	ldr r1, [r0, #0]
 	add r0, r6, #0x800
@@ -1046,7 +1046,7 @@ Boss7Johnny__Create: // 0x0215D5BC
 	ldr r1, _0215DAAC // =aHead_1
 	mov r2, #0x19
 	bl BossHelpers__Model__Init
-	ldr r2, _0215DAB0 // =gameArchiveStage
+	ldr r2, _0215DAB0 // =gGameArchiveStage
 	ldr r1, _0215DAB4 // =_02179768
 	ldr r2, [r2, #0]
 	add r0, sp, #0xc
@@ -1172,12 +1172,12 @@ _0215DA8C: .word _021796C0
 _0215DA90: .word Boss7Johnny__OnDefend_2164BAC
 _0215DA94: .word 0x00000102
 _0215DA98: .word Boss7Johnny__OnHit_2164D8C
-_0215DA9C: .word bossAssetFiles
+_0215DA9C: .word gBossAssetFileList
 _0215DAA0: .word 0x000034CC
 _0215DAA4: .word BossHelpers__Model__RenderCallback
 _0215DAA8: .word aHip
 _0215DAAC: .word aHead_1
-_0215DAB0: .word gameArchiveStage
+_0215DAB0: .word gGameArchiveStage
 _0215DAB4: .word _02179768
 	arm_func_end Boss7Johnny__Create
 
@@ -1188,7 +1188,7 @@ Boss7__LoadAssets: // 0x0215DAB8
 	mov r4, r0
 	bl MapFarSys__GetAsset
 	str r0, [r4]
-	ldr r1, _0215DB10 // =gameArchiveStage
+	ldr r1, _0215DB10 // =gGameArchiveStage
 	add r0, sp, #0
 	ldr r2, [r1, #0]
 	ldr r1, _0215DB14 // =_02179768
@@ -1206,7 +1206,7 @@ Boss7__LoadAssets: // 0x0215DAB8
 	add sp, sp, #0x68
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215DB10: .word gameArchiveStage
+_0215DB10: .word gGameArchiveStage
 _0215DB14: .word _02179768
 	arm_func_end Boss7__LoadAssets
 
@@ -2927,7 +2927,7 @@ _0215F070:
 _0215F078:
 	mov r6, #0
 _0215F07C:
-	ldr r1, _0215F118 // =gameArchiveStage
+	ldr r1, _0215F118 // =gGameArchiveStage
 	add r0, sp, #8
 	ldr r2, [r1, #0]
 	ldr r1, _0215F11C // =_02179768
@@ -2967,7 +2967,7 @@ _0215F07C:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0215F114: .word _02178F74
-_0215F118: .word gameArchiveStage
+_0215F118: .word gGameArchiveStage
 _0215F11C: .word _02179768
 	arm_func_end Boss7Johnny__SetAction
 
@@ -3520,7 +3520,7 @@ _0215F7FC:
 	cmp r4, #0xa
 	add r5, r5, #0x104
 	blt _0215F7FC
-	ldr r1, _0215F88C // =gameArchiveStage
+	ldr r1, _0215F88C // =gGameArchiveStage
 	add r0, sp, #0
 	ldr r2, [r1, #0]
 	ldr r1, _0215F890 // =_02179768
@@ -3551,7 +3551,7 @@ _0215F7FC:
 	add sp, sp, #0x68
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0215F88C: .word gameArchiveStage
+_0215F88C: .word gGameArchiveStage
 _0215F890: .word _02179768
 _0215F894: .word renderCoreSwapBuffer
 	arm_func_end Boss7Stage__Destructor

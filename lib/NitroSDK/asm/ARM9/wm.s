@@ -2089,8 +2089,8 @@ WM_EndMP: // 0x020F2E8C
 	bx lr
 	arm_func_end WM_EndMP
 
-	arm_func_start WM_SetMPDataToPort
-WM_SetMPDataToPort: // 0x020F2F18
+	arm_func_start WM_SetMPDataToPortEx
+WM_SetMPDataToPortEx: // 0x020F2F18
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x14
 	mov r9, r0
@@ -2180,7 +2180,7 @@ _020F2FA8:
 	bx lr
 	.align 2, 0
 _020F3070: .word 0x00000182
-	arm_func_end WM_SetMPDataToPort
+	arm_func_end WM_SetMPDataToPortEx
 
 	arm_func_start WM_StartMP
 WM_StartMP: // 0x020F3074
@@ -2628,7 +2628,7 @@ WmDataSharingSendDataSet: // 0x020F35E0
 	str r5, [sp, #4]
 	str r4, [sp, #8]
 	ldrh r3, [r3, #0x14]
-	bl WM_SetMPDataToPort
+	bl WM_SetMPDataToPortEx
 	cmp r0, #7
 	bne _020F3710
 	add r0, r10, r6, lsl #1
@@ -3081,7 +3081,7 @@ _020F3CD4:
 	ldrh r3, [r1, #0x14]
 	mov r1, r10
 	add r2, r10, r5, lsl #9
-	bl WM_SetMPDataToPort
+	bl WM_SetMPDataToPortEx
 	cmp r0, #7
 	bne _020F3D74
 	add r0, r10, r5, lsl #1
@@ -3219,7 +3219,7 @@ _020F3EFC:
 	str r6, [sp, #4]
 	str r5, [sp, #8]
 	ldrh r3, [r3, #0x10]
-	bl WM_SetMPDataToPort
+	bl WM_SetMPDataToPortEx
 	add r1, r10, #0x800
 	ldrh r2, [r1, #0xa]
 	cmp r0, #2
@@ -3384,7 +3384,7 @@ _020F416C:
 	str r3, [sp, #4]
 	str r6, [sp, #8]
 	ldrh r3, [ip, #0x14]
-	bl WM_SetMPDataToPort
+	bl WM_SetMPDataToPortEx
 	cmp r0, #7
 	bne _020F41E0
 	add r0, r10, r7, lsl #1
@@ -6229,8 +6229,8 @@ WBT_GetBlock: // 0x020F6844
 	bx lr
 	arm_func_end WBT_GetBlock
 
-	arm_func_start sub_20F689C
-sub_20F689C: // 0x020F689C
+	arm_func_start WBT_GetBlockInfo
+WBT_GetBlockInfo: // 0x020F689C
 	stmdb sp!, {lr}
 	sub sp, sp, #0x9c
 	str r1, [sp, #0x14]
@@ -6249,7 +6249,7 @@ sub_20F689C: // 0x020F689C
 	add sp, sp, #0x9c
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_20F689C
+	arm_func_end WBT_GetBlockInfo
 
 	arm_func_start WBT_RequestSync
 WBT_RequestSync: // 0x020F68E4

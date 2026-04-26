@@ -452,7 +452,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     AnimatorSpriteDS *aniKey = work->aniKeys;
     for (i = 0; i < 3; i++, aniKey++)
     {
-        ObjAction2dBACLoad(aniKey, "/act/ac_fix_key.bac", buttonSpriteSizes[i], &sVars.buttonPromptFile, gameArchiveStage);
+        ObjAction2dBACLoad(aniKey, "/act/ac_fix_key.bac", buttonSpriteSizes[i], &sVars.buttonPromptFile, gGameArchiveStage);
         aniKey->work.cParam.palette = ObjDrawAllocSpritePalette(sVars.buttonPromptFile.fileData, 0, 90);
         aniKey->cParam[0].palette = aniKey->cParam[1].palette = aniKey->work.cParam.palette;
 
@@ -518,7 +518,7 @@ TutorialCheckpoint *CreateTutorialCheckpoint(MapObject *mapObject, fx32 x, fx32 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/ac_gmk_check.bac", GetObjectFileWork(OBJDATAWORK_72), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/ac_gmk_check.bac", GetObjectFileWork(OBJDATAWORK_72), gGameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, CHECKPOINT_ANI_IDLE, 91);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_2);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);

@@ -27,7 +27,7 @@ BreakableWall *BreakableWall__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_wall_braek.bac", GetObjectDataWork(OBJDATAWORK_61), gameArchiveStage,
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_wall_braek.bac", GetObjectDataWork(OBJDATAWORK_61), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 6);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, Sprite__GetSpriteSize2FromAnim(work->gameWork.animator.fileWork->fileData, anim),
