@@ -226,7 +226,7 @@ int main(int argc, char *argv[]) {
 
         char buf[(SHA_DIGEST_LENGTH*2)+1];
         for (int i=0; i < SHA_DIGEST_LENGTH; i++) {
-            sprintf(&(buf[i*2]), "%02x", sha1[i]);
+            snprintf(&(buf[i*2]), sizeof(buf) - (size_t)(i*2), "%02x", sha1[i]);
         }
         free(sha1);
 
