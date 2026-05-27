@@ -1843,7 +1843,7 @@ void CreateGameSystem(void)
     if ((gameState.gameFlag & GAME_FLAG_USE_WIFI) != 0)
         ObjPacket__Init(NULL, OBJPACKET_MODE_WIFI, 0x108);
     else
-        ObjPacket__Init(NULL, OBJPACKET_MODE_WIRELESS, whConfig_wmMinDataSize);
+        ObjPacket__Init(NULL, OBJPACKET_MODE_WIRELESS, gWHPacketSize);
 
     AllocObjectFileWork(objDataSizeForZone[GetCurrentZoneID()]);
 

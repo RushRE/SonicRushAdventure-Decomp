@@ -36,6 +36,9 @@ resources/*
 .idea/
 cmake-build-debug/
 
+# VS folder
+.vs/
+
 # VSCode folder
 .vscode/
 

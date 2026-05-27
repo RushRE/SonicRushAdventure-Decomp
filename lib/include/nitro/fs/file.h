@@ -286,7 +286,7 @@ SDK_INLINE FSArchive *FS_GetAttachedArchive(const FSFile *p_file)
     return p_file->arc;
 }
 
-SDK_INLINE u32 const FS_GetFileImageTop(volatile const FSFile *p_file)
+SDK_INLINE u32 const FS_GetFileImageTop(const FSFile *p_file)
 {
     return p_file->prop.file.top;
 }

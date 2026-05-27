@@ -75,7 +75,8 @@ extern u16 sWirelessManagerUserGameInfo[56];
 extern s32 sWirelessManagerSendBuffer[128];
 extern s32 sWirelessManagerUnknownBuffer[144];
 
-NOT_DECOMPILED void *wfsi_task;
+extern void *(*gWHAllocFunc)(u32 size);
+extern void (*gWHFreeFunc)(void *mem);
 
 extern void *(*gMBPAllocFunc)(size_t size);
 extern void (*gMBPFreeFunc)(void *ptr);
@@ -159,35 +160,35 @@ void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMo
     switch (whAllocMode)
     {
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_HEAD:
-            whConfig_whAllocFunc = _AllocHeadHEAP_SYSTEM;
+            gWHAllocFunc = _AllocHeadHEAP_SYSTEM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_TAIL:
-            whConfig_whAllocFunc = _AllocTailHEAP_SYSTEM;
+            gWHAllocFunc = _AllocTailHEAP_SYSTEM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_USER_HEAD:
-            whConfig_whAllocFunc = _AllocHeadHEAP_USER;
+            gWHAllocFunc = _AllocHeadHEAP_USER;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_USER_TAIL:
-            whConfig_whAllocFunc = _AllocTailHEAP_USER;
+            gWHAllocFunc = _AllocTailHEAP_USER;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_ITCM_HEAD:
-            whConfig_whAllocFunc = _AllocHeadHEAP_ITCM;
+            gWHAllocFunc = _AllocHeadHEAP_ITCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_ITCM_TAIL:
-            whConfig_whAllocFunc = _AllocTailHEAP_ITCM;
+            gWHAllocFunc = _AllocTailHEAP_ITCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_DTCM_HEAD:
-            whConfig_whAllocFunc = _AllocHeadHEAP_DTCM;
+            gWHAllocFunc = _AllocHeadHEAP_DTCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_DTCM_TAIL:
-            whConfig_whAllocFunc = _AllocTailHEAP_DTCM;
+            gWHAllocFunc = _AllocTailHEAP_DTCM;
             break;
     }
 
@@ -195,22 +196,22 @@ void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMo
     {
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_SYSTEM_TAIL:
-            whConfig_whFreeFunc = _FreeHEAP_SYSTEM;
+            gWHFreeFunc = _FreeHEAP_SYSTEM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_USER_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_USER_TAIL:
-            whConfig_whFreeFunc = _FreeHEAP_USER;
+            gWHFreeFunc = _FreeHEAP_USER;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_ITCM_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_ITCM_TAIL:
-            whConfig_whFreeFunc = _FreeHEAP_ITCM;
+            gWHFreeFunc = _FreeHEAP_ITCM;
             break;
 
         case NETWORK_ALLOC_MODE_HEAP_DTCM_HEAD:
         case NETWORK_ALLOC_MODE_HEAP_DTCM_TAIL:
-            whConfig_whFreeFunc = _FreeHEAP_DTCM;
+            gWHFreeFunc = _FreeHEAP_DTCM;
             break;
     }
 
@@ -291,7 +292,7 @@ void WirelessManager__Create(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
     if (work->field_1AEE < 4)
         work->field_1AEE = 4;
     WH_SetMaxChildCount(a2);
-    WH_SetMinDataSize(4);
+    WH_SetPacketSize(4);
     WirelessManager__InitBuffers(4);
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
@@ -340,7 +341,7 @@ void WirelessManager__Create1(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3
     }
 
     WH_SetMaxChildCount(a1->bitmap - 1);
-    WH_SetMinDataSize(work->field_1AEE);
+    WH_SetPacketSize(work->field_1AEE);
     WirelessManager__InitBuffers(work->field_1AEE);
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
@@ -375,7 +376,7 @@ void WirelessManager__Create2(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
     if (work->field_1AEE < 4)
         work->field_1AEE = 4;
     WH_SetMaxChildCount(a2);
-    WH_SetMinDataSize(4);
+    WH_SetPacketSize(4);
     WirelessManager__InitBuffers(4);
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
@@ -419,7 +420,7 @@ void WirelessManager__Create3(WirelessManager_Unknown2067A88 *a1, u16 a3, void *
     }
 
     WH_SetMaxChildCount(a1->bitmap - 1);
-    WH_SetMinDataSize(work->field_1AEE);
+    WH_SetPacketSize(work->field_1AEE);
     WirelessManager__InitBuffers(work->field_1AEE);
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
@@ -1094,13 +1095,13 @@ void Task__Unknown2068430__Main(void)
             }
         }
 
-        for (u16 i = 0; i < whConfig_wmMaxChildCount + 1; i++)
+        for (u16 i = 0; i < gWHMaxChildCount + 1; i++)
         {
             const void *addr = WH_GetSharedDataAdr(i);
             if (addr)
-                MI_CpuCopy8(addr, sSendBufferQueue[i], whConfig_wmMinDataSize);
+                MI_CpuCopy8(addr, sSendBufferQueue[i], gWHPacketSize);
             else
-                MI_CpuClear8(sSendBufferQueue[i], whConfig_wmMinDataSize);
+                MI_CpuClear8(sSendBufferQueue[i], gWHPacketSize);
         }
     }
 }
@@ -1425,12 +1426,12 @@ void WirelessManager__State_2068BC4(WirelessManager *work)
             case 1:
                 connectMode = WH_CONNECTMODE_DS_PARENT;
                 Task__Unknown2068430__Create(WirelessManager__Func_2069794);
-                WH_SetMinDataSize(work->field_1AEE);
+                WH_SetPacketSize(work->field_1AEE);
                 WirelessManager__InitBuffers(work->field_1AEE);
                 break;
 
             case 2:
-                connectMode = 6; // TODO: 6?
+                connectMode = WH_CONNECTMODE_UNKNOWN_PARENT;
                 WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
                 break;
         }
@@ -1518,12 +1519,12 @@ void WirelessManager__State_2068DD4(WirelessManager *work)
             case 1:
                 connectMode = WH_CONNECTMODE_DS_PARENT;
                 Task__Unknown2068430__Create(WirelessManager__Func_2069794);
-                WH_SetMinDataSize(work->field_1AEE);
+                WH_SetPacketSize(work->field_1AEE);
                 WirelessManager__InitBuffers(work->field_1AEE);
                 break;
 
             case 2:
-                connectMode = 6; // TODO: 6?
+                connectMode = WH_CONNECTMODE_UNKNOWN_PARENT;
                 WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
                 break;
         }
@@ -1734,14 +1735,14 @@ void WirelessManager__State_20692D4(WirelessManager *work)
             switch (work->field_4)
             {
                 case 1:
-                    connectMode = 5;
-                    WH_SetMinDataSize(work->field_1AEE);
+                    connectMode = WH_CONNECTMODE_DS_CHILD;
+                    WH_SetPacketSize(work->field_1AEE);
                     WirelessManager__InitBuffers(work->field_1AEE);
                     Task__Unknown2068430__Create(WirelessManager__Func_2069794);
                     break;
 
                 case 2:
-                    connectMode = 7; // TODO: 7?
+                    connectMode = WH_CONNECTMODE_UNKNOWN_CHILD;
                     WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
                     MI_CpuClear32(sWirelessManagerUnknownBuffer, sizeof(sWirelessManagerUnknownBuffer));
                     WH_SetReceiver(WirelessManager__ReceiverCB_2068970);
@@ -1808,14 +1809,14 @@ void WirelessManager__State_2069498(WirelessManager *work)
             switch (work->field_4)
             {
                 case 1:
-                    connectMode = 5;
+                    connectMode = WH_CONNECTMODE_DS_CHILD;
                     Task__Unknown2068430__Create(WirelessManager__Func_2069794);
-                    WH_SetMinDataSize(work->field_1AEE);
+                    WH_SetPacketSize(work->field_1AEE);
                     WirelessManager__InitBuffers(work->field_1AEE);
                     break;
 
                 case 2:
-                    connectMode = 7; // TODO: 7?
+                    connectMode = WH_CONNECTMODE_UNKNOWN_CHILD;
                     WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
                     MI_CpuClear32(sWirelessManagerUnknownBuffer, sizeof(sWirelessManagerUnknownBuffer));
                     WH_SetReceiver(WirelessManager__ReceiverCB_2068970);

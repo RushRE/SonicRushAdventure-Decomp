@@ -56,7 +56,7 @@ static struct ObjPacketManager sObjPacketManager = {
     .clearSendBuffer  = WirelessManager__ClearSendBuffer,
     .getReceiveBuffer = WirelessManager__GetReceiveBuffer,
     .minDataSize      = OBJ_PACKET_SEND_QUEUE_SIZE,
-    .getCurrentAID    = WH_GetCurrentAid,
+    .getCurrentAID    = (u8(*)(void))WH_GetCurrentAid,
     .getSendBuffer    = WirelessManager__GetSendBuffer,
 };
 
@@ -70,8 +70,8 @@ extern u8 gObjPacketAIDList[0x10];
 // INLINE FUNCTIONS
 // --------------------
 
-#define GetReceiveBufferStart(id) (u8*)sObjPacketManager.getReceiveBuffer(gObjPacketAIDList[id])
-#define GetReceiveBufferEnd(id) (u8*)((size_t)sObjPacketManager.minDataSize + (size_t)sObjPacketManager.getReceiveBuffer(gObjPacketAIDList[id]))
+#define GetReceiveBufferStart(id) (u8 *)sObjPacketManager.getReceiveBuffer(gObjPacketAIDList[id])
+#define GetReceiveBufferEnd(id)   (u8 *)((size_t)sObjPacketManager.minDataSize + (size_t)sObjPacketManager.getReceiveBuffer(gObjPacketAIDList[id]))
 
 // --------------------
 // FUNCTIONS
@@ -102,7 +102,7 @@ void ObjPacket__Init(void *unknown, ObjPacketMode mode, size_t minDataSize)
         default:
             sObjPacketManager.getReceiveBuffer = WirelessManager__GetReceiveBuffer;
             sObjPacketManager.getSendBuffer    = WirelessManager__GetSendBuffer;
-            sObjPacketManager.getCurrentAID    = WH_GetCurrentAid;
+            sObjPacketManager.getCurrentAID    = (u8(*)(void))WH_GetCurrentAid;
             sObjPacketManager.clearSendBuffer  = WirelessManager__ClearSendBuffer;
             break;
     }
@@ -201,7 +201,7 @@ void InitSendBuffer(void)
     if (receiveBuffer->aid == OBJ_PACKET_AID_AUTO)
         return;
 
-    for (u16 c = 0; c < whConfig_wmMaxChildCount + 1; c++)
+    for (u16 c = 0; c < gWHMaxChildCount + 1; c++)
     {
         receiveBuffer = (ObjPacketBufferHeader *)sObjPacketManager.getReceiveBuffer(c);
         if (receiveBuffer->identifier != OBJ_PACKET_IDENTIFIER)
@@ -233,7 +233,7 @@ BOOL ObjPacket__WriteToSendBuffer(void)
     sendBufferHeader.identifier = OBJ_PACKET_IDENTIFIER;
     sendBufferHeader.aid        = gObjPacketAIDList[sObjPacketManager.aid];
     sendBufferHeader.param      = padInput.btnDown;
-    sObjPacketManager.aid        = sObjPacketManager.getCurrentAID();
+    sObjPacketManager.aid       = sObjPacketManager.getCurrentAID();
 
     MI_CpuCopy8(&sendBufferHeader, sendBuffer, sizeof(ObjPacketBufferHeader));
 
@@ -283,7 +283,7 @@ void *ObjPacket__GetNextReceivedPacketData(s32 type, s32 id)
 
 NONMATCH_FUNC ObjReceivePacket *ObjPacket__GetNextReceivedPacket(s32 type, s32 id)
 {
-	// https://decomp.me/scratch/ASU4F -> 97.96%
+    // https://decomp.me/scratch/ASU4F -> 97.96%
 #ifdef NON_MATCHING
     ObjPacketBufferHeader *receiveBuffer = (ObjPacketBufferHeader *)GetReceiveBufferStart(id);
     if (receiveBuffer->identifier != OBJ_PACKET_IDENTIFIER)
@@ -296,12 +296,12 @@ NONMATCH_FUNC ObjReceivePacket *ObjPacket__GetNextReceivedPacket(s32 type, s32 i
     ObjReceivePacket *currentPacket;
     if (GetReceiveBufferStart(id) <= (u8 *)packet && GetReceiveBufferEnd(id) > (u8 *)packet)
     {
-        currentPacket      = (ObjReceivePacket *)((u8 *)sReceiveBufferStart + GetPacketSize(&packet->header));
+        currentPacket       = (ObjReceivePacket *)((u8 *)sReceiveBufferStart + GetPacketSize(&packet->header));
         sReceiveBufferStart = currentPacket;
     }
     else
     {
-        currentPacket      = (ObjReceivePacket *)((ObjPacketBufferHeader *)GetReceiveBufferStart(id))->data;
+        currentPacket       = (ObjReceivePacket *)((ObjPacketBufferHeader *)GetReceiveBufferStart(id))->data;
         sReceiveBufferStart = currentPacket;
     }
 
@@ -319,7 +319,7 @@ NONMATCH_FUNC ObjReceivePacket *ObjPacket__GetNextReceivedPacket(s32 type, s32 i
         if (currentPacket->header.type == 0)
             return NULL;
 
-        currentPacket      = (ObjReceivePacket *)((u8 *)sReceiveBufferStart + GetPacketSize(&currentPacket->header));
+        currentPacket       = (ObjReceivePacket *)((u8 *)sReceiveBufferStart + GetPacketSize(&currentPacket->header));
         sReceiveBufferStart = currentPacket;
     }
 #else

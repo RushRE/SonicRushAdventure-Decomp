@@ -2681,7 +2681,7 @@
 .public WH_SetSsid
 .public WH_SetUserGameInfo
 .public WH_SetMaxChildCount
-.public WH_SetMinDataSize
+.public WH_SetPacketSize
 .public WH_SetMaxParentChildSize
 .public WH_GetConnectBitmap
 .public WH_GetSystemState
@@ -7887,14 +7887,14 @@
 .public whConfig_wmMaxParentSize
 .public whConfig_sMyAid
 .public whConfig_sChannel
-.public whConfig_wmMinDataSize
+.public gWHPacketSize
 .public whConfig_sChannelBitmap
-.public whConfig_wmMaxChildCount
+.public gWHMaxChildCount
 .public whConfig_sAutoConnectFlag
 .public whConfig_wmMaxChildSize
 .public whConfig_dword_2136418
 .public whConfig_sSysState
-.public whConfig_whAllocFunc
+.public gWHAllocFunc
 .public whConfig_sReceiverFunc
 .public whConfig_sScanCallback
 .public whConfig_sConnectMode
@@ -7902,7 +7902,7 @@
 .public whConfig_sRecvBufferSize
 .public whConfig_sPictoCatchFlag
 .public whConfig_sRand
-.public whConfig_whFreeFunc
+.public gWHFreeFunc
 .public whConfig_wh_trace
 .public whConfig_sSendBufferSize
 .public whConfig_sErrCode
