@@ -135,10 +135,8 @@ FSResult WFSi_RomArchiveProc(FSFile *file, FSCommandType cmd)
     }
 }
 
-NONMATCH_FUNC void WFSi_LoadTables(FSFile *rom, BOOL useParentFS)
+void WFSi_LoadTables(FSFile *rom, BOOL useParentFS)
 {
-    // https://decomp.me/scratch/SgSYw -> 98.34%
-#ifdef NON_MATCHING
     typedef struct
     {
         u32 len;
@@ -269,240 +267,6 @@ NONMATCH_FUNC void WFSi_LoadTables(FSFile *rom, BOOL useParentFS)
 
     gWFSWorker->table      = mem;
     gWFSWorker->table_size = size;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xf4
-	movs r5, r0
-	mov r0, #0
-	moveq r4, #1
-	movne r4, r0
-	str r0, [sp, #4]
-	cmp r4, #0
-	mov r8, #0
-	bne _0206BFB8
-	cmp r1, #0
-	movne r8, #1
-_0206BFB8:
-	add r0, sp, #0x4c
-	bl FS_InitFile
-	mov r1, #0
-	add r0, sp, #0x4c
-	sub r2, r1, #0x80000001
-	bl FS_CreateFileFromRom
-	cmp r4, #0
-	beq _0206BFEC
-	mov r4, #0
-	mov r6, r4
-	bl CARD_GetRomHeader
-	mov r7, r0
-	b _0206C024
-_0206BFEC:
-	ldr r1, [r5, #0x24]
-	ldr r0, [r5, #0x2c]
-	add r7, sp, #0x94
-	sub r9, r0, r1
-	add r4, r9, r1
-	mov r0, r5
-	mov r1, r7
-	mov r2, #0x60
-	mov r6, r4
-	bl FS_ReadFile
-	mov r0, r5
-	mov r1, r9
-	mov r2, #0
-	bl FS_SeekFile
-_0206C024:
-	cmp r8, #0
-	bne _0206C070
-	ldr r1, [r7, #0x48]
-	ldr r0, [r7, #0x4c]
-	str r1, [sp, #0x2c]
-	str r0, [sp, #0x30]
-	ldr r1, [r7, #0x40]
-	ldr r0, [r7, #0x44]
-	str r1, [sp, #0x34]
-	str r0, [sp, #0x38]
-	ldr r1, [r7, #0x50]
-	ldr r0, [r7, #0x54]
-	str r1, [sp, #0x3c]
-	str r0, [sp, #0x40]
-	ldr r1, [r7, #0x58]
-	ldr r0, [r7, #0x5c]
-	str r1, [sp, #0x44]
-	str r0, [sp, #0x48]
-	b _0206C0C4
-_0206C070:
-	bl CARD_GetRomHeader
-	ldr r1, [r0, #0x48]
-	ldr r0, [r0, #0x4c]
-	str r1, [sp, #0x2c]
-	str r0, [sp, #0x30]
-	bl CARD_GetRomHeader
-	ldr r1, [r0, #0x40]
-	ldr r0, [r0, #0x44]
-	mov r6, #0
-	str r1, [sp, #0x34]
-	str r0, [sp, #0x38]
-	ldr r0, [r7, #0x50]
-	add r0, r0, r4
-	str r0, [sp, #0x3c]
-	ldr r0, [r7, #0x54]
-	str r0, [sp, #0x40]
-	ldr r0, [r7, #0x58]
-	add r0, r0, r4
-	str r0, [sp, #0x44]
-	ldr r0, [r7, #0x5c]
-	str r0, [sp, #0x48]
-_0206C0C4:
-	ldr r0, [sp, #4]
-	mov r2, #0
-	add r0, r0, #4
-	str r0, [sp, #4]
-	add r1, sp, #0x2c
-	mov r0, #2
-	add r9, sp, #0x1c
-_0206C0E0:
-	add r3, r1, r2, lsl #3
-	cmp r2, #0
-	ldr r5, [r3, #4]
-	bne _0206C118
-	cmp r8, #0
-	beq _0206C118
-	mov r10, r0
-_0206C0FC:
-	add r3, r1, r10, lsl #3
-	ldr r3, [r3, #4]
-	add r10, r10, #1
-	mov r3, r3, lsr #5
-	cmp r10, #4
-	add r5, r5, r3, lsl #3
-	blt _0206C0FC
-_0206C118:
-	add r3, r5, #0x1f
-	bic r3, r3, #0x1f
-	str r3, [r9, r2, lsl #2]
-	add r5, r3, #4
-	ldr r3, [sp, #4]
-	add r2, r2, #1
-	add r3, r3, r5
-	cmp r2, #4
-	str r3, [sp, #4]
-	blt _0206C0E0
-	bl OS_DisableInterrupts
-	ldr r1, =gWFSWorker
-	mov r5, r0
-	ldr r2, [r1, #0]
-	ldr r1, [sp, #4]
-	ldr r0, [r2, #0x18]
-	ldr r3, [r2, #0x14]
-	mov r2, #0
-	blx r3
-	str r0, [sp, #8]
-	mov r0, r5
-	bl OS_RestoreInterrupts
-	ldr r0, [sp, #8]
-	mov r10, #0
-	str r6, [r0]
-	add r9, r0, #4
-	add r5, sp, #0x2c
-	add r11, sp, #0x4c
-_0206C188:
-	add r0, r5, r10, lsl #3
-	ldr r1, [r0, #4]
-	add r0, sp, #0xc
-	str r1, [r9]
-	ldr r1, [r5, r10, lsl #3]
-	str r9, [r0, r10, lsl #2]
-	mov r0, r11
-	mov r2, #0
-	add r1, r6, r1
-	bl FS_SeekFile
-	ldr r2, [r9, #0]
-	mov r0, r11
-	add r1, r9, #4
-	bl FS_ReadFile
-	add r0, sp, #0x1c
-	ldr r0, [r0, r10, lsl #2]
-	add r10, r10, #1
-	add r0, r0, #4
-	add r9, r9, r0
-	cmp r10, #4
-	blt _0206C188
-	cmp r8, #0
-	beq _0206C2AC
-	ldr r2, [sp, #0xc]
-	ldr r0, [r7, #0x48]
-	ldr r1, [r2, #0]
-	add r11, r4, r0
-	mov r0, #2
-	add r5, r2, #4
-	mov r6, r1, lsr #3
-	add r10, r5, r6, lsl #3
-	str r0, [sp]
-_0206C208:
-	ldr r0, [sp]
-	add r1, sp, #0xc
-	ldr r0, [r1, r0, lsl #2]
-	mov r9, #0
-	add r7, r0, #4
-	ldr r0, [r0, #0]
-	mov r8, r0, lsr #5
-	cmp r8, #0
-	ble _0206C28C
-_0206C22C:
-	add r1, r7, r9, lsl #5
-	ldr r1, [r1, #0x18]
-	add r0, sp, #0x4c
-	mov r2, #0
-	add r1, r11, r1, lsl #3
-	bl FS_SeekFile
-	add r0, sp, #0x4c
-	mov r1, r10
-	mov r2, #8
-	bl FS_ReadFile
-	ldr r2, [r5, r6, lsl #3]
-	add r1, r7, r9, lsl #5
-	add r2, r2, r4
-	add r9, r9, #1
-	add r0, r5, r6, lsl #3
-	str r2, [r5, r6, lsl #3]
-	ldr r2, [r0, #4]
-	add r10, r10, #8
-	add r2, r2, r4
-	str r2, [r0, #4]
-	str r6, [r1, #0x18]
-	add r6, r6, #1
-	cmp r9, r8
-	blt _0206C22C
-_0206C28C:
-	ldr r0, [sp]
-	add r0, r0, #1
-	str r0, [sp]
-	cmp r0, #4
-	blt _0206C208
-	ldr r0, [sp, #0xc]
-	mov r1, r6, lsl #3
-	str r1, [r0]
-_0206C2AC:
-	ldr r0, [sp, #8]
-	ldr r1, [sp, #4]
-	bl DC_FlushRange
-	bl DC_WaitWriteBufferEmpty
-	add r0, sp, #0x4c
-	bl FS_CloseFile
-	ldr r1, =gWFSWorker
-	ldr r0, [sp, #8]
-	ldr r2, [r1, #0]
-	str r0, [r2, #0x20]
-	ldr r1, [r1, #0]
-	ldr r0, [sp, #4]
-	str r0, [r1, #0x24]
-	add sp, sp, #0xf4
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 u32 WFSi_ReplaceRomArchive(void *table)
@@ -712,41 +476,19 @@ void WFSi_SendOpenAck(WFSParentContext *parentContext, WFSiFileList *target, BOO
     OS_RestoreInterrupts(bak_cpsr);
 }
 
-NONMATCH_FUNC WFSiFileList *WFSi_FindAlive(WFSParentContext *parentContext, u32 top, u32 len)
+WFSiFileList *WFSi_FindAlive(WFSParentContext *parentContext, u32 top, u32 len)
 {
-    // https://decomp.me/scratch/x1j7s -> 49.38%
-#ifdef NON_MATCHING
-    WFSiFileList *fileList;
+    WFSiFileList *fileList = parentContext->alive_list;
 
-    for (fileList = parentContext->alive_list; fileList; fileList = fileList->next)
+    while (fileList)
     {
         if (fileList->stat == WFS_FILE_STAT_ALIVE && FS_GetFileImageTop(&fileList->file) == top && FS_GetLength(&fileList->file) == len)
             break;
+
+        fileList = fileList->next;
     }
 
     return fileList;
-#else
-    // clang-format off
-	add r0, r0, #0x10000
-	ldr r0, [r0, #0x744]
-	cmp r0, #0
-	bxeq lr
-_0206C7E0:
-	ldr r3, [r0, #0x80]
-	cmp r3, #2
-	ldreq ip, [r0, #0x5c]
-	cmpeq r1, ip
-	ldreq r3, [r0, #0x60]
-	subeq r3, r3, ip
-	cmpeq r2, r3
-	bxeq lr
-	ldr r0, [r0, #0]
-	cmp r0, #0
-	bne _0206C7E0
-	bx lr
-
-// clang-format on
-#endif
 }
 
 WFSiFileList *WFSi_FindBusy(WFSParentContext *parent, u32 src, u32 len)
@@ -939,10 +681,8 @@ void WFSi_PortCallback(void *arg)
     }
 }
 
-NONMATCH_FUNC void WFSi_OnParentSystemCallback(void *arg)
+void WFSi_OnParentSystemCallback(void *arg)
 {
-    // https://decomp.me/scratch/hlFRn -> 99.71%
-#ifdef NON_MATCHING
     WBTCommand *uc    = (WBTCommand *)arg;
     const int peerAID = WBT_AidbitmapToAid(uc->peer_bmp);
 
@@ -1101,242 +841,12 @@ NONMATCH_FUNC void WFSi_OnParentSystemCallback(void *arg)
                 break;
 
                 case WBT_CMD_REQ_GET_BLOCK_DONE:
+                    // Missing code?
+                    (void)0;
                     break;
             }
             break;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r4, r0
-	ldrh r0, [r4, #0xa]
-	bl WBT_AidbitmapToAid
-	ldr r1, [r4, #0]
-	mov r5, r0
-	cmp r1, #0xc
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, [r4, #4]
-	cmp r0, #2
-	ldmleia sp!, {r3, r4, r5, r6, r7, pc}
-	cmp r0, #0xd
-	ldmgtia sp!, {r3, r4, r5, r6, r7, pc}
-	cmp r0, #8
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	cmp r0, #0xa
-	beq _0206CCCC
-	cmp r0, #0xd
-	beq _0206CE64
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0206CCCC:
-	ldr r3, =gWFSWorker
-	add r6, r4, #0x14
-	ldr r1, [r3, #0]
-	mov r0, #0xc
-	mla r0, r5, r0, r1
-	add r7, r0, #0x440
-	ldmia r6, {r0, r1, r2}
-	stmia r7, {r0, r1, r2}
-	ldr r4, [r4, #0x14]
-	mov r0, r4, lsl #0x1c
-	movs r0, r0, lsr #0x1c
-	beq _0206CD08
-	cmp r0, #2
-	beq _0206CDEC
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0206CD08:
-	ldr r1, [r3, #0]
-	mov r3, r4, lsl #0x18
-	add r7, r1, #0x440
-	add r0, r7, #0x10000
-	ldr r0, [r0, #0x760]
-	ldrb r2, [r6, #8]
-	mov r3, r3, lsr #0x1c
-	cmp r0, #0
-	ldreq r0, [r1, #0x28]
-	orr r2, r2, r3, lsl #8
-	mov r4, r4, lsr #8
-	ldr r6, [r6, #4]
-	cmpeq r2, r0
-	beq _0206CD68
-	add r0, r7, #0x10000
-	mov r2, #1
-	str r2, [r0, #0x760]
-	ldr r1, [r0, #0x768]
-	orr r1, r1, r2, lsl r5
-	str r1, [r0, #0x768]
-	ldr r1, [r0, #0x75c]
-	orr r1, r1, r2, lsl r5
-	str r1, [r0, #0x75c]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0206CD68:
-	mov r0, r7
-	mov r1, r6
-	mov r2, r4
-	bl WFSi_FindAlive
-	cmp r0, #0
-	beq _0206CDB4
-	add r1, r7, #0x10000
-	mov r2, #0xc
-	ldr r4, [r1, #0x74c]
-	mov r3, #1
-	orr r3, r4, r3, lsl r5
-	str r3, [r1, #0x74c]
-	mla r1, r5, r2, r7
-	ldr r2, [r0, #0x8c]
-	str r2, [r1, #4]
-	ldr r1, [r0, #0x84]
-	add r1, r1, #1
-	str r1, [r0, #0x84]
-	b _0206CDD4
-_0206CDB4:
-	mov r0, r7
-	mov r1, r6
-	mov r2, r4
-	bl WFSi_FindBusy
-	ldr r2, [r0, #0x88]
-	mov r1, #1
-	orr r1, r2, r1, lsl r5
-	str r1, [r0, #0x88]
-_0206CDD4:
-	add r0, r7, #0x10000
-	ldr r2, [r0, #0x75c]
-	mov r1, #1
-	orr r1, r2, r1, lsl r5
-	str r1, [r0, #0x75c]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0206CDEC:
-	ldr r0, [r3, #0]
-	add r4, r0, #0x440
-	bl OS_DisableInterrupts
-	add r1, r4, #0x10000
-	ldr r3, [r1, #0x74c]
-	mov r2, #1
-	orr r2, r3, r2, lsl r5
-	str r2, [r1, #0x74c]
-	mov r7, r0
-	ldr r1, [r6, #4]
-	mov r0, r4
-	bl WFSi_FindAliveForID
-	movs r5, r0
-	beq _0206CE58
-	ldr r0, [r5, #0x84]
-	sub r0, r0, #1
-	str r0, [r5, #0x84]
-	cmp r0, #0
-	bgt _0206CE58
-	mov r0, #0
-	str r0, [r5, #0x88]
-	ldr r0, [r6, #4]
-	bl WBT_UnregisterBlock
-	mov r0, r4
-	mov r1, r5
-	bl WFSi_FromAliveToBusy
-	bl WFSi_NotifyBusy
-_0206CE58:
-	mov r0, r7
-	bl OS_RestoreInterrupts
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0206CE64:
-	ldr r0, =gWFSWorker
-	ldr r1, [r4, #0x14]
-	ldr r0, [r0, #0]
-	mov r2, #0
-	add r0, r0, #0x440
-	str r2, [r4, #0x1c]
-	bl WFSi_FindAliveForID
-	movs r5, r0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r5, #0x9c]
-	ldrsh r0, [r4, #0x20]
-	cmp r1, #2
-	ldr r1, [r5, #0x98]
-	ldr r2, [r4, #0x18]
-	beq _0206CEBC
-	ldr r3, [r5, #0x44]
-	tst r3, #1
-	movne r3, #1
-	moveq r3, #0
-	cmp r3, #0
-	moveq r3, #2
-	streq r3, [r5, #0x9c]
-_0206CEBC:
-	mul ip, r0, r1
-	str r2, [r5, #0x98]
-	mov r3, #0
-	b _0206CF10
-_0206CECC:
-	ldr r6, [r5, #0x9c]
-	cmp r3, r6
-	beq _0206CF0C
-	add r6, r5, r3, lsl #2
-	ldr r6, [r6, #0xa4]
-	subs r7, ip, r6
-	bmi _0206CF0C
-	add r6, r7, r0
-	cmp r6, #0x400
-	bgt _0206CF0C
-	add r6, r5, #0xc0
-	add r6, r6, r3, lsl #10
-	str r1, [r4, #0x18]
-	add r1, r6, r7
-	str r1, [r4, #0x1c]
-	b _0206CF18
-_0206CF0C:
-	add r3, r3, #1
-_0206CF10:
-	cmp r3, #2
-	blt _0206CECC
-_0206CF18:
-	ldr r1, [r5, #0x9c]
-	cmp r1, #2
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	mul r6, r0, r2
-	mov r2, #0
-	b _0206CF50
-_0206CF30:
-	add r1, r5, r2, lsl #2
-	ldr r1, [r1, #0xa4]
-	subs r1, r6, r1
-	bmi _0206CF4C
-	add r1, r1, r0
-	cmp r1, #0x400
-	ble _0206CF58
-_0206CF4C:
-	add r2, r2, #1
-_0206CF50:
-	cmp r2, #2
-	blt _0206CF30
-_0206CF58:
-	cmp r2, #2
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r4, [r5, #0xa0]
-	mov r0, #0
-_0206CF68:
-	add r4, r4, #1
-	cmp r4, #2
-	movge r4, r0
-	cmp r4, r3
-	beq _0206CF68
-	mov r0, #0x200
-	str r4, [r5, #0xa0]
-	rsb r0, r0, #0
-	and r1, r6, r0
-	str r4, [r5, #0x9c]
-	add r3, r5, r4, lsl #2
-	add r0, r5, #0x38
-	mov r2, #0
-	str r1, [r3, #0xa4]
-	bl FS_SeekFile
-	add r1, r5, #0xc0
-	add r0, r5, #0x38
-	add r1, r1, r4, lsl #10
-	mov r2, #0x400
-	bl FS_ReadFileAsync
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 void WFSi_ReallocBitmap(WFSChildContext *child, int size)
