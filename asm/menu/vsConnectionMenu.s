@@ -244,7 +244,7 @@ _0216AA70:
 _0216AB76:
 	mov r0, #1
 _0216AB78:
-	bl VSRoomManager__Func_20612D4
+	bl VSRoomManager__Action_CreateRoom_Downloadplay
 	mov r4, #0
 	b _0216ABD4
 _0216AB80:
@@ -287,11 +287,11 @@ _0216ABAC:
 _0216ABC4:
 	mov r0, #1
 _0216ABC6:
-	bl VSRoomManager__SetBattleMode
+	bl VSRoomManager__Action_CreateRoom_Wireless
 	mov r4, #0
 	b _0216ABD4
 _0216ABCE:
-	bl VSRoomManager__Func_2060F04
+	bl VSRoomManager__Action_SearchRooms_Wireless
 	mov r4, #1
 _0216ABD4:
 	bl SaveGame__GetOnlineScore
@@ -2060,7 +2060,7 @@ _0216BA54:
 	str r0, [r6, #8]
 	lsl r0, r4, #0x10
 	lsr r0, r0, #0x10
-	bl VSRoomManager__GetUnknownOpponentUnknown
+	bl VSRoomManager__GetUnknownOpponentLinkLevel
 	str r0, [r6, #0xc]
 	ldrh r0, [r5, r7]
 	add r4, r4, #1
@@ -2351,7 +2351,7 @@ VSConnectionMenu__Main_216BCA8: // 0x0216BCA8
 	bne _0216BCE2
 	ldr r0, _0216BCE4 // =0x00000708
 	ldrh r0, [r5, r0]
-	bl VSRoomManager__Func_20611B0
+	bl VSRoomManager__JoinRoom
 	ldr r0, _0216BCE8 // =VSConnectionMenu__TouchCallback_None
 	mov r1, #0
 	bl VSMenu__SetTouchCallback

@@ -541,7 +541,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
             {
                 if (context->file->status == FSREQ_STATUS_CLOSED)
                 {
-                    if (WirelessManager__GetField4() == 2 && (WFS_GetStatus() == WFS_STATE_ERROR || WFS_GetStatus() == WFS_STATE_STOP))
+                    if (WirelessManager__GetMode() == WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST && (WFS_GetStatus() == WFS_STATE_ERROR || WFS_GetStatus() == WFS_STATE_STOP))
                     {
                         ReleaseFSRequestWork(context->file);
                         context->file   = NULL;
@@ -582,7 +582,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
             {
                 if (context->file->status == FSREQ_STATUS_CLOSED)
                 {
-                    if ((WH_GetConnectBitmap() & ~1) == 0)
+                    if ((WH_GetBitmap() & ~1) == 0)
                     {
                         ReleaseFSRequestWork(context->file);
                         context->file   = NULL;
@@ -608,7 +608,7 @@ GameDataFileReqStatus GameDataLoadFileReq(const GMS_GAMEDAT_LOAD_INFO *loadInfo,
 
         case GAMEDATA_FILEREQ_MODE_WIRELESS_WAITING: {
             u16 oldConnectBitmap   = context->connectBitmap;
-            context->connectBitmap = WH_GetConnectBitmap();
+            context->connectBitmap = WH_GetBitmap();
             if (WirelessManager__GetBitmapUserCount(oldConnectBitmap) > WirelessManager__GetBitmapUserCount(context->connectBitmap))
             {
                 context->status = GAMEDATA_FILEREQ_STATUS_ERROR;

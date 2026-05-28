@@ -17,7 +17,7 @@ extern "C"
 
 #define VSROOMMANAGER_ROOM_PLAYER_COUNT 2
 
-#define VSROOMMANAGER_UNKNOWNLIST_COUNT 8
+#define VSROOMMANAGER_ROOMLIST_COUNT 8
 
 // --------------------
 // ENUMS
@@ -125,7 +125,7 @@ typedef struct VSRoomManager__Unknown1_
     s32 field_3C;
 } VSRoomManager__Unknown1;
 
-typedef struct VSRoomManager__Unknown_
+typedef struct VSRoomManagerRoomInfo_
 {
     u32 flags;
     struct
@@ -137,9 +137,9 @@ typedef struct VSRoomManager__Unknown_
     } opponent;
 
     u8 bssID[6];
-    u16 field_22;
-    s32 field_24;
-} VSRoomManager__Unknown;
+    u16 linkLevel;
+    s32 unused;
+} VSRoomManagerRoomInfo;
 
 typedef struct VSRoomManager__AID_
 {
@@ -176,9 +176,9 @@ typedef struct VSRoomManager_
         u8 other;
     } heartbeat4;
     u32 receiveTimeout;
-    u32 field_24;
+    u32 unknown5Timer;
     BOOL needsRegistryInit;
-    s32 field_2C;
+    BOOL field_2C;
     u32 field_30;
     s32 sendBufferSize;
     VSRoomManagerMatchType battleMode;
@@ -187,7 +187,7 @@ typedef struct VSRoomManager_
     u8 opponentBssID[6];
     s32 opponentScore;
     DWCAccFriendData opponentFriendData;
-    VSRoomManager__Unknown unknownList[VSROOMMANAGER_UNKNOWNLIST_COUNT];
+    VSRoomManagerRoomInfo availableRoomList[VSROOMMANAGER_ROOMLIST_COUNT];
     MBGameRegistry gameRegistry;
     char16 gameName[MB_GAME_NAME_LENGTH];
     char16 gameIntroduction[MB_GAME_INTRO_LENGTH];
@@ -213,20 +213,20 @@ char16 *VSRoomManager__GetOpponentName(void);
 u16 VSRoomManager__GetOpponentNameLength(void);
 s32 VSRoomManager__GetOpponentScore(void);
 VSRoomManagerMatchType VSRoomManager__GetBattleMode(void);
-void VSRoomManager__SetBattleMode(VSRoomManagerMatchType mode);
+void VSRoomManager__Action_CreateRoom_Wireless(VSRoomManagerMatchType mode);
 void VSRoomManager__Func_2060E78(void);
 void VSRoomManager__Func_2060ECC(void);
-void VSRoomManager__Func_2060F04(void);
+void VSRoomManager__Action_SearchRooms_Wireless(void);
 void VSRoomManager__LoadUnknownListEntries(void);
 u16 VSRoomManager__FindAvailableUnknownListSlot(void);
 char16 *VSRoomManager__GetUnknownOpponentName(s32 id);
 u16 VSRoomManager__GetUnknownOpponentNameLength(s32 id);
 VSRoomManagerMatchType VSRoomManager__GetUnknownOpponentBattleMode(s32 id);
-u16 VSRoomManager__GetUnknownOpponentUnknown(s32 id);
+u16 VSRoomManager__GetUnknownOpponentLinkLevel(s32 id);
 BOOL VSRoomManager__Func_2061194(void);
-BOOL VSRoomManager__Func_20611B0(s32 id);
+BOOL VSRoomManager__JoinRoom(s32 id);
 void VSRoomManager__Func_2061298(void);
-void VSRoomManager__Func_20612D4(VSRoomManagerMatchType mode);
+void VSRoomManager__Action_CreateRoom_Downloadplay(VSRoomManagerMatchType mode);
 void VSRoomManager__Func_2061360(void);
 void VSRoomManager__Func_20613BC(void);
 void VSRoomManager__Func_20613E4(void);
@@ -319,8 +319,8 @@ void VSRoomManager__Func_2063B6C(void);
 void VSRoomManager__Func_2063B80(void);
 void VSRoomManager__Func_2063B94(void);
 void VSRoomManager__Func_2063BA8(void);
-WirelessManager_Unknown2068160 *VSRoomManager__Func_2063BBC(void);
-WirelessManager_Unknown2067A88 *VSRoomManager__Func_2063BC8(void);
+WirelessManagerRoom_Wireless *VSRoomManager__GetCurrentRoomConnection_Wireless(void);
+WirelessManagerRoom_DownloadPlay *VSRoomManager__GetCurrentRoomConnection_DownloadPlay(void);
 BOOL VSRoomManager__AddFriend(DWCAccFriendData *friend, char16 *name, u16 nameLength);
 
 #ifdef __cplusplus

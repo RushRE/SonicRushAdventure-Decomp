@@ -19,13 +19,13 @@ enum MPFreq
 static u16 sConnectBitmap;
 u16 gWHPacketSize;
 static u16 sChannel;
-static u16 sMaxChildSize;
+static u16 sChildPacketSize;
 static u16 sAutoConnectFlag;
 static u16 sChannelBusyRatio;
 static u16 sChannelIndex;
 static u16 sChannelBitmap;
 static u16 sMyAid;
-static u16 sMaxParentSize;
+static u16 sParentPacketSize;
 u16 gWHMaxChildCount;
 static WHConnectMode sConnectMode;
 static WHJudgeAcceptFunc sJudgeAcceptFunc;
@@ -846,9 +846,9 @@ BOOL WH_ChildConnectAuto(WHStartScanCallbackFunc callback, WHConnectMode mode, c
 {
     if (mode == WH_CONNECTMODE_UNKNOWN_CHILD)
     {
-        sSendBufferSize = WH_MATH_MAX((sMaxParentSize + 35) & ~0x1F, (sMaxChildSize + 33) & ~0x1F);
+        sSendBufferSize = WH_MATH_MAX((sParentPacketSize + 35) & ~0x1F, (sChildPacketSize + 33) & ~0x1F);
 
-        sRecvBufferSize = WH_MATH_MAX(2 * (((sMaxChildSize + 14) * gWHMaxChildCount + 41) & ~0x1F), 2 * ((sMaxParentSize + 85) & ~0x1F));
+        sRecvBufferSize = WH_MATH_MAX(2 * (((sChildPacketSize + 14) * gWHMaxChildCount + 41) & ~0x1F), 2 * ((sParentPacketSize + 85) & ~0x1F));
     }
     else
     {
@@ -1676,11 +1676,11 @@ void WH_SetPacketSize(u16 size)
 
 void WH_SetMaxParentChildSize(u16 parentSize, u16 childSize)
 {
-    sMaxParentSize = parentSize;
-    sMaxChildSize  = childSize;
+    sParentPacketSize = parentSize;
+    sChildPacketSize  = childSize;
 }
 
-u16 WH_GetConnectBitmap(void)
+u16 WH_GetBitmap(void)
 {
     return sConnectBitmap;
 }
@@ -1955,9 +1955,9 @@ BOOL WH_ParentConnect(WHConnectMode mode, u16 tgid, u16 channel)
 
     if (mode == WH_CONNECTMODE_UNKNOWN_PARENT)
     {
-        sSendBufferSize = WH_MATH_MAX((sMaxParentSize + 35) & ~0x1F, (sMaxChildSize + 33) & ~0x1F);
+        sSendBufferSize = WH_MATH_MAX((sParentPacketSize + 35) & ~0x1F, (sChildPacketSize + 33) & ~0x1F);
 
-        sRecvBufferSize = WH_MATH_MAX(2 * (((sMaxChildSize + 14) * gWHMaxChildCount + 41) & ~0x1F), 2 * ((sMaxParentSize + 85) & ~0x1F));
+        sRecvBufferSize = WH_MATH_MAX(2 * (((sChildPacketSize + 14) * gWHMaxChildCount + 41) & ~0x1F), 2 * ((sParentPacketSize + 85) & ~0x1F));
     }
     else
     {
@@ -1976,8 +1976,8 @@ BOOL WH_ParentConnect(WHConnectMode mode, u16 tgid, u16 channel)
     sParentParam.beaconPeriod = WM_GetDispersionBeaconPeriod();
     if (mode == WH_CONNECTMODE_UNKNOWN_PARENT)
     {
-        sParentParam.parentMaxSize = sMaxParentSize;
-        sParentParam.childMaxSize  = sMaxChildSize;
+        sParentParam.parentMaxSize = sParentPacketSize;
+        sParentParam.childMaxSize  = sChildPacketSize;
     }
     else
     {
@@ -1995,7 +1995,7 @@ BOOL WH_ParentConnect(WHConnectMode mode, u16 tgid, u16 channel)
         case WH_CONNECTMODE_UNKNOWN_PARENT:
             WH_TRACE_CALL(aWfsInitparentC);
 
-            WFS_InitParent(1, 0, WH_Alloc, 0, sMaxParentSize, 0, 1);
+            WFS_InitParent(1, 0, WH_Alloc, 0, sParentPacketSize, 0, 1);
             WFS_SetDebugMode(TRUE);
             WFS_EnableSync(FALSE);
             // fallthrough
@@ -2019,9 +2019,9 @@ BOOL WH_ChildConnect(WHConnectMode mode, WMBssDesc *bssDesc)
 
     if (mode == WH_CONNECTMODE_UNKNOWN_CHILD)
     {
-        sSendBufferSize = WH_MATH_MAX((sMaxParentSize + 35) & ~0x1F, (sMaxChildSize + 33) & ~0x1F);
+        sSendBufferSize = WH_MATH_MAX((sParentPacketSize + 35) & ~0x1F, (sChildPacketSize + 33) & ~0x1F);
 
-        sRecvBufferSize = WH_MATH_MAX(2 * (((sMaxChildSize + 14) * gWHMaxChildCount + 41) & ~0x1F), 2 * ((sMaxParentSize + 85) & ~0x1F));
+        sRecvBufferSize = WH_MATH_MAX(2 * (((sChildPacketSize + 14) * gWHMaxChildCount + 41) & ~0x1F), 2 * ((sParentPacketSize + 85) & ~0x1F));
     }
     else
     {

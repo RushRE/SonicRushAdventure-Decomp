@@ -7,6 +7,14 @@
 typedef void (*WirelessManagerCallback)(void);
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define NO_ROOM 0xFFFF
+
+#define TGID_FLAG_UNKNOWN 0x8000
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -17,6 +25,15 @@ enum WirelessManagerFlags_
     WIRELESSMANAGER_FLAGS_1 = 1 << 0,
 };
 typedef s32 WirelessManagerFlags;
+
+enum WirelessManagerError_
+{
+    WIRELESSMANAGER_ERROR_NONE,
+    WIRELESSMANAGER_ERROR_CANT_MEASURE_CHANNEL,
+    WIRELESSMANAGER_ERROR_CANT_CONNECT,
+    WIRELESSMANAGER_ERROR_TIMEOUT,
+};
+typedef s32 WirelessManagerError;
 
 // --------------------
 // STRUCTS
@@ -31,30 +48,30 @@ typedef struct WirelessManager_SendPacket_
 typedef struct WirelessManager_
 {
     void (*state)(struct WirelessManager_ *work);
-    s32 field_4;
-    s32 status;
-    s32 field_C;
+    WirelessManagerMode mode;
+    WirelessManagerStatus status;
+    WirelessManagerError error;
     u16 channel;
     u16 tgid;
     u16 childBitmap;
-    u8 field_16;
+    u8 tgidSalt;
     u8 field_17;
     u16 field_18;
     u16 timer;
     s32 field_1C;
     size_t paramSize;
     s32 field_24;
-    WirelessManager__Unknown entries[32];
-    u16 entryCount;
-    u16 field_192A;
-    WirelessManager_Unknown2068724 unknownList[15];
-    u16 field_1AEE;
-    u16 field_1AF0;
-    u16 field_1AF2;
+    WirelessManagerRoomInfo availableRooms[32];
+    u16 availableRoomCount;
+    u16 currentRoom;
+    WirelessManagerConnectableGuestInfo guestListWireless[15];
+    u16 packetSize;
+    u16 parentPacketSize;
+    u16 childPacketSize;
     MBGameRegistry gameRegistry;
-    s32 field_1B30;
-    MBPChildInfo field_1B34[15];
-    u16 field_1CF6[15];
+    WirelessManagerDownloadPlayFlags downloadPlayFlags;
+    MBPChildInfo guestInfoListDownloadPlay[15];
+    u16 guestUnkownListDownloadPlay[15];
 } WirelessManager;
 
 // --------------------
@@ -63,13 +80,13 @@ typedef struct WirelessManager_
 
 static u16 sTGIDSeed;
 static u16 sUnknown;
-static WirelessManagerCallback sTaskUnknown2068430Param;
+static WirelessManagerCallback sWirelessUnkownCallback;
 static Task *sTaskSingleton;
-static Task *sTaskUnknown2068430;
+static Task *sWirelessUnkown;
 static BOOL sInitialized;
 static WirelessManagerFlags sManagerFlags;
 
-static void *sSendBufferQueue[16];
+static void *sReceiveBufferQueue[16];
 static u8 sGameSSID[WM_SIZE_CHILD_SSID] ATTRIBUTE_ALIGN(32);
 extern u16 sWirelessManagerUserGameInfo[56];
 extern s32 sWirelessManagerSendBuffer[128];
@@ -87,28 +104,28 @@ extern void (*gMBPFreeFunc)(void *ptr);
 
 NOT_DECOMPILED WMErrCode WMi_CheckInitialized(void);
 
-static u16 WirelessManager__GenerateTGID(u8 a1);
-static u32 WirelessManager__GetEntryCount(void);
-static WirelessManager__Unknown *WirelessManager__GetEntry(u16 id);
-static void WirelessManager__RemoveEntry(u16 id);
-static void Task__Unknown2068430__Create(WirelessManagerCallback callback);
-static void WirelessManager__Func_2068484(void);
-static void Task__Unknown2068430__Main(void);
-static void Task__Unknown2068430__Destructor(Task *task);
-static void WirelessManager__InitBuffers(u16 a1);
+static u16 WirelessManager__GenerateTGID(u8 salt);
+static u32 WirelessManager__GetAvailableRoomCount_Internal(void);
+static WirelessManagerRoomInfo *WirelessManager__GetAvailableRoom_Internal(u16 id);
+static void WirelessManager__RemoveAvailableRoom_Internal(u16 id);
+static void WirelessUnknown__Create(WirelessManagerCallback callback);
+static void WirelessUnknown__Destroy(void);
+static void WirelessUnknown__Main(void);
+static void WirelessUnknown__Destructor(Task *task);
+static void WirelessManager__InitBuffers(u16 size);
 static void WirelessManager__Main1(void);
 static void WirelessManager__Main3(void);
 static void WirelessManager__Destructor(Task *task);
 static BOOL WirelessManager__JudgeAcceptFunc(WMStartParentCallback *);
-static void WirelessManager__Func_206877C(WMBssDesc *bssDesc, void *a2);
-static void WirelessManager__Func_20688DC(WMBssDesc *bssDesc, void *a2);
-static void WirelessManager__SendDataCB_2068944(BOOL result);
+static void WirelessManager__ScanCallback_SearchRoomsWireless(WMBssDesc *bssDesc, void *arg);
+static void WirelessManager__ChildScanCallback_20688DC(WMBssDesc *bssDesc, void *arg);
+static void WirelessManager__SendDataCB_DownloadPlayGuest(BOOL result);
 static void WirelessManager__ReceiverCB_2068948(u16 aid, u16 *data, u16 size);
-static void WirelessManager__SendDataCB_206896C(BOOL result);
+static void WirelessManager__SendDataCB_WirelessGuest(BOOL result);
 static void WirelessManager__ReceiverCB_2068970(u16 aid, u16 *data, u16 size);
-static void WirelessManager__State_2068994(WirelessManager *work);
-static void WirelessManager__State_20689B4(WirelessManager *work);
-static void WirelessManager__State_2068A08(WirelessManager *work);
+static void WirelessManager__State_InitCreateRoom_DownloadPlay(WirelessManager *work);
+static void WirelessManager__State_WaitIdleBeforeCreateRoom_DownloadPlay(WirelessManager *work);
+static void WirelessManager__State_MeasureChannelForDownloadPlay(WirelessManager *work);
 static void WirelessManager__State_2068A78(WirelessManager *work);
 static void WirelessManager__State_2068ABC(WirelessManager *work);
 static void WirelessManager__State_2068ADC(WirelessManager *work);
@@ -120,10 +137,11 @@ static void WirelessManager__State_2068D94(WirelessManager *work);
 static void WirelessManager__State_2068DD4(WirelessManager *work);
 static void WirelessManager__State_2068E78(WirelessManager *work);
 static void WirelessManager__State_2068FD8(WirelessManager *work);
-static void WirelessManager__State_2069024(WirelessManager *work);
-static void WirelessManager__State_2069054(WirelessManager *work);
-static void WirelessManager__State_20690E8(WirelessManager *work);
-static void WirelessManager__State_2069190(WirelessManager *work);
+
+static void WirelessManager__State_StartSearchRooms_Wireless(WirelessManager *work);
+static void WirelessManager__State_WaitIdleBeforeSearchRooms_Wireless(WirelessManager *work);
+static void WirelessManager__State_SearchingForRooms_Wireless(WirelessManager *work);
+static void WirelessManager__State_ConnectedToRoom_Wireless(WirelessManager *work);
 static void WirelessManager__State_20691D0(WirelessManager *work);
 static void WirelessManager__State_20691F0(WirelessManager *work);
 static void WirelessManager__State_2069278(WirelessManager *work);
@@ -134,16 +152,18 @@ static void WirelessManager__State_2069498(WirelessManager *work);
 static void WirelessManager__State_2069580(WirelessManager *work);
 static void WirelessManager__State_206966C(WirelessManager *work);
 static void WirelessManager__State_20696A0(WirelessManager *work);
-static void WirelessManager__State_20696C4(WirelessManager *work);
-static void WirelessManager__Func_2069794(void);
-static void WirelessManager__Func_2069838(s32 a1);
-static void Task__Unknown2067FA0__Main(void);
-static void Task__Unknown2067FA0__Destructor(Task *task);
+
+static void WirelessManager__State_Error(WirelessManager *work);
+static void WirelessManager__WirelessUnknownCallback(void);
+static void WirelessManager__SetError(WirelessManagerError error);
+
+static void WirelessManager__Main_CreateRoom_DownloadPlay(void);
+static void WirelessManager__Destructor_DownloadPlay(Task *task);
 static void WirelessManager__State_20698CC(WirelessManager *work);
 static void WirelessManager__State_20698E8(WirelessManager *work);
 static void WirelessManager__State_2069914(WirelessManager *work);
-static void WirelessManager__State_2069964(WirelessManager *work);
-static void WirelessManager__State_2069B90(WirelessManager *work);
+static void WirelessManager__State_LoadConnectedDownloadPlayGuests(WirelessManager *work);
+static void WirelessManager__State_ConnectedToDownloadPlayGuests(WirelessManager *work);
 
 // --------------------
 // FUNCTIONS
@@ -151,11 +171,11 @@ static void WirelessManager__State_2069B90(WirelessManager *work);
 
 void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMode mbpAllocMode)
 {
-    sTaskSingleton           = NULL;
-    sTaskUnknown2068430      = NULL;
-    sUnknown                 = 0;
-    sTaskUnknown2068430Param = NULL;
-    sManagerFlags            = WIRELESSMANAGER_FLAGS_NONE;
+    sTaskSingleton          = NULL;
+    sWirelessUnkown         = NULL;
+    sUnknown                = 0;
+    sWirelessUnkownCallback = NULL;
+    sManagerFlags           = WIRELESSMANAGER_FLAGS_NONE;
 
     switch (whAllocMode)
     {
@@ -274,7 +294,7 @@ void WirelessManager__InitAllocator(NetworkAllocMode whAllocMode, NetworkAllocMo
     }
 }
 
-void WirelessManager__Create(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
+void WirelessManager__Create_CreateRoom_Wireless(u8 tgidSalt, u16 maxChildCount, u16 packetSize, void *param, u16 paramSize)
 {
     Task *task     = TaskCreate(WirelessManager__Main1, WirelessManager__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
                                 TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
@@ -283,17 +303,17 @@ void WirelessManager__Create(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
     WirelessManager *work = TaskGetWork(task, WirelessManager);
     TaskInitWork16(work);
 
-    work->state      = WirelessManager__State_2068994;
-    work->field_4    = 1;
-    work->status     = 1;
-    work->field_16   = a1;
-    work->field_192A = -1;
-    work->field_1AEE = a3;
-    if (work->field_1AEE < 4)
-        work->field_1AEE = 4;
-    WH_SetMaxChildCount(a2);
-    WH_SetPacketSize(4);
-    WirelessManager__InitBuffers(4);
+    work->state       = WirelessManager__State_InitCreateRoom_DownloadPlay;
+    work->mode        = WIRELESSMANAGER_MODE_WIRELESS_GUEST;
+    work->status      = WIRELESSMANAGER_STATUS_IDLE;
+    work->tgidSalt    = tgidSalt;
+    work->currentRoom = -1;
+    work->packetSize  = packetSize;
+    if (work->packetSize < sizeof(WirelessManager_SendPacket))
+        work->packetSize = sizeof(WirelessManager_SendPacket);
+    WH_SetMaxChildCount(maxChildCount);
+    WH_SetPacketSize(sizeof(WirelessManager_SendPacket));
+    WirelessManager__InitBuffers(sizeof(WirelessManager_SendPacket));
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
     WH_SetJudgeAcceptFunc(WirelessManager__JudgeAcceptFunc);
@@ -310,7 +330,7 @@ void WirelessManager__Create(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
 #pragma optimization_level 2
 #endif
 
-void WirelessManager__Create1(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3, void *param, u16 paramSize)
+void WirelessManager__Create1(WirelessManagerRoom_Wireless *room, s32 a2, u16 packetSize, void *param, u16 paramSize)
 {
     Task *task     = TaskCreate(WirelessManager__Main3, WirelessManager__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
                                 TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
@@ -319,20 +339,20 @@ void WirelessManager__Create1(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3
     WirelessManager *work = TaskGetWork(task, WirelessManager);
     TaskInitWork16(work);
 
-    work->state      = WirelessManager__State_2068DD4;
-    work->field_4    = 1;
-    work->status     = 2;
-    work->channel    = a1->channel;
-    work->tgid       = a1->tgid;
-    work->field_16   = 25;
-    work->field_192A = -1;
-    work->field_1AEE = a3;
-    work->field_1C   = a2;
+    work->state       = WirelessManager__State_2068DD4;
+    work->mode        = WIRELESSMANAGER_MODE_WIRELESS_GUEST;
+    work->status      = WIRELESSMANAGER_STATUS_2;
+    work->channel     = room->channel;
+    work->tgid        = room->tgid;
+    work->tgidSalt    = 25;
+    work->currentRoom = -1;
+    work->packetSize  = packetSize;
+    work->field_1C    = a2;
 
-    if (work->field_1AEE < 4)
-        work->field_1AEE = 4;
+    if (work->packetSize < sizeof(WirelessManager_SendPacket))
+        work->packetSize = sizeof(WirelessManager_SendPacket);
 
-    for (u16 i = 0; i < a1->bitmap; i++)
+    for (u16 i = 0; i < room->bitmap; i++)
     {
         u32 bitmap = work->childBitmap;
         bitmap <<= 1;
@@ -340,9 +360,9 @@ void WirelessManager__Create1(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3
         work->childBitmap = bitmap;
     }
 
-    WH_SetMaxChildCount(a1->bitmap - 1);
-    WH_SetPacketSize(work->field_1AEE);
-    WirelessManager__InitBuffers(work->field_1AEE);
+    WH_SetMaxChildCount(room->bitmap - 1);
+    WH_SetPacketSize(work->packetSize);
+    WirelessManager__InitBuffers(work->packetSize);
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
     WH_SetJudgeAcceptFunc(WirelessManager__JudgeAcceptFunc);
@@ -358,7 +378,7 @@ void WirelessManager__Create1(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3
 #pragma pop
 #endif
 
-void WirelessManager__Create2(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
+void WirelessManager__Create_SearchRooms_Wireless(u8 tgidSalt, u16 maxChildCount, u16 packetSize, void *param, u16 paramSize)
 {
     Task *task     = TaskCreate(WirelessManager__Main1, WirelessManager__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
                                 TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
@@ -367,17 +387,17 @@ void WirelessManager__Create2(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
     WirelessManager *work = TaskGetWork(task, WirelessManager);
     TaskInitWork16(work);
 
-    work->state      = WirelessManager__State_2069024;
-    work->field_4    = 1;
-    work->status     = 4;
-    work->field_16   = a1;
-    work->field_192A = -1;
-    work->field_1AEE = a3;
-    if (work->field_1AEE < 4)
-        work->field_1AEE = 4;
-    WH_SetMaxChildCount(a2);
-    WH_SetPacketSize(4);
-    WirelessManager__InitBuffers(4);
+    work->state       = WirelessManager__State_StartSearchRooms_Wireless;
+    work->mode        = WIRELESSMANAGER_MODE_WIRELESS_GUEST;
+    work->status      = WIRELESSMANAGER_STATUS_4;
+    work->tgidSalt    = tgidSalt;
+    work->currentRoom = -1;
+    work->packetSize  = packetSize;
+    if (work->packetSize < sizeof(WirelessManager_SendPacket))
+        work->packetSize = sizeof(WirelessManager_SendPacket);
+    WH_SetMaxChildCount(maxChildCount);
+    WH_SetPacketSize(sizeof(WirelessManager_SendPacket));
+    WirelessManager__InitBuffers(sizeof(WirelessManager_SendPacket));
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
 
@@ -390,7 +410,7 @@ void WirelessManager__Create2(u8 a1, u16 a2, u16 a3, void *param, u16 paramSize)
 #pragma optimization_level 2
 #endif
 
-void WirelessManager__Create3(WirelessManager_Unknown2067A88 *a1, u16 a3, void *param, u16 paramSize)
+void WirelessManager__Create3(WirelessManagerRoom_DownloadPlay *room, u16 packetSize, void *param, u16 paramSize)
 {
     Task *task     = TaskCreate(WirelessManager__Main3, WirelessManager__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
                                 TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
@@ -399,19 +419,19 @@ void WirelessManager__Create3(WirelessManager_Unknown2067A88 *a1, u16 a3, void *
     WirelessManager *work = TaskGetWork(task, WirelessManager);
     TaskInitWork16(work);
 
-    work->state   = WirelessManager__State_2069498;
-    work->field_4 = 1;
-    work->status  = 5;
-    MI_CpuCopy8(a1->bssID, work->entries[0].bssDesc.bssid, sizeof(work->entries[0].bssDesc.bssid));
-    work->entries[0].bssDesc.channel = a1->channel;
-    work->field_192A                 = 0;
-    work->field_16                   = 25;
-    work->field_1AEE                 = a3;
+    work->state  = WirelessManager__State_2069498;
+    work->mode   = WIRELESSMANAGER_MODE_WIRELESS_GUEST;
+    work->status = WIRELESSMANAGER_STATUS_5;
+    MI_CpuCopy8(room->bssID, work->availableRooms[0].bssDesc.bssid, sizeof(work->availableRooms[0].bssDesc.bssid));
+    work->availableRooms[0].bssDesc.channel = room->channel;
+    work->currentRoom                       = 0;
+    work->tgidSalt                          = 25;
+    work->packetSize                        = packetSize;
 
-    if (work->field_1AEE < 4)
-        work->field_1AEE = 4;
+    if (work->packetSize < sizeof(WirelessManager_SendPacket))
+        work->packetSize = sizeof(WirelessManager_SendPacket);
 
-    for (u16 i = 0; i < a1->bitmap; i++)
+    for (u16 i = 0; i < room->bitmap; i++)
     {
         u32 bitmap = work->childBitmap;
         bitmap <<= 1;
@@ -419,9 +439,9 @@ void WirelessManager__Create3(WirelessManager_Unknown2067A88 *a1, u16 a3, void *
         work->childBitmap = bitmap;
     }
 
-    WH_SetMaxChildCount(a1->bitmap - 1);
-    WH_SetPacketSize(work->field_1AEE);
-    WirelessManager__InitBuffers(work->field_1AEE);
+    WH_SetMaxChildCount(room->bitmap - 1);
+    WH_SetPacketSize(work->packetSize);
+    WirelessManager__InitBuffers(work->packetSize);
     WH_Initialize();
     WH_SetGgid(WIRELESSMANAGER_GGID_RUSH2);
 
@@ -436,13 +456,13 @@ void WirelessManager__Create3(WirelessManager_Unknown2067A88 *a1, u16 a3, void *
 void WirelessManager__Func_206789C(s32 a1)
 {
     BOOL isLooping = TRUE;
-    u32 loopCount;
+    u32 errorRetryCount;
 
     switch (a1)
     {
         case 0:
-            loopCount = 0;
-            WirelessManager__Func_2068484();
+            errorRetryCount = 0;
+            WirelessUnknown__Destroy();
             if (WMi_CheckInitialized() == WM_ERRCODE_SUCCESS)
                 WH_SetReceiver(NULL);
 
@@ -462,8 +482,8 @@ void WirelessManager__Func_206789C(s32 a1)
                         break;
 
                     case WH_SYSSTATE_ERROR:
-                        loopCount++;
-                        if (loopCount <= 3)
+                        errorRetryCount++;
+                        if (errorRetryCount <= 3)
                         {
                             WH_Reset();
                             break;
@@ -504,60 +524,60 @@ void WirelessManager__Func_206789C(s32 a1)
     }
 }
 
-s32 WirelessManager__GetEntryCount2(void)
+s32 WirelessManager__GetAvailableRoomCount(void)
 {
-    return WirelessManager__GetEntryCount();
+    return WirelessManager__GetAvailableRoomCount_Internal();
 }
 
-WirelessManager__Unknown *WirelessManager__GetEntry2(u16 id)
+WirelessManagerRoomInfo *WirelessManager__GetAvailableRoom(u16 id)
 {
-    return WirelessManager__GetEntry(id);
+    return WirelessManager__GetAvailableRoom_Internal(id);
 }
 
-void WirelessManager__RemoveEntry2(u16 id)
+void WirelessManager__RemoveAvailableRoom(u16 id)
 {
-    WirelessManager__RemoveEntry(id);
+    WirelessManager__RemoveAvailableRoom_Internal(id);
 }
 
-void WirelessManager__Func_20679CC(u16 id)
+void WirelessManager__SetCurrentRoom(u16 id)
 {
-    if (WirelessManager__GetStatus() == 4)
+    if (WirelessManager__GetStatus() == WIRELESSMANAGER_STATUS_4)
     {
         if (WH_GetSystemState() == WH_SYSSTATE_SCANNING)
             WH_EndScan();
 
-        if (id < WirelessManager__GetEntryCount())
+        if (id < WirelessManager__GetAvailableRoomCount_Internal())
         {
             WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-            work->field_192A = id;
+            work->currentRoom = id;
         }
     }
 }
 
-WirelessManager_Unknown2068724 *WirelessManager__Func_2067A18(s32 id)
+WirelessManagerConnectableGuestInfo *WirelessManager__GetConnectedGuest_Wireless(s32 id)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    return &work->unknownList[id - 1];
+    return &work->guestListWireless[id - 1];
 }
 
-void WirelessManager__Func_2067A48(WirelessManager_Unknown2068160 *unknown)
+void WirelessManager__GetCurrentRoomConnection_Wireless(WirelessManagerRoom_Wireless *room)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    unknown->channel = work->channel;
-    unknown->bitmap  = WirelessManager__GetChildCount();
-    unknown->tgid    = (work->tgid + 1) | 0x8000;
+    room->channel = work->channel;
+    room->bitmap  = WirelessManager__GetChildCount();
+    room->tgid    = (work->tgid + 1) | TGID_FLAG_UNKNOWN;
 }
 
-void WirelessManager__Func_2067A88(WirelessManager_Unknown2067A88 *unknown)
+void WirelessManager__GetCurrentRoomConnection_DownloadPlay(WirelessManagerRoom_DownloadPlay *room)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    unknown->channel = work->entries[work->field_192A].bssDesc.channel;
-    unknown->bitmap  = WirelessManager__GetChildCount();
-    MI_CpuCopy8(work->entries[work->field_192A].bssDesc.bssid, unknown->bssID, sizeof(unknown->bssID));
+    room->channel = work->availableRooms[work->currentRoom].bssDesc.channel;
+    room->bitmap  = WirelessManager__GetChildCount();
+    MI_CpuCopy8(work->availableRooms[work->currentRoom].bssDesc.bssid, room->bssID, sizeof(room->bssID));
 }
 
 void WirelessManager__Func_2067AE8(BOOL enabled)
@@ -575,7 +595,7 @@ void *WirelessManager__GetSendBuffer(void)
 
 void *WirelessManager__GetReceiveBuffer(u32 id)
 {
-    return sSendBufferQueue[id];
+    return sReceiveBufferQueue[id];
 }
 
 void WirelessManager__ClearSendBuffer(void)
@@ -593,7 +613,7 @@ void WirelessManager__ClearUnknownBuffer(void)
 #pragma optimization_level 2
 #endif
 
-void WirelessManager__Create4(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3, u16 a4, void *param, u16 paramSize)
+void WirelessManager__Create4(WirelessManagerRoom_Wireless *a1, s32 a2, u16 parentPacketSize, u16 childPacketSize, void *param, u16 paramSize)
 {
     Task *task     = TaskCreate(WirelessManager__Main3, WirelessManager__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
                                 TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
@@ -602,16 +622,16 @@ void WirelessManager__Create4(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3
     WirelessManager *work = TaskGetWork(task, WirelessManager);
     TaskInitWork16(work);
 
-    work->state      = WirelessManager__State_2068DD4;
-    work->field_4    = 2;
-    work->status     = 2;
-    work->channel    = a1->channel;
-    work->tgid       = a1->tgid;
-    work->field_16   = 25;
-    work->field_192A = 0xFFFF;
-    work->field_1AF0 = a3;
-    work->field_1AF2 = a4;
-    work->field_1C   = a2;
+    work->state            = WirelessManager__State_2068DD4;
+    work->mode             = WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST;
+    work->status           = WIRELESSMANAGER_STATUS_2;
+    work->channel          = a1->channel;
+    work->tgid             = a1->tgid;
+    work->tgidSalt         = 25;
+    work->currentRoom      = NO_ROOM;
+    work->parentPacketSize = parentPacketSize;
+    work->childPacketSize  = childPacketSize;
+    work->field_1C         = a2;
 
     for (u16 i = 0; i < a1->bitmap; i++)
     {
@@ -642,7 +662,7 @@ void WirelessManager__Create4(WirelessManager_Unknown2068160 *a1, s32 a2, u16 a3
 #pragma optimization_level 2
 #endif
 
-void WirelessManager__Create5(WirelessManager_Unknown2067A88 *a1, u16 a2, u16 a3, void *param, u16 paramSize)
+void WirelessManager__Create5(WirelessManagerRoom_DownloadPlay *a1, u16 parentPacketSize, u16 childPacketSize, void *param, u16 paramSize)
 {
     Task *task     = TaskCreate(WirelessManager__Main3, WirelessManager__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
                                 TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
@@ -651,15 +671,15 @@ void WirelessManager__Create5(WirelessManager_Unknown2067A88 *a1, u16 a2, u16 a3
     WirelessManager *work = TaskGetWork(task, WirelessManager);
     TaskInitWork16(work);
 
-    work->state   = WirelessManager__State_2069498;
-    work->field_4 = 2;
-    work->status  = 4;
-    MI_CpuCopy8(a1->bssID, work->entries[0].bssDesc.bssid, sizeof(work->entries[0].bssDesc.bssid));
-    work->entries[0].bssDesc.channel = a1->channel;
-    work->field_192A                 = 0;
-    work->field_16                   = 25;
-    work->field_1AF0                 = a2;
-    work->field_1AF2                 = a3;
+    work->state  = WirelessManager__State_2069498;
+    work->mode   = WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST;
+    work->status = WIRELESSMANAGER_STATUS_4;
+    MI_CpuCopy8(a1->bssID, work->availableRooms[0].bssDesc.bssid, sizeof(work->availableRooms[0].bssDesc.bssid));
+    work->availableRooms[0].bssDesc.channel = a1->channel;
+    work->currentRoom                       = 0;
+    work->tgidSalt                          = 25;
+    work->parentPacketSize                  = parentPacketSize;
+    work->childPacketSize                   = childPacketSize;
 
     for (u16 i = 0; i < a1->bitmap; i++)
     {
@@ -684,13 +704,13 @@ void WirelessManager__Create5(WirelessManager_Unknown2067A88 *a1, u16 a2, u16 a3
 void WirelessManager__Func_2067DF4(s32 a1)
 {
     BOOL isLooping = TRUE;
-    u32 loopCount;
+    u32 errorRetryCount;
 
     switch (a1)
     {
         case 0:
-            loopCount = 0;
-            WirelessManager__Func_2068484();
+            errorRetryCount = 0;
+            WirelessUnknown__Destroy();
             WFS_End();
             if (WMi_CheckInitialized() == WM_ERRCODE_SUCCESS)
                 WH_SetReceiver(NULL);
@@ -712,8 +732,8 @@ void WirelessManager__Func_2067DF4(s32 a1)
 
                     case WH_SYSSTATE_ERROR:
                     case WH_SYSSTATE_FATAL:
-                        loopCount++;
-                        if (loopCount <= 3)
+                        errorRetryCount++;
+                        if (errorRetryCount <= 3)
                         {
                             WH_Reset();
                             break;
@@ -754,38 +774,38 @@ void WirelessManager__Func_2067DF4(s32 a1)
     }
 }
 
-void WirelessManager__Func_2067F00(WirelessManager_Unknown2068160 *unknown)
+void WirelessManager__GetCurrentRoomConnection_Wireless2(WirelessManagerRoom_Wireless *room)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    unknown->channel = work->channel;
-    unknown->bitmap  = WirelessManager__GetChildCount();
-    unknown->tgid    = (work->tgid + 1) | 0x8000;
+    room->channel = work->channel;
+    room->bitmap  = WirelessManager__GetChildCount();
+    room->tgid    = (work->tgid + 1) | TGID_FLAG_UNKNOWN;
 }
 
-void WirelessManager__Func_2067F40(WirelessManager_Unknown2067A88 *unknown)
+void WirelessManager__GetCurrentRoomConnection_DownloadPlay2(WirelessManagerRoom_DownloadPlay *room)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    unknown->channel = work->entries[work->field_192A].bssDesc.channel;
-    unknown->bitmap  = WirelessManager__GetChildCount();
-    MI_CpuCopy8(work->entries[work->field_192A].bssDesc.bssid, unknown->bssID, sizeof(unknown->bssID));
+    room->channel = work->availableRooms[work->currentRoom].bssDesc.channel;
+    room->bitmap  = WirelessManager__GetChildCount();
+    MI_CpuCopy8(work->availableRooms[work->currentRoom].bssDesc.bssid, room->bssID, sizeof(room->bssID));
 }
 
-void WirelessManager__Create6(MBGameRegistry *gameRegistry, s32 a2)
+void WirelessManager__Create_CreateRoom_DownloadPlay(MBGameRegistry *gameRegistry, WirelessManagerDownloadPlayFlags flags)
 {
-    Task *task     = TaskCreate(Task__Unknown2067FA0__Main, Task__Unknown2067FA0__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
-                                TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
+    Task *task     = TaskCreate(WirelessManager__Main_CreateRoom_DownloadPlay, WirelessManager__Destructor_DownloadPlay,
+                                TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(253), WirelessManager);
     sTaskSingleton = task;
 
     WirelessManager *work = TaskGetWork(task, WirelessManager);
     TaskInitWork16(work);
 
-    work->state   = WirelessManager__State_2068994;
-    work->field_4 = 3;
-    work->status  = 1;
+    work->state  = WirelessManager__State_InitCreateRoom_DownloadPlay;
+    work->mode   = WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_HOST;
+    work->status = WIRELESSMANAGER_STATUS_IDLE;
     MI_CpuCopy16(gameRegistry, &work->gameRegistry, sizeof(work->gameRegistry));
-    work->field_1B30        = a2;
+    work->downloadPlayFlags = flags;
     work->gameRegistry.ggid = WIRELESSMANAGER_GGID_RUSH2;
 
     WH_Initialize();
@@ -795,11 +815,11 @@ void WirelessManager__Create6(MBGameRegistry *gameRegistry, s32 a2)
 void WirelessManager__Func_2068060(void)
 {
     BOOL isLooping = TRUE;
-    u32 loopCount;
+    u32 errorRetryCount;
 
     if (WH_GetSystemState() != WH_SYSSTATE_STOP)
     {
-        loopCount = 0;
+        errorRetryCount = 0;
 
         do
         {
@@ -818,8 +838,8 @@ void WirelessManager__Func_2068060(void)
 
                 case WH_SYSSTATE_ERROR:
                 case WH_SYSSTATE_FATAL:
-                    loopCount++;
-                    if (loopCount <= 3)
+                    errorRetryCount++;
+                    if (errorRetryCount <= 3)
                     {
                         WH_Reset();
                         break;
@@ -871,27 +891,27 @@ void WirelessManager__Func_2068060(void)
     }
 }
 
-void WirelessManager__Func_2068160(WirelessManager_Unknown2068160 *unknown)
+void WirelessManager__GetCurrentRoomConnection_Wireless3(WirelessManagerRoom_Wireless *room)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    unknown->channel = work->channel;
-    unknown->bitmap  = WirelessManager__GetChildCount();
-    unknown->tgid    = (work->tgid + 1) | 0x8000;
+    room->channel = work->channel;
+    room->bitmap  = WirelessManager__GetChildCount();
+    room->tgid    = (work->tgid + 1) | TGID_FLAG_UNKNOWN;
 }
 
-MBPChildInfo *WirelessManager__GetChildInfo(s32 id)
+MBPChildInfo *WirelessManager__GetConnectedGuest_DownloadPlay(s32 id)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    return &work->field_1B34[id - 1];
+    return &work->guestInfoListDownloadPlay[id - 1];
 }
 
 void WirelessManager__Func_20681D0(void)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    if (work->status == 2)
+    if (work->status == WIRELESSMANAGER_STATUS_2)
         work->field_17 = 1;
 }
 
@@ -909,20 +929,20 @@ u32 WirelessManager__GetChildCount(void)
     return WirelessManager__GetBitmapUserCount(work->childBitmap);
 }
 
-u32 WirelessManager__GetField4(void)
+WirelessManagerMode WirelessManager__GetMode(void)
 {
     if (sTaskSingleton == NULL)
-        return 0;
+        return WIRELESSMANAGER_MODE_INVALID;
 
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    return work->field_4;
+    return work->mode;
 }
 
 s32 WirelessManager__GetStatus(void)
 {
     if (sTaskSingleton == NULL)
-        return 0;
+        return WIRELESSMANAGER_STATUS_INACTIVE;
 
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
@@ -951,7 +971,7 @@ WMLinkLevel WirelessManager__GetLinkLevel(void)
     return WM_GetLinkLevel();
 }
 
-u16 WirelessManager__GenerateTGID(u8 a1)
+u16 WirelessManager__GenerateTGID(u8 salt)
 {
     if (sInitialized == FALSE)
     {
@@ -966,36 +986,36 @@ u16 WirelessManager__GenerateTGID(u8 a1)
         sTGIDSeed = (sTGIDSeed + 1) & 0x3FF;
     }
 
-    return ((a1 & 0x1F) << 0) | ((sTGIDSeed & 0x3FF) << 5);
+    return ((salt & 0x1F) << 0) | ((sTGIDSeed & 0x3FF) << 5);
 }
 
-u32 WirelessManager__GetEntryCount(void)
+u32 WirelessManager__GetAvailableRoomCount_Internal(void)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    return work->entryCount;
+    return work->availableRoomCount;
 }
 
-WirelessManager__Unknown *WirelessManager__GetEntry(u16 id)
+WirelessManagerRoomInfo *WirelessManager__GetAvailableRoom_Internal(u16 id)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    return &work->entries[id];
+    return &work->availableRooms[id];
 }
 
-NONMATCH_FUNC void WirelessManager__RemoveEntry(u16 id)
+NONMATCH_FUNC void WirelessManager__RemoveAvailableRoom_Internal(u16 id)
 {
     // https://decomp.me/scratch/eKTAv -> 93.38%
 #ifdef NON_MATCHING
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
     u16 i;
-    for (i = id + 1; work->entryCount > i; i++)
+    for (i = id + 1; work->availableRoomCount > i; i++)
     {
-        MI_CpuCopy16(&work->entries[i], &work->entries[i - 1], sizeof(work->entries[i]));
+        MI_CpuCopy16(&work->availableRooms[i], &work->availableRooms[i - 1], sizeof(work->availableRooms[i]));
     }
 
-    work->entryCount--;
+    work->availableRoomCount--;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
@@ -1038,31 +1058,31 @@ _02068418:
 #endif
 }
 
-void Task__Unknown2068430__Create(WirelessManagerCallback callback)
+void WirelessUnknown__Create(WirelessManagerCallback callback)
 {
-    sTaskUnknown2068430 = TaskCreateNoWork(Task__Unknown2068430__Main, Task__Unknown2068430__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
-                                           TASK_PRIORITY_RENDER_LIST_START + 0x00, TASK_GROUP(253), "Unknown2068430");
+    sWirelessUnkown = TaskCreateNoWork(WirelessUnknown__Main, WirelessUnknown__Destructor, TASK_FLAG_DISABLE_EXTERNAL_DESTROY | TASK_FLAG_IGNORE_PAUSELEVEL, 0,
+                                       TASK_PRIORITY_RENDER_LIST_START + 0x00, TASK_GROUP(253), "WirelessUnknown");
 
-    sTaskUnknown2068430Param = callback;
+    sWirelessUnkownCallback = callback;
 }
 
-void WirelessManager__Func_2068484(void)
+void WirelessUnknown__Destroy(void)
 {
-    if (sTaskUnknown2068430 != NULL)
+    if (sWirelessUnkown != NULL)
     {
-        SetTaskFlags(sTaskUnknown2068430, TASK_FLAG_NONE);
-        DestroyTask(sTaskUnknown2068430);
+        SetTaskFlags(sWirelessUnkown, TASK_FLAG_NONE);
+        DestroyTask(sWirelessUnkown);
     }
 }
 
 #if defined(__MWERKS__)
 #pragma optimize_for_size on
 #endif
-void Task__Unknown2068430__Main(void)
+void WirelessUnknown__Main(void)
 {
     if (WH_GetSystemState() == WH_SYSSTATE_DATASHARING)
     {
-        u16 prevConnectBitmap = WH_GetConnectBitmap();
+        u16 prevConnectBitmap = WH_GetBitmap();
 
         DC_StoreRange(sWirelessManagerSendBuffer, sizeof(sWirelessManagerSendBuffer));
         if ((sManagerFlags & WIRELESSMANAGER_FLAGS_1) != 0)
@@ -1075,23 +1095,23 @@ void Task__Unknown2068430__Main(void)
             {
                 if (WH_GetErrorCode() != WM_ERRCODE_NO_KEYSET)
                 {
-                    if (sTaskUnknown2068430Param)
-                        sTaskUnknown2068430Param();
-                    sTaskUnknown2068430Param = NULL;
+                    if (sWirelessUnkownCallback)
+                        sWirelessUnkownCallback();
+                    sWirelessUnkownCallback = NULL;
 
-                    WirelessManager__Func_2069838(2);
+                    WirelessManager__SetError(WIRELESSMANAGER_ERROR_CANT_CONNECT);
                     return;
                 }
                 OS_WaitVBlankIntr();
             }
 
-            if (WH_GetCurrentAid() == 0 && WH_GetConnectBitmap() < prevConnectBitmap)
+            if (WH_GetCurrentAid() == 0 && WH_GetBitmap() < prevConnectBitmap)
             {
-                if (sTaskUnknown2068430Param)
-                    sTaskUnknown2068430Param();
-                sTaskUnknown2068430Param = NULL;
+                if (sWirelessUnkownCallback)
+                    sWirelessUnkownCallback();
+                sWirelessUnkownCallback = NULL;
 
-                WirelessManager__Func_2069838(2);
+                WirelessManager__SetError(WIRELESSMANAGER_ERROR_CANT_CONNECT);
             }
         }
 
@@ -1099,9 +1119,9 @@ void Task__Unknown2068430__Main(void)
         {
             const void *addr = WH_GetSharedDataAdr(i);
             if (addr)
-                MI_CpuCopy8(addr, sSendBufferQueue[i], gWHPacketSize);
+                MI_CpuCopy8(addr, sReceiveBufferQueue[i], gWHPacketSize);
             else
-                MI_CpuClear8(sSendBufferQueue[i], gWHPacketSize);
+                MI_CpuClear8(sReceiveBufferQueue[i], gWHPacketSize);
         }
     }
 }
@@ -1110,9 +1130,9 @@ void Task__Unknown2068430__Main(void)
 #pragma optimize_for_size off
 #endif
 
-void Task__Unknown2068430__Destructor(Task *task)
+void WirelessUnknown__Destructor(Task *task)
 {
-    sTaskUnknown2068430 = NULL;
+    sWirelessUnkown = NULL;
 }
 
 #if defined(__MWERKS__)
@@ -1125,14 +1145,14 @@ void WirelessManager__InitBuffers(u16 size)
     WirelessManager__ClearSendBuffer();
     WirelessManager__ClearUnknownBuffer();
 
-    MI_CpuClear32(sSendBufferQueue, sizeof(sSendBufferQueue));
+    MI_CpuClear32(sReceiveBufferQueue, sizeof(sReceiveBufferQueue));
 
     u16 i;
     u16 step = (size + 3) & ~3;
     u8 *ptr  = (u8 *)sWirelessManagerUnknownBuffer;
     for (i = 0; i < 16; i++)
     {
-        sSendBufferQueue[i] = ptr;
+        sReceiveBufferQueue[i] = ptr;
         ptr += step;
     }
 }
@@ -1151,7 +1171,7 @@ void WirelessManager__Main1(void)
     if (work->timer == SECONDS_TO_FRAMES(4.0))
     {
         work->timer++;
-        WirelessManager__Func_2069838(3);
+        WirelessManager__SetError(WIRELESSMANAGER_ERROR_TIMEOUT);
     }
     else if (work->timer < SECONDS_TO_FRAMES(4.0))
     {
@@ -1168,7 +1188,7 @@ void WirelessManager__Main3(void)
     if (work->timer == SECONDS_TO_FRAMES(8.0))
     {
         work->timer++;
-        WirelessManager__Func_2069838(3);
+        WirelessManager__SetError(WIRELESSMANAGER_ERROR_TIMEOUT);
     }
     else if (work->timer < SECONDS_TO_FRAMES(8.0))
     {
@@ -1187,31 +1207,33 @@ BOOL WirelessManager__JudgeAcceptFunc(WMStartParentCallback *param)
 {
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    WirelessManager_Unknown2068724 *unknown = &work->unknownList[param->aid - 1];
-    MI_CpuCopy8(param->macAddress, unknown->macAddress, sizeof(unknown->macAddress));
-    MI_CpuCopy8(param->ssid, &unknown->ssid, sizeof(unknown->ssid));
+    WirelessManagerConnectableGuestInfo *guest = &work->guestListWireless[param->aid - 1];
+    MI_CpuCopy8(param->macAddress, guest->macAddress, sizeof(guest->macAddress));
+    MI_CpuCopy8(param->ssid, &guest->ssid, sizeof(guest->ssid));
 
     return TRUE;
 }
 
-void WirelessManager__Func_206877C(WMBssDesc *pBssDesc, void *a2)
+void WirelessManager__ScanCallback_SearchRoomsWireless(WMBssDesc *pBssDesc, void *arg)
 {
+    WMstartScanCallback *cb = (WMstartScanCallback *)arg;
+
     WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    WirelessManager__Unknown *entryList = work->entries;
-    if ((pBssDesc->gameInfo.gameNameCount_attribute & 2) == 0)
+    WirelessManagerRoomInfo *entryList = work->availableRooms;
+    if ((pBssDesc->gameInfo.attribute & WM_ATTR_FLAG_MB) == 0)
     {
-        u32 count = work->entryCount;
-        if (count < ARRAY_COUNT(work->entries) && (pBssDesc->gameInfo.tgid & 0x1F) == work->field_16)
+        u32 count = work->availableRoomCount;
+        if (count < ARRAY_COUNT(work->availableRooms) && (pBssDesc->gameInfo.tgid & 0x1F) == work->tgidSalt)
         {
             u16 i;
-            if ((pBssDesc->gameInfo.tgid & 0x8000) != 0)
+            if ((pBssDesc->gameInfo.tgid & TGID_FLAG_UNKNOWN) != 0)
             {
                 for (i = 0; i < count; i++)
                 {
                     if (memcmp(entryList[i].bssDesc.bssid, pBssDesc->bssid, sizeof(pBssDesc->bssid)) == 0)
                     {
-                        WirelessManager__RemoveEntry(i);
+                        WirelessManager__RemoveAvailableRoom_Internal(i);
                         return;
                     }
                 }
@@ -1223,83 +1245,66 @@ void WirelessManager__Func_206877C(WMBssDesc *pBssDesc, void *a2)
                     if (memcmp(entryList[i].bssDesc.bssid, pBssDesc->bssid, sizeof(pBssDesc->bssid)) == 0)
                     {
                         MI_CpuCopy32(pBssDesc, &entryList[i].bssDesc, sizeof(entryList[i].bssDesc));
-                        entryList[i].field_C0 = 0;
-                        entryList[i].field_C4 = *(u16 *)(a2 + 18);
+                        entryList[i].timer     = 0;
+                        entryList[i].linkLevel = cb->linkLevel;
                         return;
                     }
                 }
 
                 MI_CpuCopy32(pBssDesc, &entryList[i].bssDesc, sizeof(entryList[i].bssDesc));
-                entryList[i].field_C0 = 0;
-                entryList[i].field_C4 = *(u16 *)(a2 + 18);
-                work->entryCount++;
+                entryList[i].timer     = 0;
+                entryList[i].linkLevel = cb->linkLevel;
+                work->availableRoomCount++;
             }
         }
     }
 }
 
-void WirelessManager__Func_20688DC(WMBssDesc *bssDesc, void *a2)
+void WirelessManager__ChildScanCallback_20688DC(WMBssDesc *bssDesc, void *arg)
 {
-    WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
+    WMstartScanCallback *cb = (WMstartScanCallback *)arg;
+    WirelessManager *work   = TaskGetWork(sTaskSingleton, WirelessManager);
 
-    if ((bssDesc->gameInfo.gameNameCount_attribute & 2) == 0 && work->entryCount == 0)
+    if ((bssDesc->gameInfo.attribute & WM_ATTR_FLAG_MB) == 0 && work->availableRoomCount == 0)
     {
-        MI_CpuCopy32(bssDesc, &work->entries[0].bssDesc, sizeof(work->entries[0].bssDesc));
-        work->entries[0].field_C0 = 0;
-        work->entries[0].field_C4 = *(u16 *)(a2 + 18); // TODO: what is this
-        work->entryCount          = 1;
+        MI_CpuCopy32(bssDesc, &work->availableRooms[0].bssDesc, sizeof(work->availableRooms[0].bssDesc));
+        work->availableRooms[0].timer     = 0;
+        work->availableRooms[0].linkLevel = cb->linkLevel;
+        work->availableRoomCount          = 1;
     }
 }
 
-void WirelessManager__SendDataCB_2068944(BOOL result)
+void WirelessManager__SendDataCB_DownloadPlayGuest(BOOL result)
 {
     // Do nothing
 }
 
 void WirelessManager__ReceiverCB_2068948(u16 aid, u16 *data, u16 size)
 {
-    if (size == 4)
-        ((u16 *)&sWirelessManagerUnknownBuffer)[1] |= 1 << aid; // TODO: what is this
+    if (size == sizeof(WirelessManager_SendPacket))
+        ((WirelessManager_SendPacket *)sWirelessManagerUnknownBuffer)->flags |= 1 << aid;
 }
 
-void WirelessManager__SendDataCB_206896C(BOOL result)
+void WirelessManager__SendDataCB_WirelessGuest(BOOL result)
 {
     // Do nothing
 }
 
-NONMATCH_FUNC void WirelessManager__ReceiverCB_2068970(u16 aid, u16 *data, u16 size)
+void WirelessManager__ReceiverCB_2068970(u16 aid, u16 *data, u16 size)
 {
-    // https://decomp.me/scratch/bJK0b -> 96.67%
-#ifdef NON_MATCHING
-    if (size == 4)
-    {
-        ((u16 *)&sWirelessManagerUnknownBuffer)[0] = data[0]; // TODO: what is this
-        ((u16 *)&sWirelessManagerUnknownBuffer)[1] = data[1]; // TODO: what is this
-    }
-#else
-    // clang-format off
-	cmp r2, #4
-	bxne lr
-	ldrh r2, [r1, #0]
-	ldrh r1, [r1, #2]
-	ldr r0, =sWirelessManagerUnknownBuffer
-	strh r2, [r0]
-	strh r1, [r0, #2]
-	bx lr
-
-// clang-format on
-#endif
+    if (size == sizeof(WirelessManager_SendPacket))
+        *((WirelessManager_SendPacket *)sWirelessManagerUnknownBuffer) = *((WirelessManager_SendPacket *)data);
 }
 
-void WirelessManager__State_2068994(WirelessManager *work)
+void WirelessManager__State_InitCreateRoom_DownloadPlay(WirelessManager *work)
 {
-    work->status = 1;
+    work->status = WIRELESSMANAGER_STATUS_IDLE;
     work->timer  = 0;
 
-    work->state = WirelessManager__State_20689B4;
+    work->state = WirelessManager__State_WaitIdleBeforeCreateRoom_DownloadPlay;
 }
 
-void WirelessManager__State_20689B4(WirelessManager *work)
+void WirelessManager__State_WaitIdleBeforeCreateRoom_DownloadPlay(WirelessManager *work)
 {
     if (WH_GetSystemState() == WH_SYSSTATE_IDLE)
     {
@@ -1307,17 +1312,17 @@ void WirelessManager__State_20689B4(WirelessManager *work)
 
         if (WH_StartMeasureChannel() == FALSE)
         {
-            WirelessManager__Func_2069838(1);
+            WirelessManager__SetError(WIRELESSMANAGER_ERROR_CANT_MEASURE_CHANNEL);
         }
         else
         {
             work->timer = 0;
-            work->state = WirelessManager__State_2068A08;
+            work->state = WirelessManager__State_MeasureChannelForDownloadPlay;
         }
     }
 }
 
-void WirelessManager__State_2068A08(WirelessManager *work)
+void WirelessManager__State_MeasureChannelForDownloadPlay(WirelessManager *work)
 {
     if (WH_GetSystemState() == WH_SYSSTATE_MEASURECHANNEL)
     {
@@ -1326,13 +1331,13 @@ void WirelessManager__State_2068A08(WirelessManager *work)
         if (work->channel == 0)
             work->channel = WH_GetMeasureChannel();
 
-        if (work->field_4 == 3)
+        if (work->mode == WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_HOST)
         {
             work->state = WirelessManager__State_20698CC;
         }
         else
         {
-            work->tgid = WirelessManager__GenerateTGID(work->field_16);
+            work->tgid = WirelessManager__GenerateTGID(work->tgidSalt);
             WH_ParentConnect(WH_CONNECTMODE_DS_PARENT, work->tgid, work->channel);
             work->state = WirelessManager__State_2068A78;
         }
@@ -1348,7 +1353,7 @@ void WirelessManager__State_2068A78(WirelessManager *work)
 
     if (WH_GetSystemState() == WH_SYSSTATE_DATASHARING)
     {
-        Task__Unknown2068430__Create(WirelessManager__Func_2069794);
+        WirelessUnknown__Create(WirelessManager__WirelessUnknownCallback);
         WirelessManager__Func_2067AE8(TRUE);
 
         work->timer = 0;
@@ -1358,7 +1363,7 @@ void WirelessManager__State_2068A78(WirelessManager *work)
 
 void WirelessManager__State_2068ABC(WirelessManager *work)
 {
-    work->status = 1;
+    work->status = WIRELESSMANAGER_STATUS_IDLE;
     work->timer  = 0;
 
     work->state = WirelessManager__State_2068ADC;
@@ -1367,11 +1372,11 @@ void WirelessManager__State_2068ABC(WirelessManager *work)
 void WirelessManager__State_2068ADC(WirelessManager *work)
 {
     WirelessManager_SendPacket *sendPacket = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
-    sendPacket->childBitmap                = WH_GetConnectBitmap();
+    sendPacket->childBitmap                = WH_GetBitmap();
 
     if (WirelessManager__GetChildCount() > 1)
     {
-        work->status = 2;
+        work->status = WIRELESSMANAGER_STATUS_2;
         if (work->field_17)
         {
             sendPacket->flags |= 1;
@@ -1382,7 +1387,7 @@ void WirelessManager__State_2068ADC(WirelessManager *work)
     }
     else
     {
-        work->status = 1;
+        work->status = WIRELESSMANAGER_STATUS_IDLE;
     }
 
     work->field_17 = 0;
@@ -1391,7 +1396,7 @@ void WirelessManager__State_2068ADC(WirelessManager *work)
 
 void WirelessManager__State_2068B5C(WirelessManager *work)
 {
-    work->status = 2;
+    work->status = WIRELESSMANAGER_STATUS_2;
     work->timer  = 0;
 
     work->state = WirelessManager__State_2068B7C;
@@ -1399,12 +1404,12 @@ void WirelessManager__State_2068B5C(WirelessManager *work)
 
 void WirelessManager__State_2068B7C(WirelessManager *work)
 {
-    if ((WH_GetConnectBitmap() & ~1) == 0)
+    if ((WH_GetBitmap() & ~1) == 0)
     {
         WirelessManager_SendPacket *sendPacket = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
         MI_CpuClear32(sendPacket, sizeof(*sendPacket));
 
-        WirelessManager__Func_2068484();
+        WirelessUnknown__Destroy();
         WH_Finalize();
 
         work->timer = 0;
@@ -1418,21 +1423,21 @@ void WirelessManager__State_2068BC4(WirelessManager *work)
     {
         WH_SetUserGameInfo(sWirelessManagerUserGameInfo, sizeof(sWirelessManagerUserGameInfo));
 
-        work->tgid |= 0x8000;
+        work->tgid |= TGID_FLAG_UNKNOWN;
 
         WHConnectMode connectMode;
-        switch (work->field_4)
+        switch (work->mode)
         {
-            case 1:
+            case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
                 connectMode = WH_CONNECTMODE_DS_PARENT;
-                Task__Unknown2068430__Create(WirelessManager__Func_2069794);
-                WH_SetPacketSize(work->field_1AEE);
-                WirelessManager__InitBuffers(work->field_1AEE);
+                WirelessUnknown__Create(WirelessManager__WirelessUnknownCallback);
+                WH_SetPacketSize(work->packetSize);
+                WirelessManager__InitBuffers(work->packetSize);
                 break;
 
-            case 2:
+            case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
                 connectMode = WH_CONNECTMODE_UNKNOWN_PARENT;
-                WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
+                WH_SetMaxParentChildSize(work->parentPacketSize, work->childPacketSize);
                 break;
         }
 
@@ -1446,13 +1451,13 @@ void WirelessManager__State_2068BC4(WirelessManager *work)
 void WirelessManager__State_2068C74(WirelessManager *work)
 {
     u16 bitmap;
-    switch (work->field_4)
+    switch (work->mode)
     {
-        case 1:
-            bitmap = WH_GetConnectBitmap();
+        case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
+            bitmap = WH_GetBitmap();
             break;
 
-        case 2:
+        case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
             bitmap = WFS_GetCurrentBitmap();
             break;
     }
@@ -1460,9 +1465,9 @@ void WirelessManager__State_2068C74(WirelessManager *work)
     if (WirelessManager__GetBitmapUserCount(work->childBitmap) == WirelessManager__GetBitmapUserCount(bitmap))
     {
         WirelessManager_SendPacket *sendPacket;
-        switch (work->field_4)
+        switch (work->mode)
         {
-            case 1:
+            case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
                 sendPacket              = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
                 sendPacket->childBitmap = bitmap;
                 sendPacket->flags |= 2;
@@ -1472,7 +1477,7 @@ void WirelessManager__State_2068C74(WirelessManager *work)
                 work->state    = WirelessManager__State_206966C;
                 break;
 
-            case 2:
+            case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
                 sendPacket = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
                 if (WFS_GetStatus() == WFS_STATE_READY)
                 {
@@ -1483,7 +1488,7 @@ void WirelessManager__State_2068C74(WirelessManager *work)
                     sendPacket->flags       = 1;
 
                     DC_StoreRange(sendPacket, sizeof(*sendPacket));
-                    WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_2068944);
+                    WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_DownloadPlayGuest);
                     WFS_EnableSync(bitmap);
 
                     work->timer = 0;
@@ -1514,18 +1519,18 @@ void WirelessManager__State_2068DD4(WirelessManager *work)
         WH_SetUserGameInfo(sWirelessManagerUserGameInfo, sizeof(sWirelessManagerUserGameInfo));
 
         WHConnectMode connectMode;
-        switch (work->field_4)
+        switch (work->mode)
         {
-            case 1:
+            case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
                 connectMode = WH_CONNECTMODE_DS_PARENT;
-                Task__Unknown2068430__Create(WirelessManager__Func_2069794);
-                WH_SetPacketSize(work->field_1AEE);
-                WirelessManager__InitBuffers(work->field_1AEE);
+                WirelessUnknown__Create(WirelessManager__WirelessUnknownCallback);
+                WH_SetPacketSize(work->packetSize);
+                WirelessManager__InitBuffers(work->packetSize);
                 break;
 
-            case 2:
+            case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
                 connectMode = WH_CONNECTMODE_UNKNOWN_PARENT;
-                WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
+                WH_SetMaxParentChildSize(work->parentPacketSize, work->childPacketSize);
                 break;
         }
 
@@ -1541,13 +1546,13 @@ void WirelessManager__State_2068E78(WirelessManager *work)
     BOOL flag = FALSE;
 
     u16 bitmap;
-    switch (work->field_4)
+    switch (work->mode)
     {
-        case 1:
-            bitmap = WH_GetConnectBitmap();
+        case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
+            bitmap = WH_GetBitmap();
             break;
 
-        case 2:
+        case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
             bitmap = WFS_GetCurrentBitmap();
             break;
     }
@@ -1566,9 +1571,9 @@ void WirelessManager__State_2068E78(WirelessManager *work)
         work->childBitmap = bitmap;
 
         WirelessManager_SendPacket *sendPacket;
-        switch (work->field_4)
+        switch (work->mode)
         {
-            case 1:
+            case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
                 sendPacket              = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
                 sendPacket->childBitmap = bitmap;
                 sendPacket->flags |= 2;
@@ -1578,7 +1583,7 @@ void WirelessManager__State_2068E78(WirelessManager *work)
                 work->state    = WirelessManager__State_206966C;
                 break;
 
-            case 2:
+            case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
                 sendPacket = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
                 if (WFS_GetStatus() == WFS_STATE_READY)
                 {
@@ -1589,7 +1594,7 @@ void WirelessManager__State_2068E78(WirelessManager *work)
                     sendPacket->flags |= 1;
 
                     DC_StoreRange(sendPacket, sizeof(*sendPacket));
-                    WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_2068944);
+                    WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_DownloadPlayGuest);
                     WFS_EnableSync(bitmap);
 
                     work->timer = 0;
@@ -1617,53 +1622,53 @@ void WirelessManager__State_2068FD8(WirelessManager *work)
     }
 }
 
-void WirelessManager__State_2069024(WirelessManager *work)
+void WirelessManager__State_StartSearchRooms_Wireless(WirelessManager *work)
 {
-    work->status     = 4;
-    work->field_192A = 0xFFFF;
-    work->timer      = 0;
-    work->state      = WirelessManager__State_2069054;
+    work->status      = WIRELESSMANAGER_STATUS_4;
+    work->currentRoom = NO_ROOM;
+    work->timer       = 0;
+    work->state       = WirelessManager__State_WaitIdleBeforeSearchRooms_Wireless;
 }
 
-void WirelessManager__State_2069054(WirelessManager *work)
+void WirelessManager__State_WaitIdleBeforeSearchRooms_Wireless(WirelessManager *work)
 {
     if (WH_GetSystemState() == WH_SYSSTATE_IDLE)
     {
         u8 macAddr[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
         WH_SetSsid(sGameSSID, sizeof(sGameSSID));
-        WH_StartScan(WirelessManager__Func_206877C, macAddr, 0);
+        WH_StartScan(WirelessManager__ScanCallback_SearchRoomsWireless, macAddr, 0);
 
         work->timer = 0;
-        work->state = WirelessManager__State_20690E8;
+        work->state = WirelessManager__State_SearchingForRooms_Wireless;
     }
 }
 
-void WirelessManager__State_20690E8(WirelessManager *work)
+void WirelessManager__State_SearchingForRooms_Wireless(WirelessManager *work)
 {
-    for (u16 i = 0; i < work->entryCount; i++)
+    for (u16 i = 0; i < work->availableRoomCount; i++)
     {
-        work->entries[i].field_C0++;
+        work->availableRooms[i].timer++;
     }
 
     if (WH_GetSystemState() == WH_SYSSTATE_IDLE)
     {
-        if (work->field_192A != 0xFFFF)
+        if (work->currentRoom != NO_ROOM)
         {
-            work->tgid = work->entries[work->field_192A].bssDesc.gameInfo.tgid;
-            WH_ChildConnect(5, &work->entries[work->field_192A].bssDesc); // TODO: 5?
-            work->state = WirelessManager__State_2069190;
+            work->tgid = work->availableRooms[work->currentRoom].bssDesc.gameInfo.tgid;
+            WH_ChildConnect(WH_CONNECTMODE_DS_CHILD, &work->availableRooms[work->currentRoom].bssDesc);
+            work->state = WirelessManager__State_ConnectedToRoom_Wireless;
         }
     }
 
     work->timer = 0;
 }
 
-void WirelessManager__State_2069190(WirelessManager *work)
+void WirelessManager__State_ConnectedToRoom_Wireless(WirelessManager *work)
 {
     if (WH_GetSystemState() == WH_SYSSTATE_DATASHARING)
     {
-        Task__Unknown2068430__Create(WirelessManager__Func_2069794);
+        WirelessUnknown__Create(WirelessManager__WirelessUnknownCallback);
         WirelessManager__Func_2067AE8(TRUE);
 
         work->timer = 0;
@@ -1673,7 +1678,7 @@ void WirelessManager__State_2069190(WirelessManager *work)
 
 void WirelessManager__State_20691D0(WirelessManager *work)
 {
-    work->status = 5;
+    work->status = WIRELESSMANAGER_STATUS_5;
     work->timer  = 0;
 
     work->state = WirelessManager__State_20691F0;
@@ -1686,7 +1691,7 @@ void WirelessManager__State_20691F0(WirelessManager *work)
         case WH_SYSSTATE_CONNECT_FAIL:
         case WH_SYSSTATE_ERROR:
         case WH_SYSSTATE_FATAL:
-            WirelessManager__Func_2069838(2);
+            WirelessManager__SetError(WIRELESSMANAGER_ERROR_CANT_CONNECT);
             break;
 
         case WH_SYSSTATE_DATASHARING:
@@ -1703,7 +1708,7 @@ void WirelessManager__State_20691F0(WirelessManager *work)
 
 void WirelessManager__State_2069278(WirelessManager *work)
 {
-    work->status = 5;
+    work->status = WIRELESSMANAGER_STATUS_5;
     work->timer  = 0;
 
     work->state = WirelessManager__State_2069298;
@@ -1714,7 +1719,7 @@ void WirelessManager__State_2069298(WirelessManager *work)
     WirelessManager_SendPacket *sendBuffer = (WirelessManager_SendPacket *)WirelessManager__GetSendBuffer();
     MI_CpuClear32(sendBuffer, sizeof(*sendBuffer));
 
-    WirelessManager__Func_2068484();
+    WirelessUnknown__Destroy();
     WH_Finalize();
 
     work->timer = 0;
@@ -1729,27 +1734,27 @@ void WirelessManager__State_20692D4(WirelessManager *work)
 
         if (work->field_18 >= 10)
         {
-            WirelessManager__Unknown *entry = &work->entries[work->field_192A];
+            WirelessManagerRoomInfo *entry = &work->availableRooms[work->currentRoom];
 
             WHConnectMode connectMode;
-            switch (work->field_4)
+            switch (work->mode)
             {
-                case 1:
+                case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
                     connectMode = WH_CONNECTMODE_DS_CHILD;
-                    WH_SetPacketSize(work->field_1AEE);
-                    WirelessManager__InitBuffers(work->field_1AEE);
-                    Task__Unknown2068430__Create(WirelessManager__Func_2069794);
+                    WH_SetPacketSize(work->packetSize);
+                    WirelessManager__InitBuffers(work->packetSize);
+                    WirelessUnknown__Create(WirelessManager__WirelessUnknownCallback);
                     break;
 
-                case 2:
+                case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
                     connectMode = WH_CONNECTMODE_UNKNOWN_CHILD;
-                    WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
+                    WH_SetMaxParentChildSize(work->parentPacketSize, work->childPacketSize);
                     MI_CpuClear32(sWirelessManagerUnknownBuffer, sizeof(sWirelessManagerUnknownBuffer));
                     WH_SetReceiver(WirelessManager__ReceiverCB_2068970);
                     break;
             }
 
-            WH_ChildConnectAuto(WirelessManager__Func_20688DC, connectMode, entry->bssDesc.bssid, entry->bssDesc.channel);
+            WH_ChildConnectAuto(WirelessManager__ChildScanCallback_20688DC, connectMode, entry->bssDesc.bssid, entry->bssDesc.channel);
             work->state = WirelessManager__State_20693BC;
         }
         else
@@ -1768,7 +1773,7 @@ void WirelessManager__State_20693BC(WirelessManager *work)
         case WH_SYSSTATE_CONNECT_FAIL:
         case WH_SYSSTATE_ERROR:
         case WH_SYSSTATE_FATAL:
-            WirelessManager__Func_2069838(2);
+            WirelessManager__SetError(WIRELESSMANAGER_ERROR_CANT_CONNECT);
             break;
 
         case WH_SYSSTATE_DATASHARING:
@@ -1785,7 +1790,7 @@ void WirelessManager__State_20693BC(WirelessManager *work)
             sendPacket = (WirelessManager_SendPacket *)sWirelessManagerUnknownBuffer;
             if (WFS_GetStatus() == WFS_STATE_READY && (sendPacket->flags & 1) != 0)
             {
-                WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_206896C);
+                WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_WirelessGuest);
                 WH_SetReceiver(0);
                 work->field_18 = 4;
                 work->timer    = 0;
@@ -1803,27 +1808,27 @@ void WirelessManager__State_2069498(WirelessManager *work)
 
         if (work->field_18 >= 10)
         {
-            WirelessManager__Unknown *entry = &work->entries[work->field_192A];
+            WirelessManagerRoomInfo *entry = &work->availableRooms[work->currentRoom];
 
             WHConnectMode connectMode;
-            switch (work->field_4)
+            switch (work->mode)
             {
-                case 1:
+                case WIRELESSMANAGER_MODE_WIRELESS_GUEST:
                     connectMode = WH_CONNECTMODE_DS_CHILD;
-                    Task__Unknown2068430__Create(WirelessManager__Func_2069794);
-                    WH_SetPacketSize(work->field_1AEE);
-                    WirelessManager__InitBuffers(work->field_1AEE);
+                    WirelessUnknown__Create(WirelessManager__WirelessUnknownCallback);
+                    WH_SetPacketSize(work->packetSize);
+                    WirelessManager__InitBuffers(work->packetSize);
                     break;
 
-                case 2:
+                case WIRELESSMANAGER_MODE_DOWNLOAD_PLAY_GUEST:
                     connectMode = WH_CONNECTMODE_UNKNOWN_CHILD;
-                    WH_SetMaxParentChildSize(work->field_1AF0, work->field_1AF2);
+                    WH_SetMaxParentChildSize(work->parentPacketSize, work->childPacketSize);
                     MI_CpuClear32(sWirelessManagerUnknownBuffer, sizeof(sWirelessManagerUnknownBuffer));
                     WH_SetReceiver(WirelessManager__ReceiverCB_2068970);
                     break;
             }
 
-            WH_ChildConnectAuto(WirelessManager__Func_20688DC, connectMode, entry->bssDesc.bssid, entry->bssDesc.channel);
+            WH_ChildConnectAuto(WirelessManager__ChildScanCallback_20688DC, connectMode, entry->bssDesc.bssid, entry->bssDesc.channel);
             work->state = WirelessManager__State_2069580;
         }
         else
@@ -1842,7 +1847,7 @@ void WirelessManager__State_2069580(WirelessManager *work)
         case WH_SYSSTATE_CONNECT_FAIL:
         case WH_SYSSTATE_ERROR:
         case WH_SYSSTATE_FATAL:
-            WirelessManager__Func_2069838(2);
+            WirelessManager__SetError(WIRELESSMANAGER_ERROR_CANT_CONNECT);
             break;
 
         case WH_SYSSTATE_DATASHARING:
@@ -1860,7 +1865,7 @@ void WirelessManager__State_2069580(WirelessManager *work)
             sendPacket = (WirelessManager_SendPacket *)sWirelessManagerUnknownBuffer;
             if (WFS_GetStatus() == WFS_STATE_READY && (sendPacket->flags & 1) != 0)
             {
-                WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_206896C);
+                WH_SendData(sendPacket, sizeof(*sendPacket), WirelessManager__SendDataCB_WirelessGuest);
                 WH_SetReceiver(0);
                 work->childBitmap = sendPacket->childBitmap;
                 work->field_18    = 4;
@@ -1874,7 +1879,7 @@ void WirelessManager__State_2069580(WirelessManager *work)
 void WirelessManager__State_206966C(WirelessManager *work)
 {
     WirelessManager__Func_2067AE8(FALSE);
-    WirelessManager__InitBuffers(work->field_1AEE);
+    WirelessManager__InitBuffers(work->packetSize);
 
     work->timer = 0;
     work->state = WirelessManager__State_20696A0;
@@ -1885,23 +1890,23 @@ void WirelessManager__State_20696A0(WirelessManager *work)
     if (work->field_18 != 0)
         work->field_18--;
     else
-        work->status = 6;
+        work->status = WIRELESSMANAGER_STATUS_MBP_COMPLETE;
 
     work->timer = 0;
 }
 
-void WirelessManager__State_20696C4(WirelessManager *work)
+void WirelessManager__State_Error(WirelessManager *work)
 {
     BOOL isLooping;
-    u32 loopCount;
+    u32 errorRetryCount;
 
-    if (work->status != 7)
+    if (work->status != WIRELESSMANAGER_STATUS_ERROR)
     {
-        work->status = 7;
+        work->status = WIRELESSMANAGER_STATUS_ERROR;
 
-        isLooping = TRUE;
-        loopCount = 0;
-        WirelessManager__Func_2068484();
+        isLooping       = TRUE;
+        errorRetryCount = 0;
+        WirelessUnknown__Destroy();
         WFS_End();
         if (WMi_CheckInitialized() == WM_ERRCODE_SUCCESS)
             WH_SetReceiver(NULL);
@@ -1922,8 +1927,8 @@ void WirelessManager__State_20696C4(WirelessManager *work)
                     break;
 
                 case WH_SYSSTATE_ERROR:
-                    loopCount++;
-                    if (loopCount <= 3)
+                    errorRetryCount++;
+                    if (errorRetryCount <= 3)
                     {
                         WH_Reset();
                         break;
@@ -1952,17 +1957,17 @@ void WirelessManager__State_20696C4(WirelessManager *work)
     work->timer = 0;
 }
 
-void WirelessManager__Func_2069794(void)
+void WirelessManager__WirelessUnknownCallback(void)
 {
     BOOL isLooping;
-    u32 loopCount;
+    u32 errorRetryCount;
 
-    WirelessManager__Func_2068484();
+    WirelessUnknown__Destroy();
 
-    loopCount = 0;
-    isLooping = TRUE;
+    errorRetryCount = 0;
+    isLooping       = TRUE;
 
-    sTaskUnknown2068430Param = NULL;
+    sWirelessUnkownCallback = NULL;
 
     do
     {
@@ -1980,8 +1985,8 @@ void WirelessManager__Func_2069794(void)
                 break;
 
             case WH_SYSSTATE_ERROR:
-                loopCount++;
-                if (loopCount <= 3)
+                errorRetryCount++;
+                if (errorRetryCount <= 3)
                 {
                     WH_Reset();
                     break;
@@ -2004,28 +2009,28 @@ void WirelessManager__Func_2069794(void)
         }
     } while (isLooping);
 
-    WirelessManager__Func_2069838(2);
+    WirelessManager__SetError(WIRELESSMANAGER_ERROR_CANT_CONNECT);
 }
 
-void WirelessManager__Func_2069838(s32 a1)
+void WirelessManager__SetError(WirelessManagerError error)
 {
     if (sTaskSingleton != NULL)
     {
         WirelessManager *work = TaskGetWork(sTaskSingleton, WirelessManager);
 
-        work->field_C = a1;
-        work->state   = WirelessManager__State_20696C4;
+        work->error = error;
+        work->state = WirelessManager__State_Error;
     }
 }
 
-void Task__Unknown2067FA0__Main(void)
+void WirelessManager__Main_CreateRoom_DownloadPlay(void)
 {
     WirelessManager *work = TaskGetWorkCurrent(WirelessManager);
 
     if (work->timer == SECONDS_TO_FRAMES(4.0))
     {
         work->timer++;
-        WirelessManager__Func_2069838(3);
+        WirelessManager__SetError(WIRELESSMANAGER_ERROR_TIMEOUT);
     }
     else if (work->timer < SECONDS_TO_FRAMES(4.0))
     {
@@ -2036,7 +2041,7 @@ void Task__Unknown2067FA0__Main(void)
     work->field_17 = 0;
 }
 
-void Task__Unknown2067FA0__Destructor(Task *task)
+void WirelessManager__Destructor_DownloadPlay(Task *task)
 {
     sTaskSingleton = NULL;
 }
@@ -2062,33 +2067,33 @@ void WirelessManager__State_2069914(WirelessManager *work)
     work->tgid = WirelessManager__GenerateTGID(24);
 
     MBP_Init(work->gameRegistry.ggid, work->tgid);
-    MI_CpuClear16(&work->field_1CF6, sizeof(work->field_1CF6));
+    MI_CpuClear16(&work->guestUnkownListDownloadPlay, sizeof(work->guestUnkownListDownloadPlay));
 
-    work->state = WirelessManager__State_2069964;
+    work->state = WirelessManager__State_LoadConnectedDownloadPlayGuests;
     work->state(work);
 }
 
-void WirelessManager__State_2069964(WirelessManager *work)
+void WirelessManager__State_LoadConnectedDownloadPlayGuests(WirelessManager *work)
 {
     u16 prevBitmap = work->childBitmap;
     work->childBitmap =
         MBP_GetChildBmp(MBP_BMPTYPE_ENTRY) | MBP_GetChildBmp(MBP_BMPTYPE_DOWNLOADING) | MBP_GetChildBmp(MBP_BMPTYPE_BOOTABLE) | MBP_GetChildBmp(MBP_BMPTYPE_REBOOT) | 1;
 
-    MI_CpuClear16(work->field_1B34, sizeof(work->field_1B34));
+    MI_CpuClear16(work->guestInfoListDownloadPlay, sizeof(work->guestInfoListDownloadPlay));
     for (u16 i = 1; i <= 15; i++)
     {
         const MBPChildInfo *info = MBP_GetChildInfo(i);
         if (info)
         {
-            work->field_1B34[i - 1] = *info;
+            work->guestInfoListDownloadPlay[i - 1] = *info;
         }
         else
         {
-            work->field_1CF6[i - 1] = 0;
+            work->guestUnkownListDownloadPlay[i - 1] = 0;
         }
     }
 
-    work->status = 1;
+    work->status = WIRELESSMANAGER_STATUS_IDLE;
     switch (MBP_GetState())
     {
         case MBP_STATE_IDLE:
@@ -2099,7 +2104,7 @@ void WirelessManager__State_2069964(WirelessManager *work)
         case MBP_STATE_ENTRY:
             if ((work->childBitmap & ~1) != 0)
             {
-                work->status = 2;
+                work->status = WIRELESSMANAGER_STATUS_2;
                 if (work->field_17)
                     MBP_StartDownloadAll();
             }
@@ -2108,18 +2113,18 @@ void WirelessManager__State_2069964(WirelessManager *work)
             break;
 
         case MBP_STATE_DATASENDING:
-            work->status = 3;
+            work->status = WIRELESSMANAGER_STATUS_3;
             if (work->childBitmap == 1)
             {
-                work->timer   = SECONDS_TO_FRAMES(4.0);
-                work->status  = 7;
-                work->field_C = 2;
+                work->timer  = SECONDS_TO_FRAMES(4.0);
+                work->status = WIRELESSMANAGER_STATUS_ERROR;
+                work->error  = WIRELESSMANAGER_ERROR_CANT_CONNECT;
             }
-            else if ((work->field_1B30 & 1) != 0 && prevBitmap != work->childBitmap)
+            else if ((work->downloadPlayFlags & WIRELESSMANAGER_DOWNLOADPLAY_FLAGS_NO_JOIN_AFTER_CONNECTED) != 0 && prevBitmap != work->childBitmap)
             {
-                work->timer   = SECONDS_TO_FRAMES(4.0);
-                work->status  = 7;
-                work->field_C = 2;
+                work->timer  = SECONDS_TO_FRAMES(4.0);
+                work->status = WIRELESSMANAGER_STATUS_ERROR;
+                work->error  = WIRELESSMANAGER_ERROR_CANT_CONNECT;
             }
             else
             {
@@ -2130,25 +2135,25 @@ void WirelessManager__State_2069964(WirelessManager *work)
             break;
 
         case MBP_STATE_REBOOTING:
-            work->status = 3;
+            work->status = WIRELESSMANAGER_STATUS_3;
             work->timer  = 0;
             break;
 
         case MBP_STATE_COMPLETE:
-            work->status = 6;
+            work->status = WIRELESSMANAGER_STATUS_MBP_COMPLETE;
             work->timer  = 0;
-            work->state  = WirelessManager__State_2069B90;
+            work->state  = WirelessManager__State_ConnectedToDownloadPlayGuests;
             break;
 
         case MBP_STATE_ERROR:
-            work->status  = 7;
-            work->field_C = 3;
+            work->status = WIRELESSMANAGER_STATUS_ERROR;
+            work->error  = WIRELESSMANAGER_ERROR_TIMEOUT;
             MBP_Cancel();
             break;
     }
 }
 
-void WirelessManager__State_2069B90(WirelessManager *work)
+void WirelessManager__State_ConnectedToDownloadPlayGuests(WirelessManager *work)
 {
     work->timer = 0;
 }

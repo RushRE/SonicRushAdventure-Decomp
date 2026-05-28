@@ -1251,8 +1251,8 @@ static u32 zoneIDForStageID[STAGE_COUNT] = { [STAGE_Z11]               = ZONE_PL
                                              [STAGE_HIDDEN_ISLAND_R2]  = ZONE_HIDDEN_ISLAND,
                                              [STAGE_HIDDEN_ISLAND_R3]  = ZONE_HIDDEN_ISLAND };
 
-WirelessManager_Unknown2068160 _02133988;
-WirelessManager_Unknown2067A88 _02133990;
+WirelessManagerRoom_Wireless storedRoomConnection_Wireless;
+WirelessManagerRoom_DownloadPlay storedRoomConnection_DownloadPlay;
 
 // --------------------
 // FUNCTIONS
@@ -2006,7 +2006,7 @@ void GameSystem_Main_Early(void)
             if (DWC_UpdateConnection() || DWC_GetNumConnectionHost() != 2 || DWC_GetLastError(NULL))
                 playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NETWORK_ERROR;
         }
-        else if (WirelessManager__GetStatus() == 7)
+        else if (WirelessManager__GetStatus() == WIRELESSMANAGER_STATUS_ERROR)
         {
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NETWORK_ERROR;
         }

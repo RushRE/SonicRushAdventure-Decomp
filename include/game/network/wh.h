@@ -12,7 +12,7 @@ extern "C"
 // TYPES
 // --------------------
 
-typedef void (*WHStartScanCallbackFunc)(WMBssDesc *bssDesc, void *a2);
+typedef void (*WHStartScanCallbackFunc)(WMBssDesc *bssDesc, void *arg);
 
 typedef void (*WHSendCallbackFunc)(BOOL result);
 
@@ -109,7 +109,7 @@ void WH_SetUserGameInfo(u16 *userGameInfo, u16 length);
 void WH_SetMaxChildCount(u16 count);
 void WH_SetPacketSize(u16 size);
 void WH_SetMaxParentChildSize(u16 parentSize, u16 childSize);
-u16 WH_GetConnectBitmap(void);
+u16 WH_GetBitmap(void);
 WHSysState WH_GetSystemState(void);
 u32 WH_GetErrorCode(void);
 BOOL WH_StartMeasureChannel(void);
