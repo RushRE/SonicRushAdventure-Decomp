@@ -3,16 +3,33 @@
 #include <game/stage/gameSystem.h>
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define SWINGROPE_COLLIDER_NODE_INDEX_OFFSET 16
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum SwingRopeObjectFlags
+{
+    SWINGROPE_OBJFLAG_NONE,
+
+    SWINGROPE_OBJFLAG_USE_START_OFFSET = 1 << 0,
+};
+
+// --------------------
 // FUNCTION DECLS
 // --------------------
 
-void SwingRope__Destructor(Task *task);
-void SwingRope__Action_Init(SwingRope *work);
-void SwingRope__State_2162520(SwingRope *work);
-void SwingRope__Draw(void);
-void SwingRope__Collide(void);
-void SwingRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void SwingRope__HandleNodePositions(SwingRope *work);
+void SwingRope_Destructor(Task *task);
+void SwingRope_Action_Init(SwingRope *work);
+void SwingRope_State_Swing(SwingRope *work);
+void SwingRope_Draw(void);
+void SwingRope_Collide(void);
+void SwingRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void SwingRope_HandleNodePositions(SwingRope *work);
 
 // --------------------
 // FUNCTIONS
@@ -21,11 +38,11 @@ void SwingRope__HandleNodePositions(SwingRope *work);
 // TEMP
 NOT_DECOMPILED void _s32_div_f(void);
 
-void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+void *CreateSwingRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
     s32 i;
 
-    Task *task = CreateStageTask(SwingRope__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), SwingRope);
+    Task *task = CreateStageTask(SwingRope_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), SwingRope);
     if (task == HeapNull)
         return NULL;
 
@@ -36,13 +53,13 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->nodeCount = SWINGROPE_NODE_COUNT;
 
     s16 timer;
-    if ((mapObject->flags & 1) != 0)
+    if ((mapObject->flags & SWINGROPE_OBJFLAG_USE_START_OFFSET) != 0)
         timer = (playerGameStatus.stageTimer + 90) % 180;
     else
         timer = playerGameStatus.stageTimer % 180;
 
-    work->word416 = timer;
-    work->word418 = 91 * timer;
+    work->swingTimer    = timer;
+    work->swingProgress = 91 * timer;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_tar.bac", GetObjectDataWork(OBJDATAWORK_161), gGameArchiveStage,
                              OBJ_DATA_GFX_NONE);
@@ -66,26 +83,26 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjRect__SetAttackStat(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_WORK_ATTR_NONE, PLAYER_HITPOWER_VULNERABLE);
     ObjRect__SetDefenceStat(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], OBS_RECT_ATTR_NO_HIT(OBS_RECT_WORK_ATTR_BODY), OBS_RECT_DEFPOWER_VULNERABLE);
     work->colliders[GAMEOBJECT_COLLIDER_WEAK].parent = &work->gameWork.objWork;
-    ObjRect__SetOnDefend(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], SwingRope__OnDefend);
+    ObjRect__SetOnDefend(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], SwingRope_OnDefend);
     work->colliders[GAMEOBJECT_COLLIDER_WEAK].flag |= OBS_RECT_WORK_FLAG_USE_ONENTER_BEHAVIOR;
 
     OBS_RECT_WORK *collider = &work->colliders[GAMEOBJECT_COLLIDER_ATK];
     for (i = 1; i < work->nodeCount; i++)
     {
         MI_CpuCopy8(&work->colliders[GAMEOBJECT_COLLIDER_WEAK], collider, sizeof(work->colliders[GAMEOBJECT_COLLIDER_WEAK]));
-        collider->rect.front = 16 + i;
+        collider->rect.front = SWINGROPE_COLLIDER_NODE_INDEX_OFFSET + i;
         collider++;
     }
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    SwingRope__Action_Init(work);
+    SwingRope_Action_Init(work);
 
     return work;
 }
 
-void SwingRope__Destructor(Task *task)
+void SwingRope_Destructor(Task *task)
 {
     SwingRope *work = TaskGetWork(task, SwingRope);
 
@@ -95,149 +112,73 @@ void SwingRope__Destructor(Task *task)
     GameObject__Destructor(task);
 }
 
-void SwingRope__Action_Init(SwingRope *work)
+void SwingRope_Action_Init(SwingRope *work)
 {
-    SetTaskState(&work->gameWork.objWork, SwingRope__State_2162520);
-    SetTaskOutFunc(&work->gameWork.objWork, SwingRope__Draw);
-    SetTaskCollideFunc(&work->gameWork.objWork, SwingRope__Collide);
+    SetTaskState(&work->gameWork.objWork, SwingRope_State_Swing);
+    SetTaskOutFunc(&work->gameWork.objWork, SwingRope_Draw);
+    SetTaskCollideFunc(&work->gameWork.objWork, SwingRope_Collide);
 }
 
-NONMATCH_FUNC void SwingRope__State_2162520(SwingRope *work)
+void SwingRope_State_Swing(SwingRope *work)
 {
-#ifdef NON_MATCHING
+    work->swingTimer++;
+    if (work->swingTimer >= SECONDS_TO_FRAMES(3.0))
+        work->swingTimer = 0;
+    work->swingProgress = (s32)(FLOAT_TO_FX32(4.0) / (float)SECONDS_TO_FRAMES(3.0)) * work->swingTimer;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	add r0, r4, #0x400
-	ldrsh r1, [r0, #0x16]
-	add r2, r4, #0x400
-	add r1, r1, #1
-	strh r1, [r0, #0x16]
-	ldrsh r1, [r0, #0x16]
-	cmp r1, #0xb4
-	movge r1, #0
-	strgeh r1, [r0, #0x16]
-	ldrsh r3, [r2, #0x16]
-	mov r1, #0x5b
-	mov r0, r4
-	smulbb r1, r3, r1
-	strh r1, [r2, #0x18]
-	bl SwingRope__HandleNodePositions
-	ldr r0, [r4, #0x35c]
-	cmp r0, #0
-	beq _021626DC
-	ldr r0, [r0, #0x6d8]
-	cmp r0, r4
-	bne _021626C8
-	add r1, r4, #0x400
-	ldrsh r0, [r1, #0x14]
-	ldrh lr, [r1, #0x1a]
-	sub r0, r0, #1
-	cmp lr, r0
-	bge _02162664
-	ldrh r2, [r1, #0x1c]
-	add r0, r4, lr, lsl #3
-	ldr r0, [r0, #0x420]
-	and ip, r2, #1
-	ldr r5, [r4, #0x44]
-	rsb r3, ip, #2
-	mov r2, r0, asr #1
-	add r0, lr, #1
-	add r0, r4, r0, lsl #3
-	ldr r0, [r0, #0x420]
-	mla r2, r3, r2, r5
-	mov r0, r0, asr #1
-	mla r0, ip, r0, r2
-	str r0, [r4, #0x8c]
-	ldrh r5, [r1, #0x1a]
-	ldrh r3, [r1, #0x1c]
-	ldr ip, [r4, #0x48]
-	add r0, r4, r5, lsl #3
-	ldr r2, [r0, #0x424]
-	and lr, r3, #1
-	add r0, r5, #1
-	add r0, r4, r0, lsl #3
-	ldr r0, [r0, #0x424]
-	rsb r3, lr, #2
-	mov r2, r2, asr #1
-	mla r2, r3, r2, ip
-	mov r0, r0, asr #1
-	mla r0, lr, r0, r2
-	str r0, [r4, #0x90]
-	ldrh r3, [r1, #0x1a]
-	ldrh r2, [r1, #0x1c]
-	add r0, r3, #1
-	add r0, r4, r0, lsl #1
-	add r0, r0, #0x900
-	ldrh r0, [r0, #0x30]
-	and ip, r2, #1
-	add r3, r4, r3, lsl #1
-	mov r2, r0, asr #1
-	add r0, r3, #0x900
-	ldrh r3, [r0, #0x30]
-	mul r0, ip, r2
-	rsb ip, ip, #2
-	mov r2, r3, asr #1
-	mla r0, ip, r2, r0
-	strh r0, [r4, #0x34]
-	ldrh r0, [r1, #0x1c]
-	add r0, r0, #1
-	strh r0, [r1, #0x1c]
-	ldrh r0, [r1, #0x1c]
-	mov r0, r0, asr #1
-	strh r0, [r1, #0x1a]
-	b _021626A4
-_02162664:
-	add r0, r4, lr, lsl #3
-	ldr r2, [r4, #0x44]
-	ldr r0, [r0, #0x420]
-	add r0, r2, r0
-	str r0, [r4, #0x8c]
-	ldrh r0, [r1, #0x1a]
-	ldr r2, [r4, #0x48]
-	add r0, r4, r0, lsl #3
-	ldr r0, [r0, #0x424]
-	add r0, r2, r0
-	str r0, [r4, #0x90]
-	ldrh r0, [r1, #0x1a]
-	add r0, r4, r0, lsl #1
-	add r0, r0, #0x900
-	ldrh r0, [r0, #0x30]
-	strh r0, [r4, #0x34]
-_021626A4:
-	ldr r0, [r4, #0x35c]
-	ldr r0, [r0, #0x20]
-	tst r0, #1
-	ldrh r0, [r4, #0x34]
-	subne r0, r0, #0x4000
-	strneh r0, [r4, #0x34]
-	addeq r0, r0, #0x4000
-	streqh r0, [r4, #0x34]
-	ldmia sp!, {r3, r4, r5, pc}
-_021626C8:
-	mov r0, #0
-	str r0, [r4, #0x35c]
-	mov r0, #0x1e
-	str r0, [r4, #0x2c]
-	ldmia sp!, {r3, r4, r5, pc}
-_021626DC:
-	ldr r0, [r4, #0x2c]
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	subs r0, r0, #1
-	str r0, [r4, #0x2c]
-	ldreq r0, [r4, #0x18]
-	biceq r0, r0, #2
-	streq r0, [r4, #0x18]
-	ldmia sp!, {r3, r4, r5, pc}
+    SwingRope_HandleNodePositions(work);
 
-// clang-format on
-#endif
+    Player *player = (Player *)work->gameWork.parent;
+    if (player != NULL)
+    {
+        if (CheckPlayerGimmickObj(player, work))
+        {
+            if (work->nodeGrabIndex < work->nodeCount - 1)
+            {
+                // Update angle & position that the player will grab onto
+                work->gameWork.objWork.prevPosition.x = work->gameWork.objWork.position.x + (2 - (work->nodeGrabTimer & 1)) * (work->nodePositions[work->nodeGrabIndex].x >> 1)
+                                                        + (work->nodeGrabTimer & 1) * (work->nodePositions[work->nodeGrabIndex + 1].x >> 1);
+
+                work->gameWork.objWork.prevPosition.y = work->gameWork.objWork.position.y + (2 - (work->nodeGrabTimer & 1)) * (work->nodePositions[work->nodeGrabIndex].y >> 1)
+                                                        + (work->nodeGrabTimer & 1) * (work->nodePositions[work->nodeGrabIndex + 1].y >> 1);
+
+                work->gameWork.objWork.dir.z =
+                    (2 - (work->nodeGrabTimer & 1)) * (work->nodeAngle[work->nodeGrabIndex] >> 1) + (work->nodeGrabTimer & 1) * (work->nodeAngle[work->nodeGrabIndex + 1] >> 1);
+
+                // Increment timer so the player "slides" down towards the bottom node
+                work->nodeGrabTimer++;
+                work->nodeGrabIndex = work->nodeGrabTimer >> 1;
+            }
+            else
+            {
+                work->gameWork.objWork.prevPosition.x = work->gameWork.objWork.position.x + work->nodePositions[work->nodeGrabIndex].x;
+                work->gameWork.objWork.prevPosition.y = work->gameWork.objWork.position.y + work->nodePositions[work->nodeGrabIndex].y;
+                work->gameWork.objWork.dir.z          = work->nodeAngle[work->nodeGrabIndex];
+            }
+
+            if ((work->gameWork.parent->displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                work->gameWork.objWork.dir.z -= FLOAT_DEG_TO_IDX(90.0f);
+            else
+                work->gameWork.objWork.dir.z += FLOAT_DEG_TO_IDX(90.0f);
+        }
+        else
+        {
+            work->gameWork.parent            = NULL;
+            work->gameWork.objWork.userTimer = SECONDS_TO_FRAMES(0.5);
+        }
+    }
+    else
+    {
+        if (work->gameWork.objWork.userTimer != 0)
+        {
+            work->gameWork.objWork.userTimer--;
+            if (work->gameWork.objWork.userTimer == 0)
+                work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+        }
+    }
 }
 
-void SwingRope__Draw(void)
+void SwingRope_Draw(void)
 {
     s32 i;
 
@@ -255,7 +196,7 @@ void SwingRope__Draw(void)
     }
 }
 
-void SwingRope__Collide(void)
+void SwingRope_Collide(void)
 {
     s32 i;
     SwingRope *work = TaskGetWorkCurrent(SwingRope);
@@ -265,7 +206,8 @@ void SwingRope__Collide(void)
 
     Player *player = gPlayer;
 
-    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork) && (g_obj.flag & OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS) != 0 && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
+    if (!IsStageTaskDestroyedAny(&work->gameWork.objWork) && (g_obj.flag & OBJECTMANAGER_FLAG_ALLOW_RECT_COLLISIONS) != 0
+        && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         s32 lastNode   = nodeCount - 1;
         fx32 lastNodeX = work->nodePositions[lastNode].x;
@@ -304,7 +246,7 @@ void SwingRope__Collide(void)
     }
 }
 
-void SwingRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void SwingRope_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     SwingRope *swingRope = (SwingRope *)rect2->parent;
     Player *player       = (Player *)rect1->parent;
@@ -317,26 +259,78 @@ void SwingRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     swingRope->gameWork.parent = &player->objWork;
     swingRope->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    swingRope->field_41A                       = rect2->rect.front - 16;
-    swingRope->field_41C                       = 2 * swingRope->field_41A;
-    swingRope->gameWork.objWork.prevPosition.x = swingRope->gameWork.objWork.position.x + swingRope->nodePositions[swingRope->field_41A].x;
-    swingRope->gameWork.objWork.prevPosition.y = swingRope->gameWork.objWork.position.y + swingRope->nodePositions[swingRope->field_41A].y;
-    swingRope->gameWork.objWork.dir.z          = swingRope->nodeAngle[swingRope->field_41A];
+    swingRope->nodeGrabIndex                   = rect2->rect.front - SWINGROPE_COLLIDER_NODE_INDEX_OFFSET;
+    swingRope->nodeGrabTimer                   = 2 * swingRope->nodeGrabIndex;
+    swingRope->gameWork.objWork.prevPosition.x = swingRope->gameWork.objWork.position.x + swingRope->nodePositions[swingRope->nodeGrabIndex].x;
+    swingRope->gameWork.objWork.prevPosition.y = swingRope->gameWork.objWork.position.y + swingRope->nodePositions[swingRope->nodeGrabIndex].y;
+    swingRope->gameWork.objWork.dir.z          = swingRope->nodeAngle[swingRope->nodeGrabIndex];
 
     if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
-        swingRope->gameWork.objWork.dir.z = swingRope->nodeAngle[swingRope->field_41A] - FLOAT_DEG_TO_IDX(90.0);
+        swingRope->gameWork.objWork.dir.z = swingRope->nodeAngle[swingRope->nodeGrabIndex] - FLOAT_DEG_TO_IDX(90.0);
     else
-        swingRope->gameWork.objWork.dir.z = swingRope->nodeAngle[swingRope->field_41A] + FLOAT_DEG_TO_IDX(90.0);
+        swingRope->gameWork.objWork.dir.z = swingRope->nodeAngle[swingRope->nodeGrabIndex] + FLOAT_DEG_TO_IDX(90.0);
 
     Player__Action_SwingRope(player, &swingRope->gameWork, FLOAT_TO_FX32(0.0), FLOAT_DEG_TO_IDX(90.0));
     Player__ChangeAction(player, PLAYER_ACTION_ROPE_SWING);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 }
 
-NONMATCH_FUNC void SwingRope__HandleNodePositions(SwingRope *work)
+NONMATCH_FUNC void SwingRope_HandleNodePositions(SwingRope *work)
 {
+    // https://decomp.me/scratch/hqvlL -> 74.42%
 #ifdef NON_MATCHING
+    s32 i;
+    u16 swingAngle;
+    u16 nodeOffsetAngle;
+    s16 swingProgress;
+    s32 nodeCount;
+    s16 angleStep;
 
+    swingProgress = work->swingProgress;
+    nodeCount     = work->nodeCount;
+    angleStep     = FLOAT_TO_FX32(1.0) / work->nodeCount;
+
+    if (swingProgress < FLOAT_TO_FX32(1.0))
+    {
+        swingAngle      = mtLerpEx2(swingProgress, FLOAT_DEG_TO_IDX(150.0), FLOAT_DEG_TO_IDX(90.0), 1);
+        nodeOffsetAngle = mtLerpEx2(swingProgress, FLOAT_DEG_TO_IDX(30.0), FLOAT_DEG_TO_IDX(0.0), 3);
+    }
+    else if (swingProgress < FLOAT_TO_FX32(2.0))
+    {
+        s16 progress = swingProgress - FLOAT_TO_FX32(1.0);
+
+        swingAngle      = mtLerpEx2(progress, FLOAT_DEG_TO_IDX(90.0), FLOAT_DEG_TO_IDX(30.004), 1);
+        nodeOffsetAngle = -mtLerpEx2(progress, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(30.0), 3);
+    }
+    else if (swingProgress < FLOAT_TO_FX32(3.0))
+    {
+        s16 progress = swingProgress - FLOAT_TO_FX32(2.0);
+
+        swingAngle      = mtLerpEx2(progress, FLOAT_DEG_TO_IDX(30.004), FLOAT_DEG_TO_IDX(90.0), 1);
+        nodeOffsetAngle = -mtLerpEx2(progress, FLOAT_DEG_TO_IDX(30.0), FLOAT_DEG_TO_IDX(0.0), 3);
+    }
+    else
+    {
+        s16 progress = swingProgress - FLOAT_TO_FX32(3.0);
+
+        swingAngle      = mtLerpEx2(progress, FLOAT_DEG_TO_IDX(90.0), FLOAT_DEG_TO_IDX(150.0), 1);
+        nodeOffsetAngle = mtLerpEx2(progress, FLOAT_DEG_TO_IDX(0.0), FLOAT_DEG_TO_IDX(30.0), 3);
+    }
+
+    work->nodeAngle[0]       = swingAngle;
+    work->nodePositions[0].x = 16 * CosFX(swingAngle);
+    work->nodePositions[0].y = 16 * SinFX(swingAngle);
+
+    s32 angleStart = (nodeOffsetAngle < 0x8000) ? FLOAT_DEG_TO_IDX(0.0) : (s32)(360.0f * (65536.0f / 360.0f));
+
+    for (i = 1; i < nodeCount; i++)
+    {
+        u16 angle = swingAngle + mtLerpEx2(i * angleStep, angleStart, nodeOffsetAngle, 1);
+
+        work->nodeAngle[i]       = angle;
+        work->nodePositions[i].x = work->nodePositions[i - 1].x + 8 * CosFX(angle);
+        work->nodePositions[i].y = work->nodePositions[i - 1].y + 8 * SinFX(angle);
+    }
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}

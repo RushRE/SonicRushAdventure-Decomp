@@ -8495,7 +8495,7 @@
 .public RotatingHanger__Create
 .public RotatingHanger__State_Active
 .public RotatingHanger__OnDefend
-.public SwingRope__Create
+.public CreateSwingRope
 .public SwingRope__Destructor
 .public SwingRope__Action_Init
 .public SwingRope__State_2162520

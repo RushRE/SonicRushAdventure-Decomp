@@ -1217,16 +1217,16 @@ void Player__Action_SwingRope(Player *player, GameObjectTask *swingRope, s32 rad
     if (player->gimmickObj != swingRope)
     {
         Player__InitPhysics(player);
-        Player__InitGimmick(player, 0);
+        Player__InitGimmick(player, FALSE);
         player->gimmickObj = swingRope;
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IS_FALLING;
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_CAMERA_OFFSET;
         player->gimmickFlag |= PLAYER_GIMMICK_CAM_FOCUS_GIMMICK_Y;
         player->gimmickCamOffsetY             = -58;
-        player->objWork.velocity.x            = 0;
-        player->objWork.velocity.y            = 0;
-        player->objWork.groundVel             = 0;
+        player->objWork.velocity.x            = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.y            = FLOAT_TO_FX32(0.0);
+        player->objWork.groundVel             = FLOAT_TO_FX32(0.0);
         player->objWork.dir.z                 = swingRope->objWork.dir.z;
         player->objWork.userWork              = 0;
         player->objWork.userTimer             = 0;

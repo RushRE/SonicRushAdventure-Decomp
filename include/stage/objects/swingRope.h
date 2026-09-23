@@ -19,11 +19,10 @@ typedef struct SwingRope_
     GameObjectTask gameWork;
     OBS_ACTION2D_BAC_WORK aniNode;
     s16 nodeCount;
-    s16 word416;
-    s16 word418;
-    u16 field_41A;
-    u16 field_41C;
-    s16 field_41E;
+    s16 swingTimer;
+    s16 swingProgress;
+    u16 nodeGrabIndex;
+    u16 nodeGrabTimer;
     Vec2Fx32 nodePositions[SWINGROPE_MAX_NODES];
     OBS_RECT_WORK colliders[SWINGROPE_MAX_NODES];
     u16 nodeAngle[SWINGROPE_MAX_NODES];
@@ -33,6 +32,6 @@ typedef struct SwingRope_
 // FUNCTIONS
 // --------------------
 
-void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+void *CreateSwingRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH_SWINGROPE_H
