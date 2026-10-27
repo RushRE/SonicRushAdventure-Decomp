@@ -27,13 +27,22 @@
 // STRUCTS
 // --------------------
 
+struct TEMP_VARS
+{
+    Task *Boss3Stage__TaskSingleton;
+    void (*Boss3__PlayerDrawFunc)(void);
+    u8 Boss3__Unused217AF90[0x20];
+};
+
 // --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED Task *Boss3Stage__TaskSingleton;
-NOT_DECOMPILED void *Boss3__PlayerDrawFunc;
-NOT_DECOMPILED u8 Boss3__Unused217AF90[0x20];
+static struct TEMP_VARS Boss3Stage__sVars;
+
+// NOT_DECOMPILED Task *Boss3Stage__TaskSingleton;
+// NOT_DECOMPILED void (*Boss3__PlayerDrawFunc)(void);
+// NOT_DECOMPILED u8 Boss3__Unused217AF90[0x20];
 
 NOT_DECOMPILED void *_02179D9C;
 NOT_DECOMPILED void *_02179DA0;
@@ -76,10 +85,10 @@ NOT_DECOMPILED void *_0217AA18;
 
 #ifdef NON_MATCHING
 #define aStage00 "stage_00"
-#define aExc_3 "exc"
-#define aBody_0 "body"
-#define aMouth "mouth"
-#define aArmHit "arm_hit"
+#define aExc_3   "exc"
+#define aBody_0  "body"
+#define aMouth   "mouth"
+#define aArmHit  "arm_hit"
 #else
 NOT_DECOMPILED const char aStage00[];
 NOT_DECOMPILED const char aExc_3[];
@@ -122,7 +131,7 @@ NONMATCH_FUNC Boss3Stage *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 
 	mov r3, r2
 	str r5, [sp, #8]
 	bl TaskCreate_
-	ldr r1, =Boss3Stage__TaskSingleton
+	ldr r1, =Boss3Stage__sVars
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r5, r0
@@ -1204,463 +1213,229 @@ _02161B4C:
 #endif
 }
 
-NONMATCH_FUNC void Boss3__SetInkSplatFlag(void)
+void Boss3__SetInkSplatFlag(void)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =Boss3Stage__TaskSingleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	mov r1, #1
-	str r1, [r0, #0x40c]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    Boss3Stage *work = TaskGetWork(Boss3Stage__sVars.Boss3Stage__TaskSingleton, Boss3Stage);
+    work->field_40C  = 1;
 }
 
-NONMATCH_FUNC void Boss3Stage__LoadAssets(Boss3Stage *work)
+void Boss3Stage__LoadAssets(Boss3Assets *work)
 {
-#ifdef NON_MATCHING
+    work->background = MapFarSys__GetAsset();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x68
-	mov r4, r0
-	bl MapFarSys__GetAsset
-	str r0, [r4]
-	ldr r1, =gGameArchiveStage
-	add r0, sp, #0
-	ldr r2, [r1, #0]
-	ldr r1, =aExc_3
-	bl NNS_FndMountArchive
-	add r0, sp, #0
-	mov r1, #7
-	bl NNS_FndGetArchiveFileByIndex
-	str r0, [r4, #4]
-	add r0, sp, #0
-	mov r1, #8
-	bl NNS_FndGetArchiveFileByIndex
-	str r0, [r4, #8]
-	add r0, sp, #0
-	mov r1, #0x30
-	bl NNS_FndGetArchiveFileByIndex
-	str r0, [r4, #0xc]
-	add r0, sp, #0
-	bl NNS_FndUnmountArchive
-	add sp, sp, #0x68
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    NNSFndArchive arc;
+    NNS_FndMountArchive(&arc, aExc_3, gGameArchiveStage);
+    work->aniJoints      = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BOSS3_NSBCA);
+    work->aniTextures    = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_BOSS3_NSBTA);
+    work->drawStateWater = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z3BOSS_ACT_LZ7_FILE_Z3BOSS_WATER_BSD);
+    NNS_FndUnmountArchive(&arc);
 }
 
-NONMATCH_FUNC void Boss3Stage__ProcessSpatialAudio(Boss3Stage *work)
+void Boss3Stage__ProcessSpatialAudio(NNSSndHandle *handle, u16 angle)
 {
-#ifdef NON_MATCHING
+    VecFx32 position = { 0 };
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0xc
-	ldr r2, =gPlayer
-	mov r5, r1
-	add r4, sp, #0
-	mov r3, #0
-	ldr r2, [r2, #0]
-	str r3, [r4]
-	str r3, [r4, #4]
-	str r3, [r4, #8]
-	mov r4, r0
-	ldr r0, [r2, #0x44]
-	ldr r2, =0x006BAA99
-	mov r1, #0x40000
-	bl BossHelpers__Arena__GetAngle
-	sub r0, r5, r0
-	mov r0, r0, lsl #0x10
-	mov r5, r0, asr #0x10
-	mov r0, r5, lsl #0x10
-	mov r6, r0, lsr #0x10
-	cmp r6, #0x8000
-	blo _02161CFC
-	bl GetSpatialAudioDropoffRate
-	sub r1, r5, #0x8000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r2, r1, asr #4
-	ldr r1, =FX_SinCosTable_
-	mov r2, r2, lsl #2
-	ldrsh r3, [r1, r2]
-	ldr r2, =gPlayer
-	add r1, sp, #0
-	smull ip, r3, r0, r3
-	adds ip, ip, #0x800
-	ldr lr, [r2]
-	adc r0, r3, #0
-	mov r2, ip, lsr #0xc
-	orr r2, r2, r0, lsl #20
-	ldr r3, [lr, #0x44]
-	mov r0, r4
-	sub r2, r3, r2
-	str r2, [sp]
-	bl ProcessSpatialSfx
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_02161CFC:
-	bl GetSpatialAudioDropoffRate
-	mov r1, r6, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r2, r1, asr #4
-	ldr r1, =FX_SinCosTable_
-	mov r2, r2, lsl #2
-	ldrsh r3, [r1, r2]
-	ldr r2, =gPlayer
-	add r1, sp, #0
-	smull ip, r3, r0, r3
-	adds ip, ip, #0x800
-	ldr lr, [r2]
-	adc r0, r3, #0
-	mov r2, ip, lsr #0xc
-	orr r2, r2, r0, lsl #20
-	ldr r3, [lr, #0x44]
-	mov r0, r4
-	add r2, r3, r2
-	str r2, [sp]
-	bl ProcessSpatialSfx
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    s16 angleSigned = angle - BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, 0x40000, 0x6BAA99);
+    u16 angleFinal  = angleSigned;
+    if (angleFinal >= 0x8000)
+    {
+        angleFinal = angleSigned - 0x8000;
+        position.x = gPlayer->objWork.position.x - MultiplyFX(GetSpatialAudioDropoffRate(), SinFX((u16)(s32)angleFinal));
+        ProcessSpatialSfx(handle, &position);
+    }
+    else
+    {
+        position.x = gPlayer->objWork.position.x + MultiplyFX(GetSpatialAudioDropoffRate(), SinFX((u16)(s32)angleFinal));
+        ProcessSpatialSfx(handle, &position);
+    }
 }
 
-NONMATCH_FUNC void Boss3__DrawPlayer(void)
+void Boss3__DrawPlayer(void)
 {
-#ifdef NON_MATCHING
+    Player *work      = TaskGetWorkCurrent(Player);
+    Boss3Stage *stage = TaskGetWork(Boss3Stage__sVars.Boss3Stage__TaskSingleton, Boss3Stage);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	bl GetCurrentTaskWork_
-	ldr r1, =Boss3Stage__TaskSingleton
-	mov r4, r0
-	ldr r0, [r1, #0]
-	bl GetTaskWork_
-	ldr r1, [r4, #0x20]
-	mov r5, r0
-	tst r1, #0x20
-	ldmneia sp!, {r3, r4, r5, pc}
-	bl Boss3Stage__Func_2162918
-	ldr r0, [r5, #0x40c]
-	cmp r0, #0
-	beq _02161DC0
-	ldr r0, =gPlayer
-	ldr r1, [r5, #0x3cc]
-	ldr r0, [r0, #0]
-	ldr r0, [r0, #0x48]
-	cmp r0, r1
-	ble _02161DBC
-	bl SwapBuffer3D_GetPrimaryScreen
-	cmp r0, #0
-	beq _02161DC0
-_02161DBC:
-	bl Boss3Stage__Func_2162990
-_02161DC0:
-	ldr r2, =0x006BAA99
-	ldr r3, =0x00107FC0
-	mov r0, r4
-	mov r1, #0x40000
-	bl BossHelpers__Arena__GetPlayerDrawMtx
-	mov r4, r0
-	bl Boss3Stage__Func_2161E28
-	add r0, r5, #0x24
-	add r0, r0, #0x400
-	bl BossHelpers__ApplyModifiedLights
-	ldr r0, [r5, #0x41c]
-	cmp r0, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r0, #1
-	bl BossArena__GetCamera
-	mov r1, r4
-	bl BossArena__SetAngleTarget
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r1, r4
-	bl BossArena__SetAngleTarget
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((work->objWork.displayFlag & DISPLAY_FLAG_DISABLE_DRAW) == 0)
+    {
+        Boss3Stage__Func_2162918(stage);
+        if (stage->field_40C && (gPlayer->objWork.position.y <= stage->field_3CC || SwapBuffer3D_GetPrimaryScreen()))
+            Boss3Stage__Func_2162990();
 
-// clang-format on
-#endif
+        u16 angle = BossHelpers__Arena__GetPlayerDrawMtx(work, 0x40000, 0x6BAA99, 0x107FC0);
+
+        Boss3Stage__Func_2161E28();
+        BossHelpers__ApplyModifiedLights(&stage->bossLights1);
+
+        if (!stage->field_41C)
+        {
+            BossArena__SetAngleTarget(BossArena__GetCamera(1), angle);
+            BossArena__SetAngleTarget(BossArena__GetCamera(2), angle);
+        }
+    }
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2161E28(Boss3Stage *work)
+void Boss3Stage__Func_2161E28(void)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =Boss3Stage__TaskSingleton
-	ldr r0, [r0, #4]
-	blx r0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    Boss3Stage__sVars.Boss3__PlayerDrawFunc();
 }
 
-NONMATCH_FUNC void Boss3Stage__Action_PlayerRebound(Boss3Stage *work)
+void Boss3Stage__Action_PlayerRebound(Player *player)
 {
-#ifdef NON_MATCHING
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
+    {
+        Player__Action_DestroyAttackRecoil(player);
+        player->overSpeedLimitTimer = 24;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x1c]
-	tst r1, #0x10
-	ldmeqia sp!, {r4, pc}
-	bl Player__Action_DestroyAttackRecoil
-	add r0, r4, #0x500
-	mov r1, #0x18
-	strh r1, [r0, #0xfa]
-	ldr r0, [r4, #0xbc]
-	cmp r0, #0
-	mov r0, #0x2000
-	rsblt r0, r0, #0
-	str r0, [r4, #0x98]
-	mov r0, #0
-	str r0, [r4, #0xc8]
-	mov r0, #0x4000
-	rsb r0, r0, #0
-	str r0, [r4, #0x9c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+        if (player->objWork.move.x < 0)
+        {
+            player->objWork.velocity.x = -FLOAT_TO_FX32(2.0);
+            player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        }
+        else
+        {
+            player->objWork.velocity.x = FLOAT_TO_FX32(2.0);
+            player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        }
+        player->objWork.velocity.y = -FLOAT_TO_FX32(4.0);
+    }
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2161E90(Boss3Stage *work)
+void Boss3Stage__Func_2161E90(Player *player)
 {
-#ifdef NON_MATCHING
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
+    {
+        Player__Action_DestroyAttackRecoil(player);
+        player->overSpeedLimitTimer = 24;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x1c]
-	tst r1, #0x10
-	ldmeqia sp!, {r4, pc}
-	bl Player__Action_DestroyAttackRecoil
-	add r0, r4, #0x500
-	mov r1, #0x18
-	strh r1, [r0, #0xfa]
-	ldr r0, [r4, #0xbc]
-	cmp r0, #0
-	mov r0, #0x2000
-	rsblt r0, r0, #0
-	str r0, [r4, #0x98]
-	mov r0, #0
-	str r0, [r4, #0xc8]
-	mov r0, #0x5800
-	rsb r0, r0, #0
-	str r0, [r4, #0x9c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+        if (player->objWork.move.x < 0)
+        {
+            player->objWork.velocity.x = -FLOAT_TO_FX32(2.0);
+            player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        }
+        else
+        {
+            player->objWork.velocity.x = FLOAT_TO_FX32(2.0);
+            player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        }
+        player->objWork.velocity.y = -FLOAT_TO_FX32(5.5);
+    }
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2161EE0(Boss3Stage *work)
+void Boss3Stage__Func_2161EE0(Player *player)
 {
-#ifdef NON_MATCHING
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IS_FALLING) != 0)
+    {
+        Player__Action_DestroyAttackRecoil(player);
+        player->overSpeedLimitTimer = 24;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x1c]
-	tst r1, #0x10
-	ldmeqia sp!, {r4, pc}
-	bl Player__Action_DestroyAttackRecoil
-	add r0, r4, #0x500
-	mov r1, #0x18
-	strh r1, [r0, #0xfa]
-	ldr r0, [r4, #0xbc]
-	cmp r0, #0
-	ble _02161F24
-	mov r0, #0x2000
-	str r0, [r4, #0x98]
-	mov r0, #0
-	str r0, [r4, #0xc8]
-	b _02161F5C
-_02161F24:
-	bne _02161F48
-	ldr r0, [r4, #0x20]
-	tst r0, #1
-	mov r0, #0x2000
-	rsbne r0, r0, #0
-	str r0, [r4, #0x98]
-	mov r0, #0
-	str r0, [r4, #0xc8]
-	b _02161F5C
-_02161F48:
-	mov r0, #0x2000
-	rsb r0, r0, #0
-	str r0, [r4, #0x98]
-	mov r0, #0
-	str r0, [r4, #0xc8]
-_02161F5C:
-	mov r0, #0x5000
-	rsb r0, r0, #0
-	str r0, [r4, #0x9c]
-	ldmia sp!, {r4, pc}
+        if (player->objWork.move.x > 0)
+        {
+            player->objWork.velocity.x = FLOAT_TO_FX32(2.0);
+            player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        }
+        else if (player->objWork.move.x == 0)
+        {
+            if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+            {
+                player->objWork.velocity.x = -FLOAT_TO_FX32(2.0);
+            }
+            else
+            {
+                player->objWork.velocity.x = FLOAT_TO_FX32(2.0);
+            }
+                player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        }
+		else
+        {
+            player->objWork.velocity.x = -FLOAT_TO_FX32(2.0);
+            player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        }
 
-// clang-format on
-#endif
+        player->objWork.velocity.y = -FLOAT_TO_FX32(5.0);
+    }
 }
 
-NONMATCH_FUNC void Boss3Arm__PlayHitSfx(void)
+void Boss3Arm__PlayHitSfx(Boss3Arm *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r2, #0
-	mov r1, #0x8c
-	str r2, [sp]
-	mov r4, r0
-	str r1, [sp, #4]
-	sub r1, r1, #0x8d
-	ldr r0, [r4, #0x374]
-	mov r2, r1
-	ldr r0, [r0, #0x138]
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r4, #0x374]
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0, #0x3c0]
-	ldr r0, [r0, #0x138]
-	mov r2, r2, lsl #6
-	bl NNS_SndPlayerSetTrackPitch
-	ldr r1, [r4, #0x374]
-	ldr r0, [r1, #0x3c0]
-	add r0, r0, #1
-	str r0, [r1, #0x3c0]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    PlayHandleStageSfx(work->stage->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOSS_DAMAGE);
+    NNS_SndPlayerSetTrackPitch(work->stage->gameWork.objWork.sequencePlayerPtr, 0xFFFF, work->stage->hitComboCount << 6);
+    work->stage->hitComboCount++;
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2161FD4(Boss3Stage *work)
+void Boss3Stage__Func_2161FD4(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, =gPlayer
-	ldr r1, [r1, #0]
-	ldr r1, [r1, #0x1c]
-	tst r1, #1
-	ldmeqia sp!, {r3, pc}
-	bl Boss3Stage__Func_2161FF8
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if ((gPlayer->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+        Boss3Stage__Func_2161FF8(work);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2161FF8(Boss3Stage *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r1, #0
-	str r1, [r0, #0x3c0]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3Stage__CreateHitFX(Boss3Stage *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =BossFX__CreateHitA
-	ldmia r0, {r1, r2, r3}
-	mov r0, #0
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3Stage__Func_2162018(Boss3Stage *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =BossFX__CreateHitB
-	ldmia r0, {r1, r2, r3}
-	mov r0, #0
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Boss3Stage__Func_216202C(Boss3Stage *work)
+void Boss3Stage__Func_2161FF8(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    work->hitComboCount = 0;
+}
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r0, #1
-	bl BossArena__GetCamera
-	mov r5, r0
-	bl GetScreenShakeOffsetX
-	mov r4, r0
-	bl GetScreenShakeOffsetY
-	mov r1, r4
-	mov r2, r0
-	mov r0, r5
-	mov r3, #0
-	bl BossArena__SetNextPos
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r5, r0
-	bl GetScreenShakeOffsetX
-	mov r4, r0
-	bl GetScreenShakeOffsetY
-	mov r1, r4
-	mov r2, r0
-	mov r0, r5
-	mov r3, #0
-	bl BossArena__SetNextPos
-	ldmia sp!, {r3, r4, r5, pc}
+BossFX3D *Boss3Stage__CreateHitFX(VecFx32 *position)
+{
+    return BossFX__CreateHitA(BOSSFX3D_FLAG_NONE, position->x, position->y, position->z);
+}
 
-// clang-format on
-#endif
+BossFX3D *Boss3Stage__Func_2162018(VecFx32 *position)
+{
+    return BossFX__CreateHitB(BOSSFX3D_FLAG_NONE, position->x, position->y, position->z);
+}
+
+void Boss3Stage__Func_216202C(Boss3Stage *work)
+{
+    BossArena__SetNextPos(BossArena__GetCamera(1), GetScreenShakeOffsetX(), GetScreenShakeOffsetY(), FLOAT_TO_FX32(0.0));
+    BossArena__SetNextPos(BossArena__GetCamera(2), GetScreenShakeOffsetX(), GetScreenShakeOffsetY(), FLOAT_TO_FX32(0.0));
 }
 
 NONMATCH_FUNC void Boss3Stage__Func_216208C(Boss3Stage *work)
 {
+    // will match when '_02179E00' is decompiled
 #ifdef NON_MATCHING
+    VecFx32 camUp = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
 
+    BossArena__SetType(BOSSARENA_TYPE_4);
+
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetUpVector(camera1, &camUp);
+    BossArena__SetCameraType(camera1, BOSSARENACAMERA_TYPE_1);
+    BossArena__SetTracker1TargetWork(camera1, &gPlayer->objWork, 0, &gPlayer->objWork);
+    BossArena__SetTracker1TargetPos(camera1, 0, 0x64000 - work->field_3CC, 0);
+    BossArena__SetTracker1Speed(camera1, 0x400, 0);
+    BossArena__SetTracker1UseObj3D(camera1, TRUE);
+    BossArena__UpdateTracker1TargetPos(camera1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0xE6000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x200);
+    BossArena__ApplyAmplitudeXZTarget(camera1);
+    BossArena__SetAmplitudeYTarget(camera1, 0x5000);
+    BossArena__SetAmplitudeYSpeed(camera1, 0x100);
+    BossArena__ApplyAmplitudeYTarget(camera1);
+    BossArena__SetAngleTarget(camera1, BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, 0x40000, 0x6BAA99));
+    BossArena__ApplyAngleTarget(camera1);
+    BossArena__Func_20397E4();
+    BossArena__UpdateTracker1TargetPos(camera1);
+    BossArena__UpdateTracker0TargetPos(camera1);
+
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetUpVector(camera2, &camUp);
+    BossArena__SetCameraType(camera2, BOSSARENACAMERA_TYPE_1);
+    BossArena__SetTracker1TargetWork(camera2, &gPlayer->objWork, 0, &gPlayer->objWork);
+    BossArena__SetTracker1TargetPos(camera2, 0, -0x1C2000 - work->field_3CC, 0);
+    BossArena__SetTracker1Speed(camera2, 0x400, 0);
+    BossArena__SetTracker1UseObj3D(camera2, TRUE);
+    BossArena__UpdateTracker1TargetPos(camera2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0xE6000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x200);
+    BossArena__ApplyAmplitudeXZTarget(camera2);
+    BossArena__SetAmplitudeYTarget(camera2, 0x64000);
+    BossArena__SetAmplitudeYSpeed(camera2, 0x100);
+    BossArena__ApplyAmplitudeYTarget(camera2);
+    BossArena__SetAngleTarget(camera2, BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, 0x40000, 0x6BAA99));
+    BossArena__ApplyAngleTarget(camera2);
+    BossArena__Func_20397E4();
+    BossArena__UpdateTracker1TargetPos(camera2);
+    BossArena__UpdateTracker0TargetPos(camera2);
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, lr}
@@ -1802,557 +1577,181 @@ NONMATCH_FUNC void Boss3Stage__Func_216208C(Boss3Stage *work)
 #endif
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_21622B4(Boss3Stage *work)
+void Boss3Stage__Func_21622B4(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera1, FLOAT_TO_FX32(0.0), 0x64000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera1, 0x5000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x80);
+    BossArena__SetTracker1Speed(camera1, 0x80, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	mov r1, #0xe6000
-	mov r4, r0
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r2, [r5, #0x3cc]
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	rsb r2, r2, #0x64000
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x5000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r4, r0
-	mov r1, #0xe6000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr ip, [r5, #0x3cc]
-	mov r0, r4
-	mov r1, #0
-	ldr r2, =0xFFE3E000
-	mov r3, r1
-	sub r2, r2, ip
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x64000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera2, FLOAT_TO_FX32(0.0), -0x1C2000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera2, 0x64000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x80);
+    BossArena__SetTracker1Speed(camera2, 0x80, 0);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2162370(Boss3Stage *work)
+void Boss3Stage__Func_2162370(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera1, FLOAT_TO_FX32(0.0), 0x64000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera1, 0x5000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x200);
+    BossArena__SetTracker1Speed(camera1, 0x400, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	mov r1, #0xe6000
-	mov r4, r0
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r2, [r5, #0x3cc]
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	rsb r2, r2, #0x64000
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x5000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x200
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x400
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r4, r0
-	mov r1, #0xe6000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr ip, [r5, #0x3cc]
-	mov r0, r4
-	mov r1, #0
-	ldr r2, =0xFFE3E000
-	mov r3, r1
-	sub r2, r2, ip
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x64000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x200
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x400
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera2, FLOAT_TO_FX32(0.0), -0x1C2000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera2, 0x64000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x200);
+    BossArena__SetTracker1Speed(camera2, 0x400, 0);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_216242C(Boss3Stage *work)
+void Boss3Stage__Func_216242C(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0x136000);
+    BossArena__SetTracker1TargetPos(camera1, FLOAT_TO_FX32(0.0), 0x64000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera1, 0x5000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x200);
+    BossArena__SetTracker1Speed(camera1, 0x400, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	ldr r1, =0x00136000
-	mov r4, r0
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r2, [r5, #0x3cc]
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	rsb r2, r2, #0x64000
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x5000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x200
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x400
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r4, r0
-	ldr r1, =0x00136000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr ip, [r5, #0x3cc]
-	mov r0, r4
-	mov r1, #0
-	ldr r2, =0xFFE3E000
-	mov r3, r1
-	sub r2, r2, ip
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x64000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x200
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x400
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0x136000);
+    BossArena__SetTracker1TargetPos(camera2, FLOAT_TO_FX32(0.0), -0x1C2000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera2, 0x64000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x200);
+    BossArena__SetTracker1Speed(camera2, 0x400, 0);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_21624EC(Boss3Stage *work)
+void Boss3Stage__Func_21624EC(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0x136000);
+    BossArena__SetTracker1TargetPos(camera1, FLOAT_TO_FX32(0.0), -0x64000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera1, -0xC8000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x80);
+    BossArena__SetTracker1Speed(camera1, 0x80, 0);
+    BossArena__SetAmplitudeYSpeed(camera1, 0x80);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	ldr r1, =0x00136000
-	mov r4, r0
-	bl BossArena__SetAmplitudeXZTarget
-	mov r1, #0
-	ldr r3, [r5, #0x3cc]
-	sub r2, r1, #0x64000
-	mov r0, r4
-	sub r2, r2, r3
-	mov r3, r1
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0xc8000
-	rsb r1, r1, #0
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeYSpeed
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r4, r0
-	ldr r1, =0x00136000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r3, [r5, #0x3cc]
-	mov r0, r4
-	mov r1, #0
-	sub r2, r1, #0x1f4000
-	sub r2, r2, r3
-	mov r3, r1
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0xc8000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeYSpeed
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0x136000);
+    BossArena__SetTracker1TargetPos(camera2, FLOAT_TO_FX32(0.0), -0x1F4000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera2, 0xC8000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x80);
+    BossArena__SetTracker1Speed(camera2, 0x80, 0);
+    BossArena__SetAmplitudeYSpeed(camera2, 0x80);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_21625C8(Boss3Stage *work)
+void Boss3Stage__Func_21625C8(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera1, FLOAT_TO_FX32(0.0), 0x1F4000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera1, -0xC8000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x80);
+    BossArena__SetTracker1Speed(camera1, 0x80, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	mov r1, #0xe6000
-	mov r4, r0
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r2, [r5, #0x3cc]
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	rsb r2, r2, #0x1f4000
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0xc8000
-	rsb r1, r1, #0
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r4, r0
-	mov r1, #0xe6000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r1, [r5, #0x3c4]
-	mov r0, r4
-	rsb r2, r1, #0x64000
-	mov r1, #0
-	mov r3, r1
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x5000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera2, FLOAT_TO_FX32(0.0), 0x64000 - work->dword3C4, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera2, 0x5000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x80);
+    BossArena__SetTracker1Speed(camera2, 0x80, 0);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2162680(Boss3Stage *work)
+void Boss3Stage__Func_2162680(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera1, 0, 0x1F4000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera1, -0xC8000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x200);
+    BossArena__SetTracker1Speed(camera1, 0x400, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	mov r1, #0xe6000
-	mov r4, r0
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r2, [r5, #0x3cc]
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	rsb r2, r2, #0x1f4000
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0xc8000
-	rsb r1, r1, #0
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x200
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x400
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r4, r0
-	mov r1, #0xe6000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r1, [r5, #0x3c4]
-	mov r0, r4
-	rsb r2, r1, #0x64000
-	mov r1, #0
-	mov r3, r1
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x5000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x200
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x400
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera2, 0, 0x64000 - work->dword3C4, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera2, 0x5000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x200);
+    BossArena__SetTracker1Speed(camera2, 0x400, 0);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2162738(Boss3Stage *work)
+void Boss3Stage__Func_2162738(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera1 = BossArena__GetCamera(1);
+    BossArena__SetAmplitudeXZTarget(camera1, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera1, FLOAT_TO_FX32(0.0), 0x1F4000 - work->field_3CC, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera1, -0xC8000);
+    BossArena__SetAmplitudeXZSpeed(camera1, 0x200);
+    BossArena__SetTracker1Speed(camera1, 0x80, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	mov r1, #0xe6000
-	mov r4, r0
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r2, [r5, #0x3cc]
-	mov r1, #0
-	mov r0, r4
-	mov r3, r1
-	rsb r2, r2, #0x1f4000
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0xc8000
-	rsb r1, r1, #0
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x200
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	mov r0, #2
-	bl BossArena__GetCamera
-	mov r4, r0
-	mov r1, #0xe6000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r1, [r5, #0x3c4]
-	mov r0, r4
-	rsb r2, r1, #0x64000
-	mov r1, #0
-	mov r3, r1
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x5000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0x80
-	bl BossArena__SetAmplitudeXZSpeed
-	mov r0, r4
-	mov r1, #0x80
-	mov r2, #0
-	bl BossArena__SetTracker1Speed
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
+    BossArena__SetAmplitudeXZTarget(camera2, 0xE6000);
+    BossArena__SetTracker1TargetPos(camera2, FLOAT_TO_FX32(0.0), 0x64000 - work->dword3C4, FLOAT_TO_FX32(0.0));
+    BossArena__SetAmplitudeYTarget(camera2, 0x5000);
+    BossArena__SetAmplitudeXZSpeed(camera2, 0x80);
+    BossArena__SetTracker1Speed(camera2, 0x80, 0);
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_21627F0(Boss3Stage *work)
+void Boss3Stage__Func_21627F0(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    BossArenaCamera *camera2 = BossArena__GetCamera(2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	mov r5, r0
-	mov r0, #2
-	bl BossArena__GetCamera
-	ldr r1, [r5, #0x398]
-	add r3, sp, #0
-	add r1, r1, #0x4c0
-	mov r4, r0
-	ldmia r1, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	mov r1, #0
-	mov r3, #1
-	str r3, [r5, #0x41c]
-	mov r0, r4
-	mov r2, r1
-	mov r3, r1
-	bl BossArena__SetTracker1TargetWork
-	ldr r1, [sp]
-	ldr r2, [sp, #4]
-	ldr r3, [sp, #8]
-	mov r0, r4
-	bl BossArena__SetTracker1TargetPos
-	mov r0, r4
-	mov r1, #0x32000
-	bl BossArena__SetAmplitudeYTarget
-	mov r0, r4
-	mov r1, #0xb4000
-	bl BossArena__SetAmplitudeXZTarget
-	ldr r1, [r5, #0x398]
-	mov r0, r4
-	add r1, r1, #0x400
-	ldrh r1, [r1, #0x44]
-	sub r1, r1, #0x2000
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl BossArena__SetAngleTarget
-	mov r1, #0xcc
-	mov r0, r4
-	mov r2, r1
-	bl BossArena__SetTracker1Speed
-	mov r1, #0xcc
-	mov r0, r4
-	mov r2, r1
-	bl BossArena__SetTracker0Speed
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
+    VecFx32 position = work->arms[0]->field_49C.translation;
 
-// clang-format on
-#endif
+    work->field_41C = 1;
+    BossArena__SetTracker1TargetWork(camera2, NULL, NULL, NULL);
+    BossArena__SetTracker1TargetPos(camera2, position.x, position.y, position.z);
+    BossArena__SetAmplitudeYTarget(camera2, 0x32000);
+    BossArena__SetAmplitudeXZTarget(camera2, 0xB4000);
+    BossArena__SetAngleTarget(camera2, work->arms[0]->angle - 0x2000);
+    BossArena__SetTracker1Speed(camera2, 0xCC, 0xCC);
+    BossArena__SetTracker0Speed(camera2, 0xCC, 0xCC);
 }
 
-NONMATCH_FUNC void Boss3Stage__LoadWaterLights(Boss3Stage *work)
+void Boss3Stage__LoadWaterLights(Boss3Stage *work, BossLight *config)
 {
-#ifdef NON_MATCHING
+    MI_CpuClear16(config, sizeof(*config));
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	mov r0, #0
-	mov r2, #0x32
-	mov r6, r1
-	bl MIi_CpuClear16
-	mov r5, r6
-	mov r4, #0
-_021628CC:
-	ldr r0, [r7, #0x370]
-	mov r1, r5
-	mov r2, r4
-	bl GetDrawStateLight
-	mov r0, r4, lsl #3
-	add r2, r6, r4, lsl #3
-	ldrh r1, [r6, r0]
-	ldrh r0, [r2, #2]
-	add r4, r4, #1
-	cmp r4, #3
-	strh r1, [r2, #0x18]
-	strh r0, [r2, #0x1a]
-	ldrh r1, [r2, #4]
-	ldrh r0, [r2, #6]
-	add r5, r5, #8
-	strh r1, [r2, #0x1c]
-	strh r0, [r2, #0x1e]
-	blt _021628CC
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    for (s32 l = 0; l < 3; l++)
+    {
+        GetDrawStateLight(work->assets.drawStateWater, &config->modifiedLights[l], (GXLightId)l);
+        config->initialLights[l] = config->modifiedLights[l];
+    }
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2162918(Boss3Stage *work)
+void Boss3Stage__Func_2162918(Boss3Stage *work)
 {
-#ifdef NON_MATCHING
+    Camera3D *camera1 = BossArena__GetCameraConfig2(BossArena__GetCamera(1));
+    Camera3D *camera2 = BossArena__GetCameraConfig2(BossArena__GetCamera(2));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r0
-	mov r0, #1
-	bl BossArena__GetCamera
-	bl BossArena__GetCameraConfig2
-	mov r5, r0
-	mov r0, #2
-	bl BossArena__GetCamera
-	bl BossArena__GetCameraConfig2
-	mov r6, r0
-	bl SwapBuffer3D_GetPrimaryScreen
-	cmp r0, #0
-	beq _02162960
-	ldr r1, [r5, #0x24]
-	ldr r0, [r4, #0x3cc]
-	rsb r1, r1, #0
-	cmp r1, r0
-	bge _02162980
-_02162960:
-	bl SwapBuffer3D_GetPrimaryScreen
-	cmp r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r1, [r6, #0x24]
-	ldr r0, [r4, #0x3cc]
-	rsb r1, r1, #0
-	cmp r1, r0
-	ldmltia sp!, {r4, r5, r6, pc}
-_02162980:
-	add r0, r4, #0x56
-	add r0, r0, #0x400
-	bl BossHelpers__RevertModifiedLights
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    if ((SwapBuffer3D_GetPrimaryScreen() != SWAPBUFFER3D_PRIMARY_BOTTOM && -camera1->view.camPos.y >= work->field_3CC)
+        || (SwapBuffer3D_GetPrimaryScreen() == SWAPBUFFER3D_PRIMARY_BOTTOM && -camera2->view.camPos.y >= work->field_3CC))
+    {
+        BossHelpers__RevertModifiedLights(&work->bossLights2);
+    }
 }
 
-NONMATCH_FUNC void Boss3Stage__Func_2162990(Boss3Stage *work)
+NONMATCH_FUNC void Boss3Stage__Func_2162990(void)
 {
+	// https://decomp.me/scratch/1Hp3J -> 87.11%
 #ifdef NON_MATCHING
+    DirLight light;
 
+    for (s32 i = 0; i < 3; i++)
+    {
+        light.dir.x = FLOAT_TO_FX32(0.0);
+        light.dir.y = -FLOAT_TO_FX32(1.0);
+        light.dir.z = FLOAT_TO_FX32(0.0);
+        light.color = GX_RGB_888(0x00, 0x00, 0x00);
+
+        SwapBuffer3D_SetLight((GXLightId)i, &light);
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
@@ -3235,7 +2634,7 @@ NONMATCH_FUNC void Boss3Stage__State_21631E0(Boss3Stage *work)
 	ldr r0, [r1, #0]
 	bl BossPlayerHelpers_Action_SetBoss3DefendEvent
 	ldr r2, =gPlayer
-	ldr r1, =Boss3Stage__TaskSingleton
+	ldr r1, =Boss3Stage__sVars
 	ldr ip, [r2]
 	ldr r3, =Boss3__DrawPlayer
 	ldr r4, [ip, #0xfc]

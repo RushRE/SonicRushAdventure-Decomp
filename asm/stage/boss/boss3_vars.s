@@ -1,22 +1,6 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
-.public BossArena__explosionFXSpawnTime
-
-	.bss
-
-.public Boss3Stage__TaskSingleton
-Boss3Stage__TaskSingleton: // 0x0217AF88
-	.space 0x04
-
-.public Boss3__PlayerDrawFunc
-Boss3__PlayerDrawFunc: // 0x0217AF8C
-	.space 0x04
-
-.public Boss3__Unused217AF90
-Boss3__Unused217AF90: // 0x0217AF8C
-	.space 0x20
-
 	.rodata
 	
 .public _02179D9C

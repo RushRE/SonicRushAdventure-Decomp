@@ -51,7 +51,7 @@ typedef struct Camera3D_
 typedef struct DirLight_
 {
     VecFx16 dir;
-    u16 color;
+    GXRgb color;
 } DirLight;
 
 typedef struct SwapBuffer3D_

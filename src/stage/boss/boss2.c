@@ -1532,10 +1532,10 @@ NONMATCH_FUNC void Boss2Stage_StageState_Init_Part1(Boss2Stage *work)
     BossArena__SetTracker1Speed(camera0, 1024, 0);
     BossArena__SetTracker1UseObj3D(camera0, TRUE);
     BossArena__UpdateTracker1TargetPos(camera0);
-    BossArena__SetAmplitudeXZTarget(camera0, 1024000);
+    BossArena__SetAmplitudeXZTarget(camera0, 0xFA000);
     BossArena__SetAmplitudeXZSpeed(camera0, 512);
     BossArena__ApplyAmplitudeXZTarget(camera0);
-    BossArena__SetAmplitudeYTarget(camera0, -122880);
+    BossArena__SetAmplitudeYTarget(camera0, -0x1E000);
     BossArena__ApplyAmplitudeYTarget(camera0);
     BossArena__SetAngleTarget(camera0, BossHelpers__Arena__GetAngle(gPlayer->objWork.position.x, BOSS2_STAGE_START, BOSS2_STAGE_END));
     BossArena__ApplyAngleTarget(camera0);
